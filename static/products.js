@@ -1,0 +1,67 @@
+export const products = [
+  {
+    id: '2k0BtHo5Jogr8iU7SijE18E3nh82',
+    name: 'iPhone 11 pro max',
+    description: 'iPhone 11 pro max',
+    price: 390000,
+    dateAdded: new Date().getTime,
+    dateUpdated: new Date().getTime,
+    images: [
+      'https://techmall.com.ng/wp-content/uploads/2020/09/Apple-iPhone-11-Pro-Max.jpg',
+      'https://specs-tech.com/wp-content/uploads/2019/09/Apple-iPhone-11-Pro-Max-1.jpg',
+    ],
+    categories: ['iphone', 'mobile', 'electronics'],
+  },
+  {
+    id: '0iSjqwqLP7V1VLkiwKNpPNaboe53',
+    name: 'MUI Sketchbook',
+    description: 'MUI Hard Cover Sketchbook',
+    price: 24000,
+    dateAdded: new Date().getTime,
+    dateUpdated: new Date().getTime,
+    images: [
+      'https://www.hobbycraft.co.uk/on/demandware.static/-/Sites-hobbycraft-uk-master/default/dwf42bba3d/images/large/634878_1000_1_-seawhite-wiro-portrait-sketchbook-a5.jpg',
+      'https://cdn.shopify.com/s/files/1/0526/7144/7238/products/sketchbook-a3-hobby-flying-tiger-copenhagen-495920.jpg?v=1665601206&width=2000',
+    ],
+    categories: ['book', 'art', 'drawing'],
+  },
+  {
+    id: '7VRjCUPsXXYeuTXODpI3gmhSroo2',
+    name: 'Pure Bliss',
+    description: 'Blue Pure Bliss Milk Cream Wafer',
+    price: 3500,
+    dateAdded: new Date().getTime,
+    dateUpdated: new Date().getTime,
+    images: [
+      'https://24hoursmarket.com/wp-content/uploads/2022/07/1657574830020.jpg',
+      'https://24hoursmarket.com/wp-content/uploads/2020/09/1657206187051.jpg',
+    ],
+    categories: ['snacks', 'buscuit', 'food'],
+  },
+  {
+    id: 'UPsXXYeuTXODpI7VRjC3gmhSroo2',
+    name: 'Ceramic Dinner Sets',
+    description: 'Brown Ceramic Pottery Diner Sets',
+    price: 45000,
+    dateAdded: new Date().getTime,
+    dateUpdated: new Date().getTime,
+    images: [
+      'http://cdn.shopify.com/s/files/1/2116/7717/products/full-dinnerware-set-fulton-heath-ceramics_DWSET5-07_grande.jpg?v=1573093804',
+      'https://cdn.sanity.io/images/be6sw5hj/production/4c382bbdaab3f70269aad99ea8ab7959b15ccd3e-2000x2000.jpg?q=80&fit=max&auto=format',
+    ],
+    categories: ['kitchen', 'dining', 'food'],
+  },
+  {
+    id: 'TXODpI7VRjC3UPsXXYeugmhSroo2',
+    name: 'iPhone 14 pro',
+    description: 'Brand new iPhone 14 pro',
+    price: 965000,
+    dateAdded: new Date().getTime,
+    dateUpdated: new Date().getTime,
+    images: [
+      'https://www.purchgadgets.com/wp-content/uploads/2022/11/iphone-14pro.png',
+      'https://www.purchgadgets.com/wp-content/uploads/2022/11/iphone-14pro-gold.jpg',
+    ],
+    categories: ['iphone', 'electronics', 'gadget'],
+  },
+];
