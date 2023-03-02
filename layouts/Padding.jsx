@@ -7,8 +7,8 @@ const Padding = ({ children }) => {
       sx={{
         padding: {
           xs: '2rem 1rem',
-          sm: '3rem 2rem',
-          lg: '4rem 3rem',
+          sm: '2rem 2rem',
+          lg: '2rem 3rem',
         },
       }}
     >
