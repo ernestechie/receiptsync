@@ -9,7 +9,7 @@ export const ButtonContained = (props) => {
       color={props.color}
       sx={{
         color: props.textColor,
-        borderRadius: 4,
+        borderRadius: 2,
         py: 1.5,
         px: 3,
         textTransform: 'capitalize',

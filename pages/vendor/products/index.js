@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { ProductsHeader, ProductList } from '../../../components';
 import HeadWrapper from '../../../components/HeadWrapper';
 import Padding from '../../../layouts/Padding';
 import VendorLayout from '../../../layouts/VendorLayout';
@@ -8,7 +8,10 @@ export default function Products() {
     <>
       <HeadWrapper />
       <VendorLayout>
-        <Padding>Products</Padding>
+        <Padding>
+          <ProductsHeader />
+          <ProductList />
+        </Padding>
       </VendorLayout>
     </>
   );

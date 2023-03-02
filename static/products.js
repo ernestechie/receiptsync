@@ -4,12 +4,10 @@ export const products = [
     name: 'iPhone 11 pro max',
     description: 'iPhone 11 pro max',
     price: 390000,
-    dateAdded: new Date().getTime,
-    dateUpdated: new Date().getTime,
-    images: [
-      'https://techmall.com.ng/wp-content/uploads/2020/09/Apple-iPhone-11-Pro-Max.jpg',
+    dateAdded: new Date('2019-12-21'),
+    dateUpdated: new Date('2021-11-20'),
+    image:
       'https://specs-tech.com/wp-content/uploads/2019/09/Apple-iPhone-11-Pro-Max-1.jpg',
-    ],
     categories: ['iphone', 'mobile', 'electronics'],
   },
   {
@@ -17,12 +15,10 @@ export const products = [
     name: 'MUI Sketchbook',
     description: 'MUI Hard Cover Sketchbook',
     price: 24000,
-    dateAdded: new Date().getTime,
-    dateUpdated: new Date().getTime,
-    images: [
+    dateAdded: new Date('2019-10-19'),
+    dateUpdated: new Date('2021-09-18'),
+    image:
       'https://www.hobbycraft.co.uk/on/demandware.static/-/Sites-hobbycraft-uk-master/default/dwf42bba3d/images/large/634878_1000_1_-seawhite-wiro-portrait-sketchbook-a5.jpg',
-      'https://cdn.shopify.com/s/files/1/0526/7144/7238/products/sketchbook-a3-hobby-flying-tiger-copenhagen-495920.jpg?v=1665601206&width=2000',
-    ],
     categories: ['book', 'art', 'drawing'],
   },
   {
@@ -30,12 +26,10 @@ export const products = [
     name: 'Pure Bliss',
     description: 'Blue Pure Bliss Milk Cream Wafer',
     price: 3500,
-    dateAdded: new Date().getTime,
-    dateUpdated: new Date().getTime,
-    images: [
+    dateAdded: new Date('2020-08-17'),
+    dateUpdated: new Date('2021-07-16'),
+    image:
       'https://24hoursmarket.com/wp-content/uploads/2022/07/1657574830020.jpg',
-      'https://24hoursmarket.com/wp-content/uploads/2020/09/1657206187051.jpg',
-    ],
     categories: ['snacks', 'buscuit', 'food'],
   },
   {
@@ -43,12 +37,10 @@ export const products = [
     name: 'Ceramic Dinner Sets',
     description: 'Brown Ceramic Pottery Diner Sets',
     price: 45000,
-    dateAdded: new Date().getTime,
-    dateUpdated: new Date().getTime,
-    images: [
+    dateAdded: new Date('2022-06-17'),
+    dateUpdated: new Date('2022-05-16'),
+    image:
       'http://cdn.shopify.com/s/files/1/2116/7717/products/full-dinnerware-set-fulton-heath-ceramics_DWSET5-07_grande.jpg?v=1573093804',
-      'https://cdn.sanity.io/images/be6sw5hj/production/4c382bbdaab3f70269aad99ea8ab7959b15ccd3e-2000x2000.jpg?q=80&fit=max&auto=format',
-    ],
     categories: ['kitchen', 'dining', 'food'],
   },
   {
@@ -56,12 +48,10 @@ export const products = [
     name: 'iPhone 14 pro',
     description: 'Brand new iPhone 14 pro',
     price: 965000,
-    dateAdded: new Date().getTime,
-    dateUpdated: new Date().getTime,
-    images: [
+    dateAdded: new Date('2023-02-25'),
+    dateUpdated: new Date('2023-03-01'),
+    image:
       'https://www.purchgadgets.com/wp-content/uploads/2022/11/iphone-14pro.png',
-      'https://www.purchgadgets.com/wp-content/uploads/2022/11/iphone-14pro-gold.jpg',
-    ],
     categories: ['iphone', 'electronics', 'gadget'],
   },
 ];
