@@ -41,7 +41,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
             {receipt.customer.address.state}
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={6} width='100%' mb={4}>
+        <Grid item xs={12} sm={6} width='100%' mb={4}>
           <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
             Send To
           </Typography>
