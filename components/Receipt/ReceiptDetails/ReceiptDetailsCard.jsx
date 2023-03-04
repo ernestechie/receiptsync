@@ -1,12 +1,13 @@
 import React from 'react';
-import { Box, Typography, Stack, Divider } from '@mui/material';
+import { Box, Typography, Stack, Divider, Grid } from '@mui/material';
 import { theme as CustomTheme } from '../../../pages/_app';
+import { parseDate } from '../../../utils/parseDate';
 
 const ReceiptDetailsCard = ({ receipt }) => {
   return (
     <Box
       sx={{
-        p: { xs: 2, sm: 2, md: 4 },
+        p: { xs: 3, sm: 4 },
         mx: 'auto',
         bgcolor: '#fff',
         borderRadius: 2,
@@ -15,6 +16,57 @@ const ReceiptDetailsCard = ({ receipt }) => {
         mt: { xs: 2, sm: 3 },
       }}
     >
+      <Grid
+        container
+        mx='auto'
+        rowSpacing={{ xs: 3, sm: 3, md: 0 }}
+        columnSpacing={{ xs: 2, sm: 2 }}
+        columns={12}
+        mb={4}
+      >
+        <Grid item xs={6} sm={6} width='100%' mb={4}>
+          <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
+            Bill To
+          </Typography>
+          <Typography fontWeight={600} fontSize={20} color='secondary.dark'>
+            {receipt.customer.name}
+          </Typography>
+          <Typography fontWeight={400} color='secondary.contrastText'>
+            {receipt.customer.address.street},
+          </Typography>
+          <Typography fontWeight={400} color='secondary.contrastText'>
+            {receipt.customer.address.city},
+          </Typography>
+          <Typography fontWeight={400} color='secondary.contrastText'>
+            {receipt.customer.address.state}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={6} width='100%' mb={4}>
+          <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
+            Send To
+          </Typography>
+          <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
+            {receipt.customer.sendTo}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={6} width='100%' mb={4}>
+          <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
+            Date Created
+          </Typography>
+          <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
+            {parseDate(receipt.dateCreated)}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={6} width='100%' mb={4}>
+          <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
+            Last Updated
+          </Typography>
+          <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
+            {parseDate(receipt.dateUpdated)}
+          </Typography>
+        </Grid>
+      </Grid>
+      {/*  */}
       <Box
         sx={{
           borderRadius: 2,
