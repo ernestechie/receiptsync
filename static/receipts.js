@@ -17,6 +17,12 @@ export const receipts = [
     customer: {
       name: 'Elohor Isaiah',
       phone: '07024681012',
+      sendTo: 'elohorisaiah@gmail.com',
+      address: {
+        street: 'Benny Street Akenpai',
+        city: 'Yenagoa',
+        state: 'Bayelsa',
+      },
     },
     items: [
       {
@@ -79,6 +85,12 @@ export const receipts = [
     customer: {
       name: 'Whyte Peter',
       phone: '08024681012',
+      sendTo: 'whytepeter@whyteweb.online',
+      address: {
+        street: 'Banana Street',
+        city: 'Yenagoa',
+        state: 'Bayelsa',
+      },
     },
     items: [
       {
@@ -111,7 +123,13 @@ export const receipts = [
     },
     customer: {
       name: 'Joshua Anthony',
-      phone: '08024681012',
+      phone: '+44024681012',
+      sendTo: 'anthonyjoshua@aj.cm.uk',
+      address: {
+        street: 'New Bermingham',
+        city: 'Bermingham',
+        state: 'London',
+      },
     },
     items: [
       {
@@ -153,7 +171,13 @@ export const receipts = [
     },
     customer: {
       name: 'Adrian Smith',
-      phone: '08022200212',
+      phone: '+1822200212',
+      sendTo: 'andriansmith92@gmail.com',
+      address: {
+        street: '227 Becham, New Ohio',
+        city: 'Cleveland',
+        state: 'Ohio',
+      },
     },
     items: [
       {
@@ -196,6 +220,12 @@ export const receipts = [
     customer: {
       name: 'Isaiah Ernest',
       phone: '08124045567',
+      sendTo: 'contact@ernestechie.online',
+      address: {
+        street: 'Benny Street Akenpai',
+        city: 'Yenagoa',
+        state: 'Bayelsa',
+      },
     },
     items: [
       {
@@ -238,6 +268,12 @@ export const receipts = [
     customer: {
       name: 'John Godwin',
       phone: '09023450789',
+      sendTo: 'contact@johngodwin.dev',
+      address: {
+        street: 'Okutuktu School Road',
+        city: 'Yenagoa',
+        state: 'Bayelsa',
+      },
     },
     items: [
       {
