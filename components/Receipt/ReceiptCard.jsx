@@ -24,6 +24,8 @@ const ReceiptCard = ({ receipt }) => {
           transition: '0.3s ease-in',
           border: '1px solid #fff',
           alignItems: 'center',
+          mx: 'auto !important',
+          maxWidth: 768,
 
           '&:hover': {
             border: `1px solid ${CustomTheme.palette.secondary.contrastText}`,

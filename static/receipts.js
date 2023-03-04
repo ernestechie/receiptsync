@@ -65,8 +65,8 @@ export const receipts = [
     id: '8OV5BMCh8XYGs',
     receiptNumber: '1A2B3C4D',
     narration: 'Biscuits',
-    dateCreated: new Date('2023-02-29'),
-    dateUpdated: new Date('2023-02-29'),
+    dateCreated: new Date('2023-02-21'),
+    dateUpdated: new Date('2023-02-28'),
     className: 'normal',
     logoUrl: '',
     seller: {
