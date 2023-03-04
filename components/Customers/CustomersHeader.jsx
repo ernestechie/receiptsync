@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material';
 import { ButtonContained } from '../ReceiptSyncButtons';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
 
-const ReceiptsHeader = () => {
+const CustomersHeader = () => {
   const handleButtonClick = () => console.log('Button was clicked');
 
   return (
@@ -25,8 +25,8 @@ const ReceiptsHeader = () => {
         <MdKeyboardArrowDown />
       </Stack>
       <ButtonContained
-        color='secondary'
-        text='Issue Receipt'
+        color='primary'
+        text='Add Customer'
         textColor='#fff'
         startIcon={<MdAddCircle />}
         handleClick={handleButtonClick}
@@ -35,4 +35,4 @@ const ReceiptsHeader = () => {
   );
 };
 
-export default ReceiptsHeader;
+export default CustomersHeader;
