@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 import React from 'react';
 import { ButtonContained } from '../../ReceiptSyncButtons';
 
-const ReceiptDetailsNav = ({ number, narration }) => {
+const ReceiptDetailsNav = (props) => {
   return (
     <Stack
       sx={{
@@ -27,10 +27,10 @@ const ReceiptDetailsNav = ({ number, narration }) => {
         sx={{ width: { xs: '100%', sm: 'auto' } }}
       >
         <Typography fontSize={20} mb={{ xs: 0, sm: 0, md: 1 }} fontWeight={700}>
-          #{number}
+          #{props.number}
         </Typography>
         <Typography fontWeight={500} color='secondary.contrastText'>
-          {narration}
+          {props.narration}
         </Typography>
       </Stack>
 
@@ -56,7 +56,7 @@ const ReceiptDetailsNav = ({ number, narration }) => {
           color='custom'
           text='Delete'
           textColor='#fff'
-          handleClick={''}
+          handleClick={props.handleOpen}
         />
       </Stack>
     </Stack>

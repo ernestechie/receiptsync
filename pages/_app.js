@@ -12,15 +12,20 @@ export const theme = createTheme({
     },
     secondary: {
       main: 'rgba(126, 136, 195, 1)',
-      dark: 'rgba(12, 14, 22, 1)',
+      dark: 'rgba(37, 41, 69, 1)',
       light: 'rgba(223, 227, 250, 1)',
       contrastText: 'rgba(136, 142, 176, 1)',
     },
     custom: {
       main: 'rgba(236, 87, 87, 1)',
-      dark: 'rgba(20, 22, 37, 1)',
+      dark: 'rgb(214, 64, 64)',
       light: 'rgba(248, 248, 251, 1)',
       accent: 'rgba(255, 151, 151, 1)',
+    },
+    light: {
+      main: 'rgba(240, 240, 240, 1)',
+      dark: 'rgba(223, 227, 250, 1)',
+      light: 'rgba(250, 250, 250, 1)',
     },
   },
 });

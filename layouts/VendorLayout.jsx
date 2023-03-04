@@ -285,7 +285,9 @@ export default function VendorLayout({ children }) {
             </Typography>
           </Stack>
         </Box>
-        <Box className='animated-children'>{children}</Box>
+        <Box className='animated-children' mb={8}>
+          {children}
+        </Box>
       </Box>
     </Box>
   );

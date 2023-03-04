@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonContained } from '../../ReceiptSyncButtons';
 import { Stack } from '@mui/material';
 
-const ReceiptDetailsFooter = () => {
+const ReceiptDetailsFooter = (props) => {
   return (
     <Stack
       direction='row'
@@ -31,7 +31,7 @@ const ReceiptDetailsFooter = () => {
         color='custom'
         text='Delete'
         textColor='#fff'
-        handleClick={''}
+        handleClick={props.handleOpen}
       />
     </Stack>
   );
