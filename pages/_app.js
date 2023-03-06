@@ -6,19 +6,19 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: 'rgba(124, 93, 250, 1)',
-      dark: 'rgba(30, 33, 57, 1)',
+      dark: 'rgba(55, 60, 90, 1)',
       light: 'rgba(146, 119, 255, 1)',
       contrastText: 'rgba(37, 41, 69, 1)',
     },
     secondary: {
       main: 'rgba(126, 136, 195, 1)',
       dark: 'rgba(37, 41, 69, 1)',
-      light: 'rgba(223, 227, 250, 1)',
+      light: 'rgba(240, 240, 250, 1)',
       contrastText: 'rgba(136, 142, 176, 1)',
     },
     custom: {
       main: 'rgba(236, 87, 87, 1)',
-      dark: 'rgb(214, 64, 64)',
+      dark: 'rgb(214, 74, 74)',
       light: 'rgba(248, 248, 251, 1)',
       accent: 'rgba(255, 151, 151, 1)',
     },

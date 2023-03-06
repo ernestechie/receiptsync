@@ -4,6 +4,7 @@ export { default as Modal } from './Common/Modal';
 export { default as ProductItem } from './Products/ProductItem';
 export { default as ProductList } from './Products/Products';
 export { default as RecentSales } from './Vendor/RecentSales';
+export { default as VerticalTabs } from './Vendor/Settings/VerticalTabs';
 export { default as StatCards } from './Cards/StatCards';
 export { default as ReceiptsHeader } from './Receipt/ReceiptsHeader';
 export { default as CustomersHeader } from './Customers/CustomersHeader';

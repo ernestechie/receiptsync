@@ -1,3 +1,4 @@
+import { VerticalTabs } from '../../components';
 import HeadWrapper from '../../components/HeadWrapper';
 import Padding from '../../layouts/Padding';
 import VendorLayout from '../../layouts/VendorLayout';
@@ -7,7 +8,9 @@ export default function Settings() {
     <>
       <HeadWrapper />
       <VendorLayout>
-        <Padding>Settings</Padding>
+        <Padding>
+          <VerticalTabs />
+        </Padding>
       </VendorLayout>
     </>
   );

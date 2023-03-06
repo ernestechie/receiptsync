@@ -7,7 +7,7 @@ const GoBack = () => {
   const router = useRouter();
 
   return (
-    <Box mb={4}>
+    <Box mb={4} sx={{ maxWidth: 768, mx: 'auto' }}>
       <Stack
         direction='row'
         alignItems='center'

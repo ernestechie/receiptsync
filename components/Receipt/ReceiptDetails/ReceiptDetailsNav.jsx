@@ -11,7 +11,7 @@ const ReceiptDetailsNav = (props) => {
         bgcolor: '#fff',
         borderRadius: 2,
         width: '100%',
-        maxWidth: '768px',
+        maxWidth: 768,
       }}
       direction='row'
       alignItems='center'

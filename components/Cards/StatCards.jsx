@@ -4,7 +4,7 @@ import { Grid, Box, Typography } from '@mui/material';
 
 const StatCards = () => {
   return (
-    <Box>
+    <Box sx={{ mx: 'auto !important', maxWidth: 768 }}>
       <Typography fontSize={20} fontWeight={500} mb={2}>
         Business Overview
       </Typography>
@@ -15,7 +15,7 @@ const StatCards = () => {
         columnSpacing={{ sm: 2, md: 2, lg: 2 }}
         columns={12}
       >
-        <Grid item xs={12} sm={6} lg={3} width='100%'>
+        <Grid item xs={12} sm={6} lg={4} width='100%'>
           <StatCard
             primary={true}
             border={false}
@@ -25,7 +25,7 @@ const StatCards = () => {
             value={147598623}
           />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3} width='100%'>
+        <Grid item xs={12} sm={6} lg={4} width='100%'>
           <StatCard
             primary={false}
             border={true}
@@ -35,7 +35,7 @@ const StatCards = () => {
             value={7812275}
           />
         </Grid>
-        <Grid item xs={12} sm={6} lg={3} width='100%'>
+        <Grid item xs={12} sm={6} lg={4} width='100%'>
           <StatCard
             primary={false}
             border={true}
@@ -45,16 +45,6 @@ const StatCards = () => {
             value={12}
           />
         </Grid>
-        {/* <Grid item xs={12} sm={6} lg={3} width='100%'>
-          <StatCard
-            primary={false}
-            border={true}
-            title='Customers'
-            param='This Week'
-            money={false}
-            value={2}
-          />
-        </Grid> */}
       </Grid>
     </Box>
   );

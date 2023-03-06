@@ -4,82 +4,83 @@ import { parseDate } from '../../utils/parseDate';
 import { parseCurrency } from '../../utils/parseCurrency';
 import { theme as CustomTheme } from '../../pages/_app';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 const ReceiptCard = ({ receipt }) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
-    // <Link href={`/vendor/receipts/${receipt.id}`}>
-    <Grid
-      container
-      mx='auto'
-      // rowSpacing={{ xs: 1, sm: 2, md: 0 }}
-      columnSpacing={{ sm: 1 }}
-      columns={12}
-      sx={{
-        my: 2,
-        py: 3,
-        px: 4,
-        minHeight: '80px',
-        bgcolor: '#fff',
-        borderRadius: '8px',
-        transition: '0.3s ease-in',
-        border: '1px solid #fff',
-        alignItems: 'center',
-        mx: 'auto !important',
-        maxWidth: 768,
-        cursor: 'pointer',
-
-        '&:hover': {
-          border: `1px solid ${CustomTheme.palette.secondary.contrastText}`,
-          transition: '0.3s ease-out',
-        },
-      }}
-      onClick={() => router.push(`/vendor/receipts/${receipt.id}`)}
+    <Link
+      href={`/vendor/receipts/${receipt.id}`}
+      style={{ maxWidth: 768, margin: 'auto', display: 'block' }}
     >
-      <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
-        <Typography fontSize={16} fontWeight={700}>
-          #{receipt.receiptNumber}
-        </Typography>
-      </Grid>
-      <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
-        <Typography
-          fontWeight={500}
-          color='secondary.contrastText'
-          sx={{ textAlign: { xs: 'right', sm: 'left' } }}
-          fontSize={14}
-        >
-          {parseDate(receipt.dateCreated)}
-        </Typography>
-      </Grid>
-      <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
-        <Typography fontWeight={500} color='secondary.contrastText'>
-          {receipt.customer.name}
-        </Typography>
-      </Grid>
-      <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
-        <Typography
-          fontSize={20}
-          fontWeight={700}
-          sx={{ textAlign: { xs: 'right', sm: 'left' } }}
-        >
-          <Typography
-            component='span'
-            sx={{
-              textDecorationLine: 'line-through',
-              textDecorationStyle: 'double',
-              fontWeight: 'inherit',
-              fontSize: 'inherit',
-            }}
-          >
-            N
+      <Grid
+        container
+        mx='auto'
+        // rowSpacing={{ xs: 1, sm: 2, md: 0 }}
+        columnSpacing={{ sm: 1 }}
+        columns={12}
+        sx={{
+          my: 2,
+          py: 3,
+          px: 4,
+          minHeight: '80px',
+          bgcolor: '#fff',
+          borderRadius: '8px',
+          transition: '0.3s ease-in',
+          border: '1px solid #fff',
+          alignItems: 'center',
+          mx: 'auto !important',
+
+          '&:hover': {
+            border: `1px solid ${CustomTheme.palette.secondary.contrastText}`,
+            transition: '0.3s ease-out',
+          },
+        }}
+        // onClick={() => router.push(`/vendor/receipts/${receipt.id}`)}
+      >
+        <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
+          <Typography fontSize={16} fontWeight={700}>
+            #{receipt.receiptNumber}
           </Typography>
-          {parseCurrency(receipt.totalPrice)}
-        </Typography>
+        </Grid>
+        <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
+          <Typography
+            fontWeight={500}
+            color='secondary.contrastText'
+            sx={{ textAlign: { xs: 'right', sm: 'left' } }}
+            fontSize={14}
+          >
+            {parseDate(receipt.dateCreated)}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
+          <Typography fontWeight={500} color='secondary.contrastText'>
+            {receipt.customer.name}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
+          <Typography
+            fontSize={20}
+            fontWeight={700}
+            sx={{ textAlign: { xs: 'right', sm: 'left' } }}
+          >
+            <Typography
+              component='span'
+              sx={{
+                textDecorationLine: 'line-through',
+                textDecorationStyle: 'double',
+                fontWeight: 'inherit',
+                fontSize: 'inherit',
+              }}
+            >
+              N
+            </Typography>
+            {parseCurrency(receipt.totalPrice)}
+          </Typography>
+        </Grid>
       </Grid>
-    </Grid>
-    // </Link>
+    </Link>
   );
 };
 
