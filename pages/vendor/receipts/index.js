@@ -1,9 +1,4 @@
-import {
-  HeadWrapper,
-  ReceiptCard,
-  ReceiptsHeader,
-  // ReceiptsTable,
-} from '../../../components';
+import { HeadWrapper, ReceiptCard, ReceiptsHeader } from '../../../components';
 import Padding from '../../../layouts/Padding';
 import VendorLayout from '../../../layouts/VendorLayout';
 import { receipts } from '../../../static/receipts';
@@ -15,11 +10,6 @@ export default function Receipts() {
       <VendorLayout>
         <Padding>
           <ReceiptsHeader />
-          {/* <ReceiptsTable
-            receipts={[
-              ...receipts.sort((a, b) => b.dateCreated - a.dateCreated),
-            ]}
-          /> */}
           <>
             {[...receipts.sort((a, b) => b.dateCreated - a.dateCreated)].map(
               (receipt) => (

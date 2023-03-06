@@ -24,8 +24,19 @@ export default function BasicModal(props) {
       onClose={props.handleClose}
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
+      sx={{
+        p: 2,
+        bgcolor: 'rgba(0,0,0,0.2)',
+        backdropFilter: 'blur(8px)',
+        transition: '0.5s ease-out',
+      }}
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          ...style,
+          transition: '0.4s ease-in',
+        }}
+      >
         <IconButton
           sx={{ position: 'absolute', top: 12, right: 12 }}
           onClick={props.handleClose}
