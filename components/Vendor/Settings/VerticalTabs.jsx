@@ -1,15 +1,15 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { Typography, Box, Divider } from '@mui/material';
-import { theme as CustomTheme } from '../../../pages/_app';
 import {
-  ManageAccounts,
-  LockPerson,
-  FormatShapes,
   Engineering,
+  FormatShapes,
+  LockPerson,
+  ManageAccounts,
 } from '@mui/icons-material';
+import { Box, Divider, Typography } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import PropTypes from 'prop-types';
+import * as React from 'react';
+import { theme as CustomTheme } from '../../../pages/_app';
 import UpdateProfile from './UpdateProfile';
 
 function TabPanel(props) {
@@ -165,24 +165,40 @@ export default function VerticalTabs() {
       </Tabs>
 
       <Divider />
-      <TabPanel value={value} index={0}>
-        <Typography fontSize={18} fontWeight={600} mb={4}>
+      <TabPanel
+        value={value}
+        index={0}
+        style={{ width: '100%', maxWidth: 400 }}
+      >
+        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
           Update Profile
         </Typography>
         <UpdateProfile />
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Typography fontSize={18} fontWeight={600} mb={4}>
+      <TabPanel
+        value={value}
+        index={1}
+        style={{ width: '100%', maxWidth: 400 }}
+      >
+        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
           Apperance & Layout
         </Typography>
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Typography fontSize={18} fontWeight={600} mb={4}>
+      <TabPanel
+        value={value}
+        index={2}
+        style={{ width: '100%', maxWidth: 400 }}
+      >
+        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
           Admin Actions
         </Typography>
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Typography fontSize={18} fontWeight={600} mb={4}>
+      <TabPanel
+        value={value}
+        index={3}
+        style={{ width: '100%', maxWidth: 400 }}
+      >
+        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
           Security Settings
         </Typography>
       </TabPanel>
