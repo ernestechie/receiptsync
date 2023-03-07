@@ -31,6 +31,7 @@ const ReceiptCard = ({ receipt }) => {
           border: '1px solid #fff',
           alignItems: 'center',
           mx: 'auto !important',
+          boxShadow: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
 
           '&:hover': {
             border: `1px solid ${CustomTheme.palette.secondary.contrastText}`,

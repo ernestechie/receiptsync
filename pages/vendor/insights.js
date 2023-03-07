@@ -16,7 +16,8 @@ import {
 import { Line } from 'react-chartjs-2';
 import { receipts } from '../../static/receipts';
 import { options, labels, calculateData } from '../../utils/chart';
-import { Box } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
+import { InsightsHeader } from '../../components';
 
 ChartJS.register(
   CategoryScale,
@@ -57,7 +58,39 @@ export default function Insights() {
       <HeadWrapper />
       <VendorLayout>
         <Padding>
-          <Box sx={{ width: '100%', maxWidth: 768, mx: 'auto' }}>
+          <InsightsHeader />
+          <Box
+            p={1}
+            sx={{
+              width: '100%',
+              maxWidth: 800,
+              height: 400,
+              mx: 'auto',
+              // bgcolor: { sm: '#fff' },
+              bgcolor: '#fff',
+              px: { sm: 1 },
+              py: 2,
+              borderRadius: 1,
+              boxShadow: { sm: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)' },
+
+              '& canvas': {
+                mx: { sm: 'auto' },
+              },
+            }}
+          >
+            <Stack
+              p={2}
+              direction='row'
+              alignItems='center'
+              justifyContent='space-between'
+              gap={1}
+              mb={2}
+            >
+              <Typography fontWeight={500}>Product Sales</Typography>
+              <Typography fontWeight={600} fontSize={20}>
+                N{(14759862).toLocaleString()}
+              </Typography>
+            </Stack>
             <Line options={options} data={sample_data} />
           </Box>
         </Padding>

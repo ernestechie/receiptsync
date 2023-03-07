@@ -77,6 +77,7 @@ export default function VerticalTabs() {
         flexDirection: { xs: 'column', sm: 'row', md: 'row' },
         borderRadius: 2,
         p: 2,
+        boxShadow: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
       }}
     >
       <Tabs

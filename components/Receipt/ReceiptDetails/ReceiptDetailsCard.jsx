@@ -14,6 +14,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
         width: '100%',
         maxWidth: '768px',
         mt: { xs: 2, sm: 3 },
+        boxShadow: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
       }}
     >
       <Grid
