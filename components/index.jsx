@@ -6,6 +6,7 @@ export { default as ProductList } from './Products/Products';
 export { default as RecentSales } from './Vendor/RecentSales';
 export { default as VerticalTabs } from './Vendor/Settings/VerticalTabs';
 export { default as StatCards } from './Cards/StatCards';
+export { default as InsightsHeader } from './Insights/InsightsHeader';
 export { default as ReceiptsHeader } from './Receipt/ReceiptsHeader';
 export { default as CustomersHeader } from './Customers/CustomersHeader';
 export { default as ProductsHeader } from './Products/ProductsHeader';

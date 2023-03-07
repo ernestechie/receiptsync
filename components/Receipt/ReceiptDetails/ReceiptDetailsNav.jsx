@@ -12,6 +12,7 @@ const ReceiptDetailsNav = (props) => {
         borderRadius: 2,
         width: '100%',
         maxWidth: 768,
+        boxShadow: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
       }}
       direction='row'
       alignItems='center'
