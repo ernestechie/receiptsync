@@ -35,10 +35,13 @@ ChartJS.register(
 export default function Insights() {
   const [thisYearProducts, setThisYearProduct] = useState([]);
   const [thisYearReceipts, setThisYearReceipts] = useState([]);
+  const [pieLabels, setPieLabels] = useState([]);
+  const [pieData, setPieData] = useState([]);
 
   useEffect(() => {
     const thisYear = receipts.filter(
       (receipt) => new Date(receipt.dateCreated).getUTCFullYear() === 2022
+      // new Date().getUTCFullYear()
     );
 
     setThisYearReceipts(thisYear);
@@ -52,14 +55,62 @@ export default function Insights() {
   }, []);
 
   useEffect(() => {
-    thisYearProducts.forEach((product, index) => {
-      if (
-        thisYearProducts.length > index + 1 &&
-        product.id === thisYearProducts[index + 1].id
-      ) {
-        console.log(`Product occurs ${index + 1} times`);
+    const arr = thisYearProducts;
+
+    let map = new Map();
+
+    for (let i = 0; i < arr.length; i++) {
+      if (map.has(arr[i].id)) map.set(arr[i].id, map.get(arr[i].id) + 1);
+      else map.set(arr[i].id, 1);
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      if (map.get(arr[i].id) > 1) {
+        map.set(arr[i].id, 0);
+      }
+    }
+    let keysArray = Array.from(map.keys());
+
+    if (keysArray.length > 4) {
+      keysArray.splice(4, 1);
+    }
+
+    console.log(thisYearProducts);
+    // console.log(keysArray);
+
+    const labelObjects = keysArray.map((key) => {
+      return {
+        [key]: thisYearProducts.filter((product) => product.id === key),
+      };
+    });
+
+    const dataObjects = keysArray.map((key) => {
+      return {
+        [key]: thisYearProducts
+          .filter((product) => product.id === key)
+          .map((item) => item.quantity)
+          .reduce((a, b) => a + b, 0),
+      };
+    });
+
+    console.log(dataObjects);
+
+    const labels = [];
+    labelObjects.forEach((label) => {
+      for (const key in label) {
+        labels.push(label[key][0]['name']);
       }
     });
+
+    const data = [];
+    dataObjects.forEach((item) => {
+      for (const key in item) {
+        data.push(item[key]);
+      }
+    });
+
+    setPieData(data);
+    setPieLabels(labels);
   }, [thisYearProducts]);
 
   const line_chart_data = {
@@ -77,12 +128,7 @@ export default function Insights() {
   };
 
   const pie_chart_data = {
-    labels: [
-      'Pure Bliss',
-      'MUI Sketchbook',
-      'iPhone 11 pro max',
-      'iPhone 14 pro max',
-    ],
+    labels: pieLabels,
     datasets: [
       {
         fill: true,
@@ -93,8 +139,8 @@ export default function Insights() {
           'rgba(236, 87, 87, 1)',
           'rgba(255, 151, 151, 1)',
         ],
-        data: [1024, 640, 384, 256],
-        hoverOffset: 8,
+        data: pieData,
+        hoverOffset: 4,
         borderWidth: 1,
       },
     ],
@@ -154,20 +200,36 @@ export default function Insights() {
               },
             }}
           >
-            <Stack
-              p={2}
-              direction='row'
-              alignItems='center'
-              justifyContent='space-between'
-              gap={1}
-              mb={2}
-            >
-              <Typography fontWeight={500}>Most Sold: (Pure Bliss)</Typography>
-              <Typography fontWeight={600} fontSize={20}>
-                {(1024).toLocaleString()} Units
+            {pie_chart_data.datasets[0].data.length > 0 && (
+              <>
+                <Stack
+                  p={2}
+                  direction='row'
+                  alignItems='center'
+                  justifyContent='space-between'
+                  gap={1}
+                  mb={2}
+                >
+                  <Typography fontWeight={500}>
+                    Most Sold: (Pure Bliss)
+                  </Typography>
+                  <Typography fontWeight={600} fontSize={20}>
+                    10 Units
+                  </Typography>
+                </Stack>
+                <Pie options={options} data={pie_chart_data} />
+              </>
+            )}
+            {!pie_chart_data.datasets[0].data.length > 0 && (
+              <Typography
+                textAlign='center'
+                fontSize={24}
+                fontWeight={600}
+                p={4}
+              >
+                No data available
               </Typography>
-            </Stack>
-            <Pie options={options} data={pie_chart_data} />
+            )}
           </Box>
         </Padding>
       </VendorLayout>
