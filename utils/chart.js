@@ -1,5 +1,8 @@
+import { receipts } from '../static/receipts';
+
 export const options = {
   responsive: true,
+  maintainAspectRatio: true,
   plugins: {
     legend: {
       position: 'top',
@@ -27,7 +30,7 @@ export const labels = [
   'Dec',
 ];
 
-export const calculateData = (input) => {
+export const useCalculateData = (input) => {
   const data = {
     Jan: input.filter(
       (i) =>
