@@ -1,6 +1,6 @@
 import { Button, Stack, Typography } from '@mui/material';
 import React from 'react';
-import { FilterList, ArrowDropDown } from '@mui/icons-material';
+import SelectYear from './SelectYear';
 
 const InsightsHeader = () => {
   return (
@@ -32,15 +32,7 @@ const InsightsHeader = () => {
       <Typography fontSize={20} fontWeight={700}>
         Review Performance
       </Typography>
-      <Button
-        variant='text'
-        color='secondary'
-        disableElevation
-        startIcon={<FilterList />}
-        endIcon={<ArrowDropDown />}
-      >
-        Showing Results for: ({'2023'})
-      </Button>
+      <SelectYear />
     </Stack>
   );
 };

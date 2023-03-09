@@ -1,16 +1,13 @@
-import {
-  Engineering,
-  FormatShapes,
-  LockPerson,
-  ManageAccounts,
-} from '@mui/icons-material';
+import { FormatShapes, LockPerson, ManageAccounts } from '@mui/icons-material';
 import { Box, Divider, Typography } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { theme as CustomTheme } from '../../../pages/_app';
+import UpdateAppearance from './UpdateAppearance';
 import UpdateProfile from './UpdateProfile';
+import UpdateSecurity from './UpdateSecurity';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -133,22 +130,6 @@ export default function VerticalTabs() {
         <Tab
           label={
             <>
-              <Engineering />
-              <Typography mt={0.5} textTransform='capitalize'>
-                Actions
-              </Typography>
-            </>
-          }
-          {...a11yProps(2)}
-          sx={{
-            ...tabStyles,
-            bgcolor:
-              value === 2 ? CustomTheme.palette.secondary.light : 'transparent',
-          }}
-        />
-        <Tab
-          label={
-            <>
               <LockPerson />
               <Typography mt={0.5} textTransform='capitalize'>
                 Security
@@ -160,7 +141,7 @@ export default function VerticalTabs() {
             ...tabStyles,
             mb: 2,
             bgcolor:
-              value === 3 ? CustomTheme.palette.secondary.light : 'transparent',
+              value === 2 ? CustomTheme.palette.secondary.light : 'transparent',
           }}
         />
       </Tabs>
@@ -171,7 +152,7 @@ export default function VerticalTabs() {
         index={0}
         style={{ width: '100%', maxWidth: 400 }}
       >
-        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
+        <Typography fontSize={24} fontWeight={700} mb={4} component='span'>
           Update Profile
         </Typography>
         <UpdateProfile />
@@ -181,27 +162,20 @@ export default function VerticalTabs() {
         index={1}
         style={{ width: '100%', maxWidth: 400 }}
       >
-        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
+        <Typography fontSize={24} fontWeight={700} mb={4} component='span'>
           Apperance & Layout
         </Typography>
+        <UpdateAppearance />
       </TabPanel>
       <TabPanel
         value={value}
         index={2}
         style={{ width: '100%', maxWidth: 400 }}
       >
-        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
-          Admin Actions
-        </Typography>
-      </TabPanel>
-      <TabPanel
-        value={value}
-        index={3}
-        style={{ width: '100%', maxWidth: 400 }}
-      >
-        <Typography fontSize={18} fontWeight={700} mb={4} component='span'>
+        <Typography fontSize={24} fontWeight={700} mb={4} component='span'>
           Security Settings
         </Typography>
+        <UpdateSecurity />
       </TabPanel>
     </Box>
   );

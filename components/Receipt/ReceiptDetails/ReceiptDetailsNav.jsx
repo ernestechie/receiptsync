@@ -51,7 +51,7 @@ const ReceiptDetailsNav = (props) => {
           color='secondary'
           text='Edit & Save'
           textColor='#fff'
-          handleClick={''}
+          handleClick={() => console.log('Edit & Save')}
         />
         <ButtonContained
           color='custom'

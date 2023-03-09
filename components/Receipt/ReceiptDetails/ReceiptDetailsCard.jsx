@@ -78,81 +78,72 @@ const ReceiptDetailsCard = ({ receipt }) => {
         }}
       >
         {receipt.items.map((item) => (
-          <>
-            <Box key={item.id} my={1}>
-              <Stack
-                px={2}
-                py={1}
-                direction='row'
-                justifyContent='space-between'
-              >
-                <Stack direction='row' gap={2}>
-                  <Box
-                    width={80}
-                    height={80}
-                    sx={{
-                      borderRadius: 2,
-                      background: `url(${item.image}) no-repeat center center/cover`,
-                    }}
-                  />
-                  <Box>
-                    <Typography
-                      fontSize={16}
-                      fontWeight={600}
-                      textTransform='uppercase'
-                    >
-                      {item.name}
-                    </Typography>
-                    <Typography
-                      color='secondary.contrastText'
-                      sx={{
-                        display: 'flex',
-                        width: '100%',
-                        gap: 1,
-                      }}
-                    >
-                      <Typography component='span' fontSize='inherit'>
-                        {item.quantity} x N{item.price.toLocaleString()}
-                      </Typography>
-                    </Typography>
-                  </Box>
-                </Stack>
-                <Stack
-                  direction='row'
-                  gap={2}
+          <Box key={item.id} my={1}>
+            <Stack px={2} py={1} direction='row' justifyContent='space-between'>
+              <Stack direction='row' gap={2}>
+                <Box
+                  width={80}
+                  height={80}
                   sx={{
-                    display: { xs: 'none', sm: 'flex' },
-                    justifySelf: 'flex-end',
+                    borderRadius: 2,
+                    background: `url(${item.image}) no-repeat center center/cover`,
                   }}
-                >
-                  <Typography color='secondary.contrastText'>
-                    Total:{' '}
+                />
+                <Box>
+                  <Typography
+                    fontSize={16}
+                    fontWeight={600}
+                    textTransform='uppercase'
+                  >
+                    {item.name}
                   </Typography>
-                  <Typography fontSize={18} fontWeight={600}>
-                    N{(item.quantity * item.price).toLocaleString()}
+                  <Typography
+                    color='secondary.contrastText'
+                    sx={{
+                      display: 'flex',
+                      width: '100%',
+                      gap: 1,
+                    }}
+                  >
+                    <Typography component='span' fontSize='inherit'>
+                      {item.quantity} x N{item.price.toLocaleString()}
+                    </Typography>
                   </Typography>
-                </Stack>
+                </Box>
               </Stack>
-              {/*  */}
               <Stack
                 direction='row'
-                justifyContent='space-between'
-                px={2}
-                mt={1}
+                gap={2}
                 sx={{
-                  display: { xs: 'flex', sm: 'none' },
-                  textAlign: 'right',
-                  width: '100%',
+                  display: { xs: 'none', sm: 'flex' },
+                  justifySelf: 'flex-end',
                 }}
               >
-                <Typography color='secondary.contrastText'>Total</Typography>
+                <Typography color='secondary.contrastText'>Total: </Typography>
                 <Typography fontSize={18} fontWeight={600}>
                   N{(item.quantity * item.price).toLocaleString()}
                 </Typography>
               </Stack>
-            </Box>
+            </Stack>
+            {/*  */}
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              px={2}
+              mt={1}
+              sx={{
+                display: { xs: 'flex', sm: 'none' },
+                textAlign: 'right',
+                width: '100%',
+              }}
+            >
+              <Typography color='secondary.contrastText'>Total</Typography>
+              <Typography fontSize={18} fontWeight={600}>
+                N{(item.quantity * item.price).toLocaleString()}
+              </Typography>
+            </Stack>
             <Divider />
-          </>
+          </Box>
         ))}
 
         <Stack
