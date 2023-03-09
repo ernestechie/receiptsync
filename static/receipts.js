@@ -108,7 +108,7 @@ export const receipts = [
   },
   {
     id: 'MCh88OV5BXYGs',
-    receiptNumber: '1A2B3C4D',
+    receiptNumber: '12AB3C4D',
     narration: 'Books & Biscuits',
     dateCreated: new Date('2022-11-10'),
     dateUpdated: new Date('2022-12-05'),

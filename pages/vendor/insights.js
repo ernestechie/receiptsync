@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import HeadWrapper from '../../components/HeadWrapper';
 import Padding from '../../layouts/Padding';
 import VendorLayout from '../../layouts/VendorLayout';
@@ -19,6 +19,7 @@ import { options, useCalculateData, labels } from '../../utils/chart';
 import { Box, Stack, Typography } from '@mui/material';
 import { receipts } from '../../static/receipts';
 import { InsightsHeader } from '../../components';
+import vendorContext from '../../context/VendorContext';
 
 ChartJS.register(
   CategoryScale,
@@ -38,10 +39,12 @@ export default function Insights() {
   const [pieLabels, setPieLabels] = useState([]);
   const [pieData, setPieData] = useState([]);
 
+  const { selectedYear } = useContext(vendorContext);
+
   useEffect(() => {
     const thisYear = receipts.filter(
-      (receipt) => new Date(receipt.dateCreated).getUTCFullYear() === 2022
-      // new Date().getUTCFullYear()
+      (receipt) =>
+        new Date(receipt.dateCreated).getUTCFullYear() === selectedYear
     );
 
     setThisYearReceipts(thisYear);
@@ -52,7 +55,7 @@ export default function Insights() {
     });
 
     setThisYearProduct(products);
-  }, []);
+  }, [selectedYear]);
 
   useEffect(() => {
     const arr = thisYearProducts;
@@ -75,7 +78,7 @@ export default function Insights() {
       keysArray.splice(4, 1);
     }
 
-    console.log(thisYearProducts);
+    // console.log(thisYearProducts);
     // console.log(keysArray);
 
     const labelObjects = keysArray.map((key) => {
@@ -93,7 +96,7 @@ export default function Insights() {
       };
     });
 
-    console.log(dataObjects);
+    // console.log(dataObjects);
 
     const labels = [];
     labelObjects.forEach((label) => {
@@ -177,7 +180,17 @@ export default function Insights() {
             >
               <Typography fontWeight={500}>Product Sales</Typography>
               <Typography fontWeight={600} fontSize={20}>
-                N{(14759862).toLocaleString()}
+                <Typography
+                  fontWeight='inherit'
+                  fontSize='inherit'
+                  component='span'
+                  sx={{ textDecoration: 'line-through' }}
+                >
+                  N
+                </Typography>
+                {useCalculateData(thisYearReceipts)
+                  .reduce((a, b) => a + b, 0)
+                  .toLocaleString()}
               </Typography>
             </Stack>
             <Line options={options} data={line_chart_data} />
@@ -210,11 +223,8 @@ export default function Insights() {
                   gap={1}
                   mb={2}
                 >
-                  <Typography fontWeight={500}>
-                    Most Sold: (Pure Bliss)
-                  </Typography>
-                  <Typography fontWeight={600} fontSize={20}>
-                    10 Units
+                  <Typography fontWeight={700} fontSize={20}>
+                    Most Sold Products
                   </Typography>
                 </Stack>
                 <Pie options={options} data={pie_chart_data} />

@@ -26,7 +26,7 @@ const CustomerItem = (props) => {
         mx: 'auto !important',
         maxWidth: 768,
         position: 'relative',
-        boxShadow:'0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
+        boxShadow: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
 
         '&:hover': {
           border: `1px solid ${CustomTheme.palette.secondary.contrastText}`,
@@ -77,6 +77,7 @@ const CustomerItem = (props) => {
             aria-label='delete customer'
             color='custom'
             className='delete-icon'
+            onClick={() => props.handleOpen('Isaiah Ernest')}
             sx={{
               position: { md: 'absolute' },
               right: -21,
