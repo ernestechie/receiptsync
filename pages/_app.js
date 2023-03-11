@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { VendorContextProvider } from '../context/VendorContext';
+import { AuthContextProvider } from '../context/AuthContext';
 
 export const theme = createTheme({
   palette: {
@@ -33,9 +34,11 @@ export const theme = createTheme({
 export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
-      <VendorContextProvider>
-        <Component {...pageProps} />
-      </VendorContextProvider>
+      <AuthContextProvider>
+        <VendorContextProvider>
+          <Component {...pageProps} />
+        </VendorContextProvider>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }

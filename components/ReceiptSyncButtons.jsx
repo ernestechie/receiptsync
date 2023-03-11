@@ -14,6 +14,7 @@ export const ButtonContained = (props) => {
         px: 3,
         textTransform: 'capitalize',
         fontSize: 16,
+        ...props.style,
       }}
       startIcon={props.startIcon && props.startIcon}
       onClick={props.handleClick}

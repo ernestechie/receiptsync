@@ -9,7 +9,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '100%',
-  maxWidth: 440,
+  maxWidth: 500,
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
@@ -27,7 +27,7 @@ export default function BasicModal(props) {
       sx={{
         p: 2,
         bgcolor: 'rgba(0,0,0,0.2)',
-        backdropFilter: 'blur(8px)',
+        backdropFilter: 'blur(2px)',
         transition: '0.5s ease-out',
       }}
     >

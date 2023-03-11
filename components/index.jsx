@@ -1,6 +1,8 @@
 export { default as ReceiptCard } from './Receipt/ReceiptCard';
 export { default as StatCard } from './Cards/StatCard';
 export { default as Modal } from './Common/Modal';
+export { default as Loader } from './Common/Loader';
+export { default as ReceiptSyncDrawer } from './Common/Drawer';
 export { default as ProductItem } from './Products/ProductItem';
 export { default as ProductList } from './Products/Products';
 export { default as RecentSales } from './Vendor/RecentSales';
