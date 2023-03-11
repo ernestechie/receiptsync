@@ -1,10 +1,11 @@
+import { ArrowDropDown, Delete } from '@mui/icons-material';
+import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Stack, Typography, Box, Grid } from '@mui/material';
-import { ButtonContained } from '../ReceiptSyncButtons';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
 import Drawer from '../Common/Drawer';
+import { ButtonContained } from '../ReceiptSyncButtons';
 
-const ReceiptsHeader = () => {
+const ReceiptsHeader = (props) => {
   const [drawerState, setDrawerState] = useState(false);
 
   const toggleDrawer = (newState) => {
@@ -47,12 +48,13 @@ const ReceiptsHeader = () => {
         </Typography>
 
         <div className='settings-input-group'>
-          <label htmlFor='address-street' className='settings-label'>
+          <label htmlFor='addresSstreet' className='settings-label'>
             Street Address
           </label>
           <input
             type='address'
-            id='address-street'
+            id='addresSstreet'
+            title='street'
             className='settings-input'
             value={''}
           />
@@ -67,12 +69,13 @@ const ReceiptsHeader = () => {
         >
           <Grid item xs={12} sm={6} width='100%'>
             <div className='settings-input-group'>
-              <label htmlFor='address-city' className='settings-label'>
+              <label htmlFor='addressCity' className='settings-label'>
                 City
               </label>
               <input
                 type='address'
-                id='address-city'
+                id='addressCity'
+                title='city'
                 className='settings-input'
                 value={''}
               />
@@ -80,12 +83,13 @@ const ReceiptsHeader = () => {
           </Grid>
           <Grid item xs={12} sm={6} width='100%'>
             <div className='settings-input-group'>
-              <label htmlFor='address-state' className='settings-label'>
+              <label htmlFor='addresSstate' className='settings-label'>
                 State
               </label>
               <input
                 type='address'
-                id='address-state'
+                id='addresSstate'
+                title='state'
                 className='settings-input'
                 value={''}
               />
@@ -94,40 +98,42 @@ const ReceiptsHeader = () => {
         </Grid>
 
         <div className='settings-input-group'>
-          <label htmlFor='buyer-name' className='settings-label'>
+          <label htmlFor='buyerName' className='settings-label'>
             Buyer`s Name
           </label>
           <input
             type='text'
-            id='buyer-name'
+            id='buyerName'
+            title='name'
             className='settings-input'
             value={''}
           />
         </div>
         <div className='settings-input-group'>
-          <label htmlFor='buyer-phone' className='settings-label'>
+          <label htmlFor='buyerPhone' className='settings-label'>
             Buyer`s Phone
           </label>
           <input
             type='tel'
-            id='buyer-phone'
+            id='buyerPhone'
             className='settings-input'
+            title='phone'
             value={''}
           />
         </div>
         <div className='settings-input-group'>
-          <label htmlFor='buyer-email' className='settings-label'>
+          <label htmlFor='buyerEmail' className='settings-label'>
             Buyer`s Email
           </label>
           <input
             type='email'
-            id='buyer-email'
+            id='buyerEmail'
             className='settings-input'
+            title='email'
             value={''}
           />
         </div>
-        <Box my={4}></Box>
-        <Typography mb={2} color='primary' fontWeight={700}>
+        <Typography mb={2} color='primary' fontWeight={700} mt={4}>
           RECEIPT DETAILS
         </Typography>
         <div className='settings-input-group'>
@@ -137,21 +143,51 @@ const ReceiptsHeader = () => {
           <input
             type='text'
             id='narration'
+            title='narration'
             className='settings-input'
             value={''}
           />
         </div>
         <div className='settings-input-group'>
-          <label htmlFor='receipt-date' className='settings-label'>
+          <label htmlFor='receiptDate' className='settings-label'>
             Issuing Date
           </label>
           <input
             type='date'
-            id='receipt-date'
+            id='receiptDate'
+            title='date'
             className='settings-input'
             value={''}
           />
         </div>
+
+        <Typography mb={2} color='primary' fontWeight={700} mt={4}>
+          PRODUCTS LIST
+        </Typography>
+
+        <Stack
+          alignItems='center'
+          justifyContent='space-between'
+          direction='row'
+          sx={{
+            width: '100&',
+            border: '1px solid rgb(200, 200,200,1)',
+            p: 2,
+            borderRadius: 1,
+            transition: '0.4s ease-in',
+            cursor: 'pointer',
+            userSelect: 'none',
+
+            '&:hover': {
+              background: '#f5f5f5',
+              transition: '0.4s ease-out',
+            },
+          }}
+          onClick={props.openModal}
+        >
+          <Typography>Select Product</Typography>
+          <ArrowDropDown />
+        </Stack>
       </Drawer>
     </Stack>
   );

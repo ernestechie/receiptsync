@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography, SwipeableDrawer } from '@mui/material';
+import { Box, Stack, Typography, SwipeableDrawer } from '@mui/material';
 import React from 'react';
 import { ArrowLeft } from '@mui/icons-material';
 
