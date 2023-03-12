@@ -1,7 +1,8 @@
 import { ArrowDropDown, Delete } from '@mui/icons-material';
 import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
+import vendorContext from '../../context/VendorContext';
 import Drawer from '../Common/Drawer';
 import { ButtonContained } from '../ReceiptSyncButtons';
 
@@ -11,6 +12,8 @@ const ReceiptsHeader = (props) => {
   const toggleDrawer = (newState) => {
     setDrawerState(newState);
   };
+
+  const { handleOpenProductsModal } = useContext(vendorContext);
 
   return (
     <Stack
@@ -169,6 +172,7 @@ const ReceiptsHeader = (props) => {
           alignItems='center'
           justifyContent='space-between'
           direction='row'
+          mb={2}
           sx={{
             width: '100&',
             border: '1px solid rgb(200, 200,200,1)',
@@ -183,11 +187,15 @@ const ReceiptsHeader = (props) => {
               transition: '0.4s ease-out',
             },
           }}
-          onClick={props.openModal}
+          onClick={handleOpenProductsModal}
         >
           <Typography>Select Product</Typography>
           <ArrowDropDown />
         </Stack>
+        {/* 
+        {props.selectedProducts.map((product) => (
+          <h1 key={product.id}>{product.name}</h1>
+        ))} */}
       </Drawer>
     </Stack>
   );

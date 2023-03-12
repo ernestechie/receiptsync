@@ -6,6 +6,9 @@ const initialState = {
   handleDrawerClose: () => {},
   selectedYear: 2023,
   handleSelectedYear: () => {},
+  handleOpenProductsModal: () => {},
+  handleCloseProductsModal: () => {},
+  addNewProductToReceipt: () => {},
 };
 
 const vendorContext = createContext(initialState);
@@ -13,6 +16,9 @@ const vendorContext = createContext(initialState);
 export const VendorContextProvider = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
+  const [showProductsModal, setShowProductsModal] = useState(false);
+
+  const [productToAdd, setProductToAdd] = useState('');
 
   const handleSelectedYear = (newInput) => {
     setSelectedYear(newInput);
@@ -26,6 +32,17 @@ export const VendorContextProvider = ({ children }) => {
     setSidebarOpen(false);
   };
 
+  const handleOpenProductsModal = () => {
+    setShowProductsModal(true);
+  };
+  const handleCloseProductsModal = () => {
+    setShowProductsModal(false);
+  };
+
+  const addNewProductToReceipt = (id) => {
+    console.log(id);
+  };
+
   return (
     <vendorContext.Provider
       value={{
@@ -34,6 +51,10 @@ export const VendorContextProvider = ({ children }) => {
         handleDrawerOpen,
         selectedYear,
         handleSelectedYear,
+        handleOpenProductsModal,
+        handleCloseProductsModal,
+        showProductsModal,
+        addNewProductToReceipt,
       }}
     >
       {children}
