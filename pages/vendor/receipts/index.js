@@ -3,29 +3,29 @@ import Padding from '../../../layouts/Padding';
 import VendorLayout from '../../../layouts/VendorLayout';
 import { receipts } from '../../../static/receipts';
 import { Modal } from '../../../components';
-import { Typography } from '@mui/material';
-import { useState } from 'react';
+import { useContext } from 'react';
+import ReceiptSearch from '../../../components/Receipt/ReceiptSearch';
+import vendorContext from '../../../context/VendorContext';
 
 export default function Receipts() {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const handleOpen = () => setShowDeleteModal(true);
-  const handleClose = () => setShowDeleteModal(false);
+  const {
+    showProductsModal,
+    handleOpenProductsModal,
+    handleCloseProductsModal,
+  } = useContext(vendorContext);
 
   return (
     <>
       <HeadWrapper />
       <VendorLayout>
         <Padding>
-          <ReceiptsHeader openModal={handleOpen} />
+          <ReceiptsHeader openModal={handleOpenProductsModal} />
           <Modal
-            open={showDeleteModal}
-            handleClose={handleClose}
+            open={showProductsModal}
+            handleClose={handleCloseProductsModal}
             heading='Add Products'
           >
-            <Typography mt={2} mb={4} fontSize={17}>
-              Add a product to receipt list
-            </Typography>
+            <ReceiptSearch />
           </Modal>
           <>
             {[...receipts.sort((a, b) => b.dateCreated - a.dateCreated)].map(
