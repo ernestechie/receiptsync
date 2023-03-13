@@ -1,86 +1,16 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Stack, Typography } from '@mui/material';
-import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
-import InputBase from '@mui/material/InputBase';
-import { styled, useTheme } from '@mui/material/styles';
-import PropTypes from 'prop-types';
-import React, { useState, useContext } from 'react';
+import { useTheme } from '@mui/material/styles';
+import React, { useContext, useState } from 'react';
 import vendorContext from '../../context/VendorContext';
 import { ButtonContained } from '../ReceiptSyncButtons';
 
-const StyledAutocompletePopper = styled('div')(({ theme }) => ({
-  [`& .${autocompleteClasses.paper}`]: {
-    boxShadow: 'none',
-    margin: 0,
-    color: 'inherit',
-    fontSize: 14,
-  },
-  [`& .${autocompleteClasses.listbox}`]: {
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#1c2128',
-    padding: 0,
-    [`& .${autocompleteClasses.option}`]: {
-      minHeight: 'auto',
-      alignItems: 'flex-start',
-      padding: 8,
-      borderBottom: `1px solid  ${
-        theme.palette.mode === 'light' ? ' #eaecef' : '#30363d'
-      }`,
-      '&[aria-selected="true"]': {
-        backgroundColor: 'transparent',
-      },
-      [`&.${autocompleteClasses.focused}, &.${autocompleteClasses.focused}[aria-selected="true"]`]:
-        {
-          backgroundColor: theme.palette.action.hover,
-        },
-    },
-  },
-  [`&.${autocompleteClasses.popperDisablePortal}`]: {
-    position: 'relative',
-  },
-}));
-
-function PopperComponent(props) {
-  const { disablePortal, anchorEl, open, ...other } = props;
-  return <StyledAutocompletePopper {...other} />;
-}
-
-PopperComponent.propTypes = {
-  anchorEl: PropTypes.any,
-  disablePortal: PropTypes.bool,
-  open: PropTypes.bool.isRequired,
-};
-
-const StyledInput = styled(InputBase)(({ theme }) => ({
-  padding: 14,
-  width: '100%',
-  borderBottom: `1px solid ${
-    theme.palette.mode === 'light' ? '#eaecef' : '#30363d'
-  }`,
-  '& input': {
-    borderRadius: 4,
-    backgroundColor: theme.palette.mode === 'light' ? '#fff' : '#0d1117',
-    padding: 12,
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    border: `1px solid ${
-      theme.palette.mode === 'light' ? '#eaecef' : '#30363d'
-    }`,
-    fontSize: 15,
-    '&:focus': {
-      boxShadow: `0px 0px 0px 3px ${
-        theme.palette.mode === 'light'
-          ? 'rgba(3, 102, 214, 0.3)'
-          : 'rgb(12, 45, 107)'
-      }`,
-    },
-  },
-}));
-
 export default function ReceiptSearch(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [pendingValue, setPendingValue] = React.useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
   const theme = useTheme();
+  const [searchValue, setSearchValue] = useState('');
 
-  const { handleCloseProductsModal, addNewProductToReceipt } =
+  const { addedProducts, handleCloseProductsModal, addNewProductToReceipt } =
     useContext(vendorContext);
 
   const closeProductsPopup = () => {
@@ -92,102 +22,76 @@ export default function ReceiptSearch(props) {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'github-product' : undefined;
-
   return (
-    <Box id={id} placement='bottom-start' sx={{ maxHeight: 600 }}>
-      <Box mb={4}>
-        <Autocomplete
-          open
-          multiple
-          onClose={(event, reason) => {
-            if (reason === 'escape') {
-              handleCloseProductsModal();
-            }
+    <Box sx={{ maxHeight: 600 }} pt={2}>
+      <div className='settings-input-group'>
+        <input
+          type='search'
+          id='productSearchInput'
+          title='productSearchInput'
+          className='settings-input'
+          value={searchValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            console.log(e.target.value);
           }}
-          value={pendingValue}
-          onChange={(event, newValue, reason) => {
-            if (
-              event.type === 'keydown' &&
-              event.key === 'Backspace' &&
-              reason === 'removeOption'
-            ) {
-              return;
-            }
-            setPendingValue(newValue);
-          }}
-          disableCloseOnSelect
-          PopperComponent={PopperComponent}
-          renderTags={() => null}
-          noOptionsText='No product found'
-          renderOption={(props, option, { selected }) => (
-            <li
-              {...props}
-              style={{
-                background: selected
-                  ? 'rgba(146, 119, 255, 0.1)'
-                  : 'rgba(200, 200, 200, 0.05)',
-                margin: 2,
-                marginBottom: 6,
-                borderBottom: selected ? 'none' : 'initial',
-                borderRadius: 4,
+        />
+      </div>
+      <Box mt={2} mb={4}>
+        {products.map((product) => (
+          <Stack
+            key={product.key}
+            direction='row'
+            alignItems='center'
+            justifyContent='space-between'
+            width='100%'
+            onClick={() => addNewProductToReceipt(product.id)}
+            my={1}
+            sx={{
+              p: 1,
+              borderRadius: 1,
+              cursor: 'pointer',
+              background: addedProducts.find((p) => p.id === product.id)
+                ? 'rgba(124, 93, 250, 0.1)'
+                : '#fff',
+            }}
+          >
+            <Box
+              component='span'
+              sx={{
+                mr: 2,
+                mt: '2px',
+                width: 40,
+                height: 40,
+                flexShrink: 0,
+                borderRadius: '3px',
+                background: `url(${product.image}) no-repeat center center/cover`,
+              }}
+            />
+            <Box
+              sx={{
+                flexGrow: 1,
+                '& span': {
+                  color: theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                },
               }}
             >
-              <Stack
-                direction='row'
-                alignItems='center'
-                justifyContent='space-between'
-                width='100%'
-                onClick={() => console.log(option.id)}
-              >
-                <Box
-                  component='span'
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    flexShrink: 0,
-                    borderRadius: '3px',
-                    mr: 2,
-                    mt: '2px',
-                    background: `url(${option.image}) no-repeat center center/cover`,
-                  }}
-                />
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    '& span': {
-                      color:
-                        theme.palette.mode === 'light' ? '#586069' : '#8b949e',
-                    },
-                  }}
-                >
-                  <Typography variant='subtitle2' fontWeight={600}>
-                    {option.name}
-                  </Typography>
-                  <span>{option.description}</span>
-                </Box>
-                <Box
-                  component={CloseIcon}
-                  sx={{ opacity: 0.6, width: 18, height: 18 }}
-                  style={{
-                    visibility: selected ? 'visible' : 'hidden',
-                  }}
-                />
-              </Stack>
-            </li>
-          )}
-          options={[...products].sort((a, b) => a.name - b.name)}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => (
-            <StyledInput
-              ref={params.InputProps.ref}
-              inputProps={params.inputProps}
-              autoFocus
-              placeholder='Search products'
+              <Typography variant='subtitle2' fontWeight={600}>
+                {product.name}
+              </Typography>
+              <span>{product.description}</span>
+            </Box>
+            <Box
+              component={CloseIcon}
+              sx={{ opacity: 0.6, width: 18, height: 18 }}
+              style={{
+                visibility: addedProducts.find((p) => p.id === product.id)
+                  ? 'visible'
+                  : 'hidden',
+              }}
             />
-          )}
-        />
+          </Stack>
+        ))}
       </Box>
       <Stack direction='row' justifyContent='flex-end'>
         <ButtonContained

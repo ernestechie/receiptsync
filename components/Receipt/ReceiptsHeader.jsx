@@ -1,4 +1,6 @@
-import { ArrowDropDown, Delete } from '@mui/icons-material';
+import { useTheme } from '@emotion/react';
+import { ArrowDropDown } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
 import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
@@ -8,12 +10,18 @@ import { ButtonContained } from '../ReceiptSyncButtons';
 
 const ReceiptsHeader = (props) => {
   const [drawerState, setDrawerState] = useState(false);
+  const theme = useTheme();
 
   const toggleDrawer = (newState) => {
     setDrawerState(newState);
   };
 
-  const { handleOpenProductsModal } = useContext(vendorContext);
+  const {
+    handleOpenProductsModal,
+    addedProducts,
+    addNewProductToReceipt,
+    changeProductQuantity,
+  } = useContext(vendorContext);
 
   return (
     <Stack
@@ -192,10 +200,104 @@ const ReceiptsHeader = (props) => {
           <Typography>Select Product</Typography>
           <ArrowDropDown />
         </Stack>
-        {/* 
-        {props.selectedProducts.map((product) => (
-          <h1 key={product.id}>{product.name}</h1>
-        ))} */}
+        <Box my={4}>
+          {addedProducts.map((product) => (
+            <Stack
+              key={product.key}
+              direction='row'
+              alignItems='center'
+              justifyContent='space-between'
+              width='100%'
+              my={2}
+              sx={{
+                p: 1,
+                borderRadius: 1,
+                background: 'rgba(124, 93, 250, 0.05)',
+              }}
+            >
+              <Box
+                component='span'
+                sx={{
+                  mr: 2,
+                  mt: '2px',
+                  width: 40,
+                  height: 40,
+                  flexShrink: 0,
+                  borderRadius: '3px',
+                  background: `url(${product.image}) no-repeat center center/cover`,
+                }}
+              />
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  '& span': {
+                    color:
+                      theme.palette.mode === 'light' ? '#586069' : '#8b949e',
+                  },
+                  '& input': {
+                    outline: 'none',
+                    border: 'none',
+                    padding: 1,
+                    maxWidth: '60px',
+                  },
+                }}
+              >
+                <Typography variant='subtitle1' fontWeight={600}>
+                  {product.name}
+                </Typography>
+                <Stack direction='row' alignItems='center' gap={1}>
+                  <input
+                    type='number'
+                    value={product.quantity}
+                    onChange={(e) => {
+                      if (e.target.value === '' || e.target.value === 0) {
+                        // if (e.target.value === 0) {
+                        changeProductQuantity(product.id, 1);
+                      } else {
+                        changeProductQuantity(
+                          product.id,
+                          parseInt(e.target.value)
+                        );
+                      }
+                    }}
+                  />
+                  x<span>N{product.price.toLocaleString()}</span>
+                </Stack>
+              </Box>
+              <Typography variant='subtitle1' fontWeight={600}>
+                N{(product.price * product.quantity).toLocaleString()}
+              </Typography>
+              <Box
+                onClick={() => addNewProductToReceipt(product.id)}
+                component={CloseIcon}
+                sx={{ opacity: 0.6, width: 18, height: 18, cursor: 'pointer' }}
+                style={{
+                  visibility: addedProducts.find((p) => p.id === product.id)
+                    ? 'visible'
+                    : 'hidden',
+                }}
+              />
+            </Stack>
+          ))}
+          {addedProducts.length > 0 && (
+            <Stack
+              direction='row'
+              alignItems='center'
+              gap={4}
+              justifyContent='space-between'
+              mt={4}
+            >
+              <Typography variant='subtitle1'>Total Price:</Typography>
+              <Typography fontSize={18} fontWeight={600}>
+                N
+                {addedProducts
+                  .map((product) => product.cost)
+                  .reduce((a, b) => a + b, 0)
+                  .toLocaleString()}
+              </Typography>
+            </Stack>
+          )}
+        </Box>
       </Drawer>
     </Stack>
   );
