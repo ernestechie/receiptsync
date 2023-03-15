@@ -1,15 +1,37 @@
 import { useTheme } from '@emotion/react';
-import { ArrowDropDown } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { ArrowDropDown, Delete } from '@mui/icons-material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
 import vendorContext from '../../context/VendorContext';
 import Drawer from '../Common/Drawer';
 import { ButtonContained } from '../ReceiptSyncButtons';
+import { toast } from 'react-hot-toast';
 
 const ReceiptsHeader = (props) => {
   const [drawerState, setDrawerState] = useState(false);
+  const [formData, setFormData] = useState({
+    narration: '',
+    receiptDate: '',
+    buyerName: '',
+    buyerPhone: '',
+    buyerEmail: '',
+    addresSstreet: '',
+    addressCity: '',
+    addresSstate: '',
+  });
+
+  const {
+    narration,
+    receiptDate,
+    buyerName,
+    buyerPhone,
+    buyerEmail,
+    addresSstreet,
+    addressCity,
+    addresSstate,
+  } = formData;
+
   const theme = useTheme();
 
   const toggleDrawer = (newState) => {
@@ -21,7 +43,62 @@ const ReceiptsHeader = (props) => {
     addedProducts,
     addNewProductToReceipt,
     changeProductQuantity,
+    setAddedProducts,
   } = useContext(vendorContext);
+
+  const formInputHandler = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const submitReceiptHandler = () => {
+    // Returns true or false
+    const receiptIsValid =
+      addedProducts.length > 0 &&
+      addresSstate.trim().length > 0 &&
+      addresSstreet.trim().length > 0 &&
+      addressCity.trim().length > 0 &&
+      narration.trim().length > 0 &&
+      buyerEmail.trim().length > 0 &&
+      buyerName.trim().length > 0 &&
+      receiptDate.trim().length > 0;
+
+    if (receiptIsValid) {
+      const newReceipt = {
+        id: new Date().getTime().toString(),
+        receiptNumber: `${buyerPhone.slice(3, 5).toUpperCase()}${new Date()
+          .getTime()
+          .toString()
+          .slice(6, 12)}${buyerName.slice(0, 2).toUpperCase()}`,
+        dateCreated: new Date(receiptDate),
+        dateUpdated: new Date(),
+        logoUrl: '',
+        seller: {
+          name: 'Isaiah Ernest',
+          phone: '09012345666',
+          email: 'isaiahernest081@gmail.com',
+          address: 'Benny street, Yenagoa, Nigeria.',
+          branchNO: 3,
+        },
+        customer: {
+          name: buyerName,
+          phone: buyerPhone,
+          sendTo: buyerEmail,
+          address: {
+            street: addresSstreet,
+            city: addressCity,
+            state: addresSstate,
+          },
+        },
+        items: addedProducts,
+      };
+      console.log(newReceipt);
+    } else {
+      toast.error('One or more inputs are invalid');
+    }
+  };
 
   return (
     <Stack
@@ -67,7 +144,8 @@ const ReceiptsHeader = (props) => {
             id='addresSstreet'
             title='street'
             className='settings-input'
-            value={''}
+            value={addresSstreet}
+            onChange={formInputHandler}
           />
         </div>
         <Grid
@@ -88,7 +166,8 @@ const ReceiptsHeader = (props) => {
                 id='addressCity'
                 title='city'
                 className='settings-input'
-                value={''}
+                value={addressCity}
+                onChange={formInputHandler}
               />
             </div>
           </Grid>
@@ -102,7 +181,8 @@ const ReceiptsHeader = (props) => {
                 id='addresSstate'
                 title='state'
                 className='settings-input'
-                value={''}
+                value={addresSstate}
+                onChange={formInputHandler}
               />
             </div>
           </Grid>
@@ -117,7 +197,8 @@ const ReceiptsHeader = (props) => {
             id='buyerName'
             title='name'
             className='settings-input'
-            value={''}
+            value={buyerName}
+            onChange={formInputHandler}
           />
         </div>
         <div className='settings-input-group'>
@@ -129,7 +210,8 @@ const ReceiptsHeader = (props) => {
             id='buyerPhone'
             className='settings-input'
             title='phone'
-            value={''}
+            value={buyerPhone}
+            onChange={formInputHandler}
           />
         </div>
         <div className='settings-input-group'>
@@ -141,7 +223,8 @@ const ReceiptsHeader = (props) => {
             id='buyerEmail'
             className='settings-input'
             title='email'
-            value={''}
+            value={buyerEmail}
+            onChange={formInputHandler}
           />
         </div>
         <Typography mb={2} color='primary' fontWeight={700} mt={4}>
@@ -156,7 +239,8 @@ const ReceiptsHeader = (props) => {
             id='narration'
             title='narration'
             className='settings-input'
-            value={''}
+            value={narration}
+            onChange={formInputHandler}
           />
         </div>
         <div className='settings-input-group'>
@@ -168,7 +252,8 @@ const ReceiptsHeader = (props) => {
             id='receiptDate'
             title='date'
             className='settings-input'
-            value={''}
+            value={receiptDate}
+            onChange={formInputHandler}
           />
         </div>
 
@@ -203,7 +288,7 @@ const ReceiptsHeader = (props) => {
         <Box my={4}>
           {addedProducts.map((product) => (
             <Stack
-              key={product.key}
+              key={product.id}
               direction='row'
               alignItems='center'
               justifyContent='space-between'
@@ -250,8 +335,7 @@ const ReceiptsHeader = (props) => {
                     type='number'
                     value={product.quantity}
                     onChange={(e) => {
-                      if (e.target.value === '' || e.target.value === 0) {
-                        // if (e.target.value === 0) {
+                      if (parseInt(e.target.value) <= 0) {
                         changeProductQuantity(product.id, 1);
                       } else {
                         changeProductQuantity(
@@ -261,16 +345,29 @@ const ReceiptsHeader = (props) => {
                       }
                     }}
                   />
-                  x<span>N{product.price.toLocaleString()}</span>
+                  x
+                  <Typography component='span' variant='subtitle2'>
+                    N{product.price.toLocaleString()}
+                  </Typography>
                 </Stack>
               </Box>
-              <Typography variant='subtitle1' fontWeight={600}>
-                N{(product.price * product.quantity).toLocaleString()}
-              </Typography>
+              {isNaN(product.price * product.quantity) ? (
+                '. . .'
+              ) : (
+                <Typography variant='subtitle1' fontWeight={600}>
+                  N{(product.price * product.quantity).toLocaleString()}
+                </Typography>
+              )}
               <Box
                 onClick={() => addNewProductToReceipt(product.id)}
-                component={CloseIcon}
-                sx={{ opacity: 0.6, width: 18, height: 18, cursor: 'pointer' }}
+                component={Delete}
+                sx={{
+                  opacity: 0.6,
+                  width: 18,
+                  height: 18,
+                  cursor: 'pointer',
+                  ml: 1,
+                }}
                 style={{
                   visibility: addedProducts.find((p) => p.id === product.id)
                     ? 'visible'
@@ -288,15 +385,54 @@ const ReceiptsHeader = (props) => {
               mt={4}
             >
               <Typography variant='subtitle1'>Total Price:</Typography>
-              <Typography fontSize={18} fontWeight={600}>
-                N
-                {addedProducts
+              {isNaN(
+                addedProducts
                   .map((product) => product.cost)
                   .reduce((a, b) => a + b, 0)
-                  .toLocaleString()}
-              </Typography>
+              ) ? (
+                '. . .'
+              ) : (
+                <Typography
+                  fontSize={18}
+                  fontWeight={600}
+                  sx={{ transition: '0.5s ease-in' }}
+                >
+                  N
+                  {addedProducts
+                    .map((product) => product.cost)
+                    .reduce((a, b) => a + b, 0)
+                    .toLocaleString()}
+                </Typography>
+              )}
             </Stack>
           )}
+
+          <Stack
+            mt={6}
+            direction='row'
+            alignItems='center'
+            justifyContent='space-between'
+            gap={4}
+          >
+            {addedProducts.length > 0 && (
+              <ButtonContained
+                textColor='#fff'
+                color='primary'
+                text='Submit'
+                style={{ width: '80%' }}
+                handleClick={submitReceiptHandler}
+              />
+            )}
+            <ButtonContained
+              textColor='#fff'
+              color='custom'
+              text='Cancel'
+              handleClick={() => {
+                toggleDrawer();
+                setAddedProducts([]);
+              }}
+            />
+          </Stack>
         </Box>
       </Drawer>
     </Stack>

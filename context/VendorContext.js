@@ -12,6 +12,7 @@ const initialState = {
   addNewProductToReceipt: () => {},
   addedProducts: [],
   changeProductQuantity: () => {},
+  setAddedProducts: () => {},
 };
 
 const vendorContext = createContext(initialState);
@@ -78,13 +79,12 @@ export const VendorContextProvider = ({ children }) => {
     const productsDuplicate = [...addedProducts];
     productsDuplicate.splice(productIndex, 1, {
       ...product,
-      // cost: newQuantity * product.price,
       quantity: newQuantity,
     });
 
     setAddedProducts(productsDuplicate);
 
-    console.log(addedProducts);
+    // console.log(addedProducts);
   };
 
   return (
@@ -101,6 +101,7 @@ export const VendorContextProvider = ({ children }) => {
         addNewProductToReceipt,
         addedProducts,
         changeProductQuantity,
+        setAddedProducts,
       }}
     >
       {children}
