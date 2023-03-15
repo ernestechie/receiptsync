@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { VendorContextProvider } from '../context/VendorContext';
 import { AuthContextProvider } from '../context/AuthContext';
+import { Toaster } from 'react-hot-toast';
 
 export const theme = createTheme({
   palette: {
@@ -36,6 +37,7 @@ export default function App({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <AuthContextProvider>
         <VendorContextProvider>
+          <Toaster />
           <Component {...pageProps} />
         </VendorContextProvider>
       </AuthContextProvider>

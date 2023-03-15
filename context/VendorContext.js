@@ -84,7 +84,7 @@ export const VendorContextProvider = ({ children }) => {
 
     setAddedProducts(productsDuplicate);
 
-    console.log(addedProducts);
+    // console.log(addedProducts);
   };
 
   return (
