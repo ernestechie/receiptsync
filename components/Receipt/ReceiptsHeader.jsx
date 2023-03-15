@@ -1,6 +1,5 @@
 import { useTheme } from '@emotion/react';
-import { ArrowDropDown } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
+import { ArrowDropDown, Delete } from '@mui/icons-material';
 import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
@@ -21,6 +20,7 @@ const ReceiptsHeader = (props) => {
     addedProducts,
     addNewProductToReceipt,
     changeProductQuantity,
+    setAddedProducts,
   } = useContext(vendorContext);
 
   return (
@@ -250,8 +250,7 @@ const ReceiptsHeader = (props) => {
                     type='number'
                     value={product.quantity}
                     onChange={(e) => {
-                      if (e.target.value === '' || e.target.value === 0) {
-                        // if (e.target.value === 0) {
+                      if (parseInt(e.target.value) <= 0) {
                         changeProductQuantity(product.id, 1);
                       } else {
                         changeProductQuantity(
@@ -261,16 +260,29 @@ const ReceiptsHeader = (props) => {
                       }
                     }}
                   />
-                  x<span>N{product.price.toLocaleString()}</span>
+                  x
+                  <Typography component='span' variant='subtitle2'>
+                    N{product.price.toLocaleString()}
+                  </Typography>
                 </Stack>
               </Box>
-              <Typography variant='subtitle1' fontWeight={600}>
-                N{(product.price * product.quantity).toLocaleString()}
-              </Typography>
+              {isNaN(product.price * product.quantity) ? (
+                '. . .'
+              ) : (
+                <Typography variant='subtitle1' fontWeight={600}>
+                  N{(product.price * product.quantity).toLocaleString()}
+                </Typography>
+              )}
               <Box
                 onClick={() => addNewProductToReceipt(product.id)}
-                component={CloseIcon}
-                sx={{ opacity: 0.6, width: 18, height: 18, cursor: 'pointer' }}
+                component={Delete}
+                sx={{
+                  opacity: 0.6,
+                  width: 18,
+                  height: 18,
+                  cursor: 'pointer',
+                  ml: 1,
+                }}
                 style={{
                   visibility: addedProducts.find((p) => p.id === product.id)
                     ? 'visible'
@@ -288,15 +300,54 @@ const ReceiptsHeader = (props) => {
               mt={4}
             >
               <Typography variant='subtitle1'>Total Price:</Typography>
-              <Typography fontSize={18} fontWeight={600}>
-                N
-                {addedProducts
+              {isNaN(
+                addedProducts
                   .map((product) => product.cost)
                   .reduce((a, b) => a + b, 0)
-                  .toLocaleString()}
-              </Typography>
+              ) ? (
+                '. . .'
+              ) : (
+                <Typography
+                  fontSize={18}
+                  fontWeight={600}
+                  sx={{ transition: '0.5s ease-in' }}
+                >
+                  N
+                  {addedProducts
+                    .map((product) => product.cost)
+                    .reduce((a, b) => a + b, 0)
+                    .toLocaleString()}
+                </Typography>
+              )}
             </Stack>
           )}
+
+          <Stack
+            mt={6}
+            direction='row'
+            alignItems='center'
+            justifyContent='space-between'
+            gap={4}
+          >
+            {addedProducts.length > 0 && (
+              <ButtonContained
+                textColor='#fff'
+                color='primary'
+                text='Submit'
+                style={{ width: '80%' }}
+                handleClick={() => console.log('Receipt submitted...')}
+              />
+            )}
+            <ButtonContained
+              textColor='#fff'
+              color='custom'
+              text='Cancel'
+              handleClick={() => {
+                toggleDrawer();
+                setAddedProducts([]);
+              }}
+            />
+          </Stack>
         </Box>
       </Drawer>
     </Stack>
