@@ -2,13 +2,16 @@ import { useTheme } from '@emotion/react';
 import { ArrowDropDown, Delete } from '@mui/icons-material';
 import { Box, Grid, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
 import vendorContext from '../../context/VendorContext';
 import Drawer from '../Common/Drawer';
 import { ButtonContained } from '../ReceiptSyncButtons';
-import { toast } from 'react-hot-toast';
 
 const ReceiptsHeader = (props) => {
+  const [maxDate, setMaxDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [drawerState, setDrawerState] = useState(false);
   const [formData, setFormData] = useState({
     narration: '',
@@ -54,14 +57,18 @@ const ReceiptsHeader = (props) => {
   };
 
   const submitReceiptHandler = () => {
-    // Returns true or false
+    // Validate form data for all fields
+    const emailIsValid = buyerEmail.match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+
     const receiptIsValid =
       addedProducts.length > 0 &&
       addresSstate.trim().length > 0 &&
       addresSstreet.trim().length > 0 &&
       addressCity.trim().length > 0 &&
       narration.trim().length > 0 &&
-      buyerEmail.trim().length > 0 &&
+      emailIsValid &&
       buyerName.trim().length > 0 &&
       receiptDate.trim().length > 0;
 
@@ -71,7 +78,7 @@ const ReceiptsHeader = (props) => {
         receiptNumber: `${buyerPhone.slice(3, 5).toUpperCase()}${new Date()
           .getTime()
           .toString()
-          .slice(6, 12)}${buyerName.slice(0, 2).toUpperCase()}`,
+          .slice(7, 12)}${buyerName.slice(0, 2).toUpperCase()}`,
         dateCreated: new Date(receiptDate),
         dateUpdated: new Date(),
         logoUrl: '',
@@ -252,6 +259,7 @@ const ReceiptsHeader = (props) => {
             id='receiptDate'
             title='date'
             className='settings-input'
+            max={maxDate}
             value={receiptDate}
             onChange={formInputHandler}
           />

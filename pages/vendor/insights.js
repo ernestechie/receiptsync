@@ -20,6 +20,7 @@ import { Box, Stack, Typography } from '@mui/material';
 import { receipts } from '../../static/receipts';
 import { InsightsHeader } from '../../components';
 import vendorContext from '../../context/VendorContext';
+import PrivateRoute from '../../layouts/PrivateRoute';
 
 ChartJS.register(
   CategoryScale,
@@ -151,98 +152,100 @@ export default function Insights() {
 
   return (
     <>
-      <HeadWrapper />
-      <VendorLayout>
-        <Padding>
-          <InsightsHeader />
-          <Box
-            p={1}
-            sx={{
-              width: '100%',
-              maxWidth: 800,
-              maxHeight: 512,
-              mx: 'auto',
-              bgcolor: '#fff',
-              px: { sm: 1 },
-              py: 2,
-              borderRadius: 1,
-              boxShadow: { sm: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)' },
-              mb: 2,
-            }}
-          >
-            <Stack
-              p={2}
-              direction='row'
-              alignItems='center'
-              justifyContent='space-between'
-              gap={1}
-              mb={2}
-            >
-              <Typography fontWeight={500}>Product Sales</Typography>
-              <Typography fontWeight={600} fontSize={20}>
-                <Typography
-                  fontWeight='inherit'
-                  fontSize='inherit'
-                  component='span'
-                  sx={{ textDecoration: 'line-through' }}
-                >
-                  N
-                </Typography>
-                {useCalculateData(thisYearReceipts)
-                  .reduce((a, b) => a + b, 0)
-                  .toLocaleString()}
-              </Typography>
-            </Stack>
-            <Line options={options} data={line_chart_data} />
-          </Box>
-          <Box
-            p={1}
-            sx={{
-              width: '100%',
-              maxWidth: 800,
-              maxHeight: 800,
-              mx: 'auto',
-              bgcolor: '#fff',
-              px: { sm: 1 },
-              py: 2,
-              borderRadius: 1,
-              boxShadow: { sm: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)' },
-
-              '& canvas': {
+      <PrivateRoute>
+        <HeadWrapper />
+        <VendorLayout>
+          <Padding>
+            <InsightsHeader />
+            <Box
+              p={1}
+              sx={{
+                width: '100%',
+                maxWidth: 800,
+                maxHeight: 512,
                 mx: 'auto',
-              },
-            }}
-          >
-            {pie_chart_data.datasets[0].data.length > 0 && (
-              <>
-                <Stack
-                  p={2}
-                  direction='row'
-                  alignItems='center'
-                  justifyContent='space-between'
-                  gap={1}
-                  mb={2}
-                >
-                  <Typography fontWeight={700} fontSize={20}>
-                    Most Sold Products
-                  </Typography>
-                </Stack>
-                <Pie options={options} data={pie_chart_data} />
-              </>
-            )}
-            {!pie_chart_data.datasets[0].data.length > 0 && (
-              <Typography
-                textAlign='center'
-                fontSize={24}
-                fontWeight={600}
-                p={4}
+                bgcolor: '#fff',
+                px: { sm: 1 },
+                py: 2,
+                borderRadius: 1,
+                boxShadow: { sm: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)' },
+                mb: 2,
+              }}
+            >
+              <Stack
+                p={2}
+                direction='row'
+                alignItems='center'
+                justifyContent='space-between'
+                gap={1}
+                mb={2}
               >
-                No data available
-              </Typography>
-            )}
-          </Box>
-        </Padding>
-      </VendorLayout>
+                <Typography fontWeight={500}>Product Sales</Typography>
+                <Typography fontWeight={600} fontSize={20}>
+                  <Typography
+                    fontWeight='inherit'
+                    fontSize='inherit'
+                    component='span'
+                    sx={{ textDecoration: 'line-through' }}
+                  >
+                    N
+                  </Typography>
+                  {useCalculateData(thisYearReceipts)
+                    .reduce((a, b) => a + b, 0)
+                    .toLocaleString()}
+                </Typography>
+              </Stack>
+              <Line options={options} data={line_chart_data} />
+            </Box>
+            <Box
+              p={1}
+              sx={{
+                width: '100%',
+                maxWidth: 800,
+                maxHeight: 800,
+                mx: 'auto',
+                bgcolor: '#fff',
+                px: { sm: 1 },
+                py: 2,
+                borderRadius: 1,
+                boxShadow: { sm: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)' },
+
+                '& canvas': {
+                  mx: 'auto',
+                },
+              }}
+            >
+              {pie_chart_data.datasets[0].data.length > 0 && (
+                <>
+                  <Stack
+                    p={2}
+                    direction='row'
+                    alignItems='center'
+                    justifyContent='space-between'
+                    gap={1}
+                    mb={2}
+                  >
+                    <Typography fontWeight={700} fontSize={20}>
+                      Most Sold Products
+                    </Typography>
+                  </Stack>
+                  <Pie options={options} data={pie_chart_data} />
+                </>
+              )}
+              {!pie_chart_data.datasets[0].data.length > 0 && (
+                <Typography
+                  textAlign='center'
+                  fontSize={24}
+                  fontWeight={600}
+                  p={4}
+                >
+                  No data available
+                </Typography>
+              )}
+            </Box>
+          </Padding>
+        </VendorLayout>
+      </PrivateRoute>
     </>
   );
 }

@@ -1,18 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import authContext from '../../../context/AuthContext';
 
 const UpdateProfile = () => {
   const [editState, setEditState] = useState(false);
-
-  const [vendorData, setVendorData] = useState({
-    name: 'Isaiah Ernest Ovie',
-    company: 'Ernest Techies',
-    businessType: 'Electronics & Computers',
-    businessEmail: 'support@ernesttechies.shop',
-    businessPhone: '+2348124045567',
-    logo: 'https://www.freeiconspng.com/uploads/face-avatar-png-14.png',
-  });
+  const { vendorData } = useContext(authContext);
 
   const toggleEditState = () => setEditState((prev) => !prev);
 
@@ -24,7 +17,7 @@ const UpdateProfile = () => {
         height={120}
         width={120}
         sx={{
-          '& img': { m: 'auto', display: 'block' },
+          '& img': { m: 'auto', display: 'block', borderRadius: 100 },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -39,12 +32,13 @@ const UpdateProfile = () => {
           },
         }}
       >
-        <Image
-          height={100}
-          width={100}
-          src={vendorData.logo}
+        {/* eslint-disable-next-line */}
+        <img
+          height={110}
+          width={110}
+          src={vendorData.logoUrl}
           alt={vendorData.company}
-          priority
+          loading='lazy'
         />
       </Box>
 
@@ -56,7 +50,7 @@ const UpdateProfile = () => {
           type='text'
           id='vendor-name'
           className='settings-input'
-          value={vendorData.name}
+          value={vendorData.ownerName}
           disabled={!editState}
         />
       </div>
@@ -68,7 +62,7 @@ const UpdateProfile = () => {
           type='text'
           id='business-name'
           className='settings-input'
-          value={vendorData.company}
+          value={vendorData.businessName}
           disabled={!editState}
         />
       </div>
@@ -80,7 +74,7 @@ const UpdateProfile = () => {
           type='text'
           id='company-type'
           className='settings-input'
-          value={vendorData.businessType}
+          value={vendorData.companyType}
           disabled={!editState}
         />
       </div>
@@ -92,7 +86,7 @@ const UpdateProfile = () => {
           type='email'
           id='business-email'
           className='settings-input'
-          value={vendorData.businessEmail}
+          value={vendorData.email}
           disabled={!editState}
         />
       </div>
@@ -104,7 +98,7 @@ const UpdateProfile = () => {
           type='tel'
           id='business-phone'
           className='settings-input'
-          value={vendorData.businessPhone}
+          value={vendorData.phone}
           disabled={!editState}
         />
       </div>

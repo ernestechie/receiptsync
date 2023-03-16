@@ -18,6 +18,7 @@ export const ButtonContained = (props) => {
       }}
       startIcon={props.startIcon && props.startIcon}
       onClick={props.handleClick}
+      {...props}
     >
       {props.text}
     </Button>

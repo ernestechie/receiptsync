@@ -5,9 +5,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'd13zppfo7b7q25.cloudfront.net',
+      },
+      {
+        protocol: 'https',
         hostname: 'www.freeiconspng.com',
-        // port: '',
-        // pathname: '/account123/**',
       },
     ],
   },

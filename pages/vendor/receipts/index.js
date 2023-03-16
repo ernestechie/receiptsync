@@ -6,6 +6,7 @@ import { Modal } from '../../../components';
 import { useContext } from 'react';
 import ReceiptSearch from '../../../components/Receipt/ReceiptSearch';
 import vendorContext from '../../../context/VendorContext';
+import PrivateRoute from '../../../layouts/PrivateRoute';
 
 export default function Receipts() {
   const {
@@ -16,26 +17,28 @@ export default function Receipts() {
 
   return (
     <>
-      <HeadWrapper />
-      <VendorLayout>
-        <Padding>
-          <ReceiptsHeader openModal={handleOpenProductsModal} />
-          <Modal
-            open={showProductsModal}
-            handleClose={handleCloseProductsModal}
-            heading='Add Products'
-          >
-            <ReceiptSearch />
-          </Modal>
-          <>
-            {[...receipts.sort((a, b) => b.dateCreated - a.dateCreated)].map(
-              (receipt) => (
-                <ReceiptCard key={receipt.receiptNumber} receipt={receipt} />
-              )
-            )}
-          </>
-        </Padding>
-      </VendorLayout>
+      <PrivateRoute>
+        <HeadWrapper />
+        <VendorLayout>
+          <Padding>
+            <ReceiptsHeader openModal={handleOpenProductsModal} />
+            <Modal
+              open={showProductsModal}
+              handleClose={handleCloseProductsModal}
+              heading='Add Products'
+            >
+              <ReceiptSearch />
+            </Modal>
+            <>
+              {[...receipts.sort((a, b) => b.dateCreated - a.dateCreated)].map(
+                (receipt) => (
+                  <ReceiptCard key={receipt.receiptNumber} receipt={receipt} />
+                )
+              )}
+            </>
+          </Padding>
+        </VendorLayout>
+      </PrivateRoute>
     </>
   );
 }

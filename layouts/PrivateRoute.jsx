@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoggedIn && !isLoading) router.replace('/');
+    if (!isLoggedIn && !isLoading) router.replace('/login');
   }, [router, isLoggedIn, isLoading]);
 
   return (
