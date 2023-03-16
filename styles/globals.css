@@ -53,10 +53,16 @@ input {
   border: 1px solid rgba(200, 200, 200, 1);
   border-radius: 4px;
   transition: 0.4s ease-out;
+  background: #fff;
+  max-width: 400px;
+  text-transform: capitalize;
+}
+
+input[type='email'].settings-input {
+  text-transform: lowercase;
 }
 
 .settings-input:disabled {
-  background: #fff;
   color: rgb(50, 50, 50);
   cursor: not-allowed;
 }

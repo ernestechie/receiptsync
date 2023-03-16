@@ -1,24 +1,60 @@
 import { createContext, useState, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 const initialState = {
   isLoggedIn: false,
   isLoading: false,
+  vendorData: {},
 };
 
 const authContext = createContext(initialState);
 
 export const AuthContextProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [vendorData, setVendorData] = useState({});
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    const validateVendorToken = async () => {
+      const userToken = JSON.parse(localStorage.getItem('user-token'));
 
-    return () => {
-      clearTimeout();
+      if (userToken) {
+        try {
+          const decoded = jwtDecode(userToken['x-auth-token']);
+          if (decoded) {
+            setIsLoggedIn(true);
+
+            if (localStorage.getItem('vendor-data')) {
+              const data = JSON.parse(localStorage.getItem('vendor-data'));
+              setVendorData(data);
+            } else {
+              const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_ROUTE}/vendors`,
+                {
+                  headers: {
+                    common: { 'x-auth-token': userToken['x-auth-token'] },
+                  },
+                }
+              );
+
+              setVendorData(response.data);
+              localStorage.setItem(
+                'vendor-data',
+                JSON.stringify(response.data)
+              );
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        console.log('Token not found');
+      }
+      setIsLoading(false);
     };
+
+    validateVendorToken();
   }, []);
 
   return (
@@ -26,6 +62,7 @@ export const AuthContextProvider = ({ children }) => {
       value={{
         isLoggedIn,
         isLoading,
+        vendorData,
       }}
     >
       {children}
