@@ -6,6 +6,7 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   vendorData: {},
+  setIsLoggedIn: () => {},
 };
 
 const authContext = createContext(initialState);
@@ -18,7 +19,6 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const validateVendorToken = async () => {
       const userToken = JSON.parse(localStorage.getItem('user-token'));
-
       if (userToken) {
         try {
           const decoded = jwtDecode(userToken['x-auth-token']);
@@ -44,6 +44,8 @@ export const AuthContextProvider = ({ children }) => {
                 JSON.stringify(response.data)
               );
             }
+          } else {
+            setIsLoggedIn(false);
           }
         } catch (error) {
           console.log(error);
@@ -63,6 +65,7 @@ export const AuthContextProvider = ({ children }) => {
         isLoggedIn,
         isLoading,
         vendorData,
+        setIsLoggedIn,
       }}
     >
       {children}
