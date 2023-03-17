@@ -3,6 +3,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { VendorContextProvider } from '../context/VendorContext';
 import { AuthContextProvider } from '../context/AuthContext';
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import nprogress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 export const theme = createTheme({
   palette: {
@@ -33,6 +37,15 @@ export const theme = createTheme({
 });
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+  nprogress.configure({ showSpinner: false });
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => nprogress.start());
+    router.events.on('routeChangeComplete', () => nprogress.done());
+    router.events.on('routeChangeError', () => nprogress.done());
+  }, [router.events]);
+
   return (
     <ThemeProvider theme={theme}>
       <AuthContextProvider>

@@ -4,23 +4,26 @@ import jwtDecode from 'jwt-decode';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import loginPageSvg from '../assets/login-svg.svg';
 import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
 import Padding from '../layouts/Padding';
+import authContext from '../context/AuthContext';
 
 const Login = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     loginEmail: '',
     loginPassword: '',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const { loginEmail, loginPassword } = formData;
+
+  const { setIsLoggedIn } = useContext(authContext);
 
   const formInputHandler = (e) => {
     setFormData((prev) => ({
@@ -36,6 +39,9 @@ const Login = () => {
 
     if (!emailIsValid) {
       toast.error('Email is invalid');
+    }
+    if (loginPassword.length < 1) {
+      toast.error('Password must not be empty');
     } else {
       setIsLoading(true);
       try {
@@ -48,6 +54,8 @@ const Login = () => {
         );
 
         if (res.status === 200) {
+          console.log(res);
+
           const token = await res.data.token;
           const decoded = jwtDecode(token);
 
@@ -55,9 +63,7 @@ const Login = () => {
             'user-token',
             JSON.stringify({ 'x-auth-token': token, id: decoded._id })
           );
-
-          console.log(res);
-
+          setIsLoggedIn(true);
           router.replace('/vendor');
         } else {
           console.log(res);
@@ -65,7 +71,7 @@ const Login = () => {
         }
       } catch (error) {
         console.log(error);
-        toast.error(error.response.data.error);
+        toast.error('Something went wrong');
       }
       setIsLoading(false);
     }

@@ -83,3 +83,8 @@ input[type='email'].settings-input {
     margin-top: 0;
   }
 }
+
+#nprogress .bar {
+  background: rgba(124, 93, 250, 1) !important;
+  height: 3px !important;
+}
