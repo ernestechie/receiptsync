@@ -92,12 +92,26 @@ export default function ReceiptDetails(props) {
   );
 }
 
-const getServerSideProps = async (context) => {
-  console.log('Server running: ' + context);
+export const getStaticProps = async ({ params: { receiptId } }) => {
+  const allReceipts = receipts;
+  const thisReceipt = allReceipts.find((receipt) => receipt.id === receiptId);
 
   return {
-    props: {
-      data: 'Hello World',
+    props: { thisReceipt, allReceipts },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const paths = receipts.map((receipt) => ({
+    params: {
+      receiptId: receipt.id,
     },
+  }));
+
+  console.log(paths);
+
+  return {
+    paths,
+    fallback: 'blocking',
   };
 };

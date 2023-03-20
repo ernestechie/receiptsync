@@ -1,9 +1,8 @@
 import React from 'react';
-import { products } from '../../static/products';
 import ProductItem from './ProductItem';
 import { Grid } from '@mui/material';
 
-const Products = () => {
+const Products = ({ products }) => {
   return (
     <Grid
       container
@@ -15,7 +14,15 @@ const Products = () => {
       {[...products]
         .sort((a, b) => b.dateAdded - a.dateAdded)
         .map((product) => (
-          <Grid item key={product.id} xs={12} sm={6} lg={4} xl={3} width='100%'>
+          <Grid
+            item
+            key={product._id}
+            xs={12}
+            sm={6}
+            lg={4}
+            xl={3}
+            width='100%'
+          >
             <ProductItem product={product} />
           </Grid>
         ))}

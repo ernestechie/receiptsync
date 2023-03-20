@@ -23,7 +23,7 @@ const Login = () => {
 
   const { loginEmail, loginPassword } = formData;
 
-  const { setIsLoggedIn } = useContext(authContext);
+  const { setIsLoggedIn, setVendorData } = useContext(authContext);
 
   const formInputHandler = (e) => {
     setFormData((prev) => ({
@@ -63,6 +63,21 @@ const Login = () => {
             'user-token',
             JSON.stringify({ 'x-auth-token': token, id: decoded._id })
           );
+
+          const req = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_ROUTE}/vendors`,
+            {
+              headers: {
+                common: { 'x-auth-token': token },
+              },
+            }
+          );
+
+          console.log(req.data);
+
+          setVendorData(req.data);
+          localStorage.setItem('vendor-data', JSON.stringify(req.data));
+
           setIsLoggedIn(true);
           router.replace('/vendor');
         } else {
@@ -71,7 +86,11 @@ const Login = () => {
         }
       } catch (error) {
         console.log(error);
-        toast.error('Something went wrong');
+        if (error.response) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error('Something went wrong');
+        }
       }
       setIsLoading(false);
     }
@@ -129,41 +148,47 @@ const Login = () => {
               </Box>
 
               <Box mt={4} mx='auto'>
-                <Box my={2}>
-                  <input
-                    type='email'
-                    id='loginEmail'
-                    title='email'
-                    placeholder='Email'
-                    className='settings-input'
-                    value={loginEmail}
-                    onChange={formInputHandler}
+                <form>
+                  <Box my={2}>
+                    <input
+                      type='email'
+                      id='loginEmail'
+                      title='email'
+                      placeholder='Email'
+                      className='settings-input'
+                      value={loginEmail}
+                      onChange={formInputHandler}
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <input
+                      type='password'
+                      id='loginPassword'
+                      title='password'
+                      placeholder='Password'
+                      className='settings-input'
+                      value={loginPassword}
+                      onChange={formInputHandler}
+                    />
+                  </Box>
+                  <Box mb={4}>
+                    <Typography
+                      fontSize={18}
+                      fontWeight={600}
+                      color='secondary'
+                    >
+                      <Link href='/forgot-password'>Forgot Password?</Link>
+                    </Typography>
+                  </Box>
+                  <ButtonContained
+                    text='Login'
+                    color='primary'
+                    textColor='#fff'
+                    style={{ width: '100%', maxWidth: 400 }}
+                    handleClick={loginHandler}
+                    disabled={isLoading}
                   />
-                </Box>
-                <Box my={2}>
-                  <input
-                    type='password'
-                    id='loginPassword'
-                    title='password'
-                    placeholder='Password'
-                    className='settings-input'
-                    value={loginPassword}
-                    onChange={formInputHandler}
-                  />
-                </Box>
-                <Box mb={4}>
-                  <Typography fontSize={18} fontWeight={600} color='secondary'>
-                    <Link href='/forgot-password'>Forgot Password?</Link>
-                  </Typography>
-                </Box>
-                <ButtonContained
-                  text='Login'
-                  color='primary'
-                  textColor='#fff'
-                  style={{ width: '100%', maxWidth: 400 }}
-                  handleClick={loginHandler}
-                  disabled={isLoading}
-                />
+                </form>
               </Box>
             </Grid>
           </Grid>

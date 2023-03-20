@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   vendorData: {},
   setIsLoggedIn: () => {},
+  setVendorData: () => {},
 };
 
 const authContext = createContext(initialState);
@@ -66,6 +67,7 @@ export const AuthContextProvider = ({ children }) => {
         isLoading,
         vendorData,
         setIsLoggedIn,
+        setVendorData,
       }}
     >
       {children}
