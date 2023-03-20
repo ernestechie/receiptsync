@@ -297,7 +297,7 @@ const ReceiptsHeader = (props) => {
         <Box my={4}>
           {addedProducts.map((product) => (
             <Stack
-              key={product.id}
+              key={product._id}
               direction='row'
               alignItems='center'
               justifyContent='space-between'
@@ -318,7 +318,7 @@ const ReceiptsHeader = (props) => {
                   height: 40,
                   flexShrink: 0,
                   borderRadius: '3px',
-                  background: `url(${product.image}) no-repeat center center/cover`,
+                  background: `url(${product.imageUrl}) no-repeat center center/cover`,
                 }}
               />
               <Box
@@ -336,8 +336,12 @@ const ReceiptsHeader = (props) => {
                   },
                 }}
               >
-                <Typography variant='subtitle1' fontWeight={600}>
-                  {product.name}
+                <Typography
+                  variant='subtitle1'
+                  fontWeight={600}
+                  textTransform='capitalize'
+                >
+                  {product.productName}
                 </Typography>
                 <Stack direction='row' alignItems='center' gap={1}>
                   <input
@@ -345,10 +349,10 @@ const ReceiptsHeader = (props) => {
                     value={product.quantity}
                     onChange={(e) => {
                       if (parseInt(e.target.value) <= 0) {
-                        changeProductQuantity(product.id, 1);
+                        changeProductQuantity(product._id, 1);
                       } else {
                         changeProductQuantity(
-                          product.id,
+                          product._id,
                           parseInt(e.target.value)
                         );
                       }
@@ -356,19 +360,19 @@ const ReceiptsHeader = (props) => {
                   />
                   x
                   <Typography component='span' variant='subtitle2'>
-                    N{product.price.toLocaleString()}
+                    N{product.price?.toLocaleString()}
                   </Typography>
                 </Stack>
               </Box>
-              {isNaN(product.price * product.quantity) ? (
+              {isNaN(product?.price * product.quantity) ? (
                 '. . .'
               ) : (
                 <Typography variant='subtitle1' fontWeight={600}>
-                  N{(product.price * product.quantity).toLocaleString()}
+                  N{(product?.price * product.quantity).toLocaleString()}
                 </Typography>
               )}
               <Box
-                onClick={() => addNewProductToReceipt(product.id)}
+                onClick={() => addNewProductToReceipt(product._id)}
                 component={Delete}
                 sx={{
                   opacity: 0.6,
@@ -378,7 +382,7 @@ const ReceiptsHeader = (props) => {
                   ml: 1,
                 }}
                 style={{
-                  visibility: addedProducts.find((p) => p.id === product.id)
+                  visibility: addedProducts.find((p) => p._id === product._id)
                     ? 'visible'
                     : 'hidden',
                 }}

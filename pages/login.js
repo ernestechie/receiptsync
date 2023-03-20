@@ -54,8 +54,6 @@ const Login = () => {
         );
 
         if (res.status === 200) {
-          console.log(res);
-
           const token = await res.data.token;
           const decoded = jwtDecode(token);
 
@@ -73,10 +71,29 @@ const Login = () => {
             }
           );
 
-          console.log(req.data);
+          const productsReq = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
+            {
+              headers: {
+                common: { 'x-auth-token': token },
+              },
+            }
+          );
+
+          console.log({
+            ...req.data,
+            products: productsReq.data,
+          });
 
           setVendorData(req.data);
-          localStorage.setItem('vendor-data', JSON.stringify(req.data));
+
+          localStorage.setItem(
+            'vendor-data',
+            JSON.stringify({
+              ...req.data,
+              products: productsReq.data,
+            })
+          );
 
           setIsLoggedIn(true);
           router.replace('/vendor');
