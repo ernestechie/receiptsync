@@ -5,7 +5,9 @@ import axios from 'axios';
 const initialState = {
   isLoggedIn: false,
   isLoading: false,
-  vendorData: {},
+  vendorData: {
+    products: [],
+  },
   setIsLoggedIn: () => {},
   setVendorData: () => {},
 };
@@ -16,6 +18,7 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [vendorData, setVendorData] = useState({});
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const validateVendorToken = async () => {
@@ -38,11 +41,19 @@ export const AuthContextProvider = ({ children }) => {
                   },
                 }
               );
+              const productsRes = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
+                {
+                  headers: {
+                    common: { 'x-auth-token': userToken['x-auth-token'] },
+                  },
+                }
+              );
 
-              setVendorData(response.data);
+              setVendorData({ ...response.data, products: productsRes.data });
               localStorage.setItem(
                 'vendor-data',
-                JSON.stringify(response.data)
+                JSON.stringify({ ...response.data, products: productsRes.data })
               );
             }
           } else {

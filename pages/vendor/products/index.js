@@ -15,9 +15,9 @@ export default function Products() {
     const userToken = JSON.parse(localStorage.getItem('user-token'));
     const fetchProductsHandler = async () => {
       setIsFetching(true);
-      const lsProducts = JSON.parse(localStorage.getItem('products'));
-      if (lsProducts) {
-        setProducts(lsProducts);
+      const vendorData = JSON.parse(localStorage.getItem('vendor-data'));
+      if (vendorData.products) {
+        setProducts(vendorData.products);
         setIsFetching(false);
       } else {
         console.log('Products not found');
@@ -34,7 +34,10 @@ export default function Products() {
           if (response.status === 200) {
             console.log(response.data);
             setProducts(response.data);
-            localStorage.setItem('products', JSON.stringify(response.data));
+
+            const vendorData = JSON.parse(localStorage.getItem('vendor-data'));
+            vendorData.products = response.data;
+            localStorage.setItem('vendor-data', JSON.stringify(response.data));
           }
         } catch (error) {
           console.log(error);
