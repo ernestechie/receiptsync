@@ -85,7 +85,10 @@ const Login = () => {
             products: productsReq.data,
           });
 
-          setVendorData(req.data);
+          setVendorData({
+            ...req.data,
+            products: productsReq.data,
+          });
 
           localStorage.setItem(
             'vendor-data',
