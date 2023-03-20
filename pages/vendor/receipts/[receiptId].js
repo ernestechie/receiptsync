@@ -92,26 +92,26 @@ export default function ReceiptDetails(props) {
   );
 }
 
-export const getStaticProps = async ({ params: { receiptId } }) => {
-  const allReceipts = receipts;
-  const thisReceipt = allReceipts.find((receipt) => receipt.id === receiptId);
+// export const getStaticProps = async ({ params: { receiptId } }) => {
+//   const allReceipts = receipts;
+//   const thisReceipt = allReceipts.find((receipt) => receipt.id === receiptId);
 
-  return {
-    props: { thisReceipt, allReceipts },
-  };
-};
+//   return {
+//     props: { thisReceipt, allReceipts },
+//   };
+// };
 
-export const getStaticPaths = async () => {
-  const paths = receipts.map((receipt) => ({
-    params: {
-      receiptId: receipt.id,
-    },
-  }));
+// export const getStaticPaths = async () => {
+//   const paths = receipts.map((receipt) => ({
+//     params: {
+//       receiptId: receipt.id,
+//     },
+//   }));
 
-  console.log(paths);
+//   console.log(paths);
 
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-};
+//   return {
+//     paths,
+//     fallback: 'blocking',
+//   };
+// };
