@@ -60,12 +60,13 @@ export default function ProductItem({ product }) {
       }}
     >
       <CardHeader
-        title={product.name}
-        subheader={parseDate(product.dateAdded)}
+        title={product.productName}
+        subheader={parseDate(product.createdAt)}
         sx={{
           '& .MuiCardHeader-title': {
             fontSize: 20,
             fontWeight: 500,
+            textTransform: 'capitalize',
           },
           '& .MuiCardHeader-subheader': {
             fontSize: 14,
@@ -85,9 +86,9 @@ export default function ProductItem({ product }) {
       <CardMedia
         component='img'
         height='194'
-        image={product.image}
+        image={product.imageUrl}
         alt={product.description}
-        sx={{ objectFit: 'contain' }}
+        sx={{ objectFit: 'cover' }}
       />
       <CardActions disableSpacing>
         <Typography px={1} fontSize={20} fontWeight={700}>
@@ -107,11 +108,15 @@ export default function ProductItem({ product }) {
         <CardContent>
           <Typography paragraph fontWeight={700}>
             Name:{' '}
-            <Typography fontWeight={400} component='span'>
-              {product.name}
+            <Typography
+              fontWeight={400}
+              component='span'
+              textTransform='capitalize'
+            >
+              {product.productName}
             </Typography>
           </Typography>
-          <Typography paragraph fontWeight={700}>
+          <Typography paragraph fontWeight={700} textTransform='capitalize'>
             Description:{' '}
             <Typography fontWeight={400} component='span'>
               {product.description}
@@ -126,13 +131,13 @@ export default function ProductItem({ product }) {
           <Typography paragraph fontWeight={700}>
             Date Added:{' '}
             <Typography fontWeight={400} component='span'>
-              {parseDate(product.dateAdded)}
+              {parseDate(product.createdAt)}
             </Typography>
           </Typography>
           <Typography paragraph fontWeight={700}>
             Last Updated:{' '}
             <Typography fontWeight={400} component='span'>
-              {parseDate(product.dateUpdated)}
+              {parseDate(product.updatedAt)}
             </Typography>
           </Typography>
         </CardContent>

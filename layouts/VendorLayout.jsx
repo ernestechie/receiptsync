@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { theme as CustomTheme } from '../pages/_app';
 import vendorContext from '../context/VendorContext';
 import { Menu } from '@mui/icons-material';
+import authContext from '../context/AuthContext';
 
 const drawerWidth = 240;
 
@@ -94,17 +95,28 @@ const Drawer = styled(MuiDrawer, {
 export default function VendorLayout({ children }) {
   const theme = useTheme();
   const pathname = useRouter().pathname;
+  const router = useRouter();
   const desktop = useMediaQuery(theme.breakpoints.up('lg'));
   const tablet = useMediaQuery(theme.breakpoints.up('md'));
   const mobile = useMediaQuery(theme.breakpoints.up('xs'));
 
+  const smallScreen = useMediaQuery(theme.breakpoints.down('md'));
+
   const { sidebarOpen, handleDrawerClose, handleDrawerOpen } =
     useContext(vendorContext);
+
+  const { setIsLoggedIn } = useContext(authContext);
 
   const variants = () => {
     if (desktop) return 'permanent';
     if (tablet) return 'permanent';
     if (mobile) return 'temporary';
+  };
+
+  const closeSidebarOnMobile = () => {
+    if (smallScreen) {
+      handleDrawerClose();
+    }
   };
 
   const getPageName = () => {
@@ -126,6 +138,15 @@ export default function VendorLayout({ children }) {
     if (pathname.includes('/vendor/settings')) {
       return 'Settings';
     }
+  };
+
+  const logoutHandler = () => {
+    localStorage.removeItem('vendor-data');
+    localStorage.removeItem('user-token');
+    localStorage.removeItem('products');
+
+    setIsLoggedIn(false);
+    router.replace('/login');
   };
 
   return (
@@ -152,7 +173,11 @@ export default function VendorLayout({ children }) {
         <List sx={{ p: 1 }}>
           {vendorRoutes.map((route, index) => (
             <Link key={`${route.name}-${index}`} href={route.url}>
-              <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItem
+                disablePadding
+                sx={{ display: 'block' }}
+                onClick={closeSidebarOnMobile}
+              >
                 <ListItemButton
                   sx={{
                     minHeight: 44,
@@ -207,7 +232,11 @@ export default function VendorLayout({ children }) {
           ))}
         </List>
         <Divider />
-        <ListItem disablePadding sx={{ display: 'block', px: 2, py: 1 }}>
+        <ListItem
+          disablePadding
+          sx={{ display: 'block', px: 2, py: 1 }}
+          onClick={logoutHandler}
+        >
           <ListItemButton
             sx={{
               minHeight: 44,
@@ -261,7 +290,7 @@ export default function VendorLayout({ children }) {
             px: { xs: 2, sm: 3, md: 4, lg: 6 },
             py: { xs: 2, sm: 3, md: 4, lg: 6 },
             background:
-              'linear-gradient(60deg, rgba(30, 33, 57, 1) 0%, rgba(124, 93, 250, 1) 80%);',
+              'linear-gradient(60deg, rgba(90, 90, 200, 1) 0%, rgba(124, 93, 250, 1) 80%);',
           }}
         >
           <Stack component='nav' direction='row' alignItems='center' gap={2}>

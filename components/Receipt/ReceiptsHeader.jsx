@@ -100,6 +100,7 @@ const ReceiptsHeader = (props) => {
           },
         },
         items: addedProducts,
+        narration,
       };
       console.log(newReceipt);
     } else {
