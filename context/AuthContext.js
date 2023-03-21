@@ -18,7 +18,6 @@ export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [vendorData, setVendorData] = useState({});
-  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const validateVendorToken = async () => {

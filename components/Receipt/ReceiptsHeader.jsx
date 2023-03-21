@@ -115,7 +115,7 @@ const ReceiptsHeader = (props) => {
       justifyContent='space-between'
       mb={4}
       mx='auto'
-      maxWidth={768}
+      maxWidth={1024}
     >
       <Stack
         direction='row'

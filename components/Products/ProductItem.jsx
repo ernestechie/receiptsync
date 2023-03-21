@@ -85,10 +85,10 @@ export default function ProductItem({ product }) {
       />
       <CardMedia
         component='img'
-        height='194'
+        height='240'
         image={product.imageUrl}
         alt={product.description}
-        sx={{ objectFit: 'cover' }}
+        sx={{ objectFit: 'contain' }}
       />
       <CardActions disableSpacing>
         <Typography px={1} fontSize={20} fontWeight={700}>

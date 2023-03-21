@@ -160,14 +160,14 @@ const Login = () => {
               />
             </Grid>
             <Grid item xs={12} sm={12} md={6} width='100%'>
-              <Box sx={{ mx: 'auto !important' }}>
+              <Box sx={{ mx: 'auto', maxWidth: 400 }}>
                 <Typography fontSize={44} fontWeight={700} color='secondary'>
                   Welcome!
                 </Typography>
                 <Typography fontSize={20}>Enter details to login</Typography>
               </Box>
 
-              <Box mt={4} mx='auto'>
+              <Box mt={4} mx='auto' maxWidth={400}>
                 <form>
                   <Box my={2}>
                     <input
