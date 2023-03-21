@@ -85,15 +85,15 @@ export default function ReceiptSearch(props) {
                 }}
               >
                 <Typography
-                  variant='subtitle2'
-                  fontWeight={600}
+                  variant='subtitle1'
+                  fontWeight={700}
                   textTransform='capitalize'
                 >
                   {product.productName}
                 </Typography>
-                <span style={{ textTransform: 'capitalize' }}>
-                  {product.description}
-                </span>
+                <Typography textTransform='capitalize' variant='subtitle2'>
+                  N{product.price.toLocaleString()}
+                </Typography>
               </Box>
               <Box
                 component={CloseIcon}

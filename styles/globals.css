@@ -54,7 +54,7 @@ input {
   border-radius: 4px;
   transition: 0.4s ease-out;
   background: #fff;
-  max-width: 400px;
+  max-width: 500px;
   text-transform: capitalize;
 }
 
@@ -85,6 +85,11 @@ input[type='email'].settings-input {
 }
 
 #nprogress .bar {
-  background: rgba(124, 93, 250, 1) !important;
+  background: rgba(124, 93, 250, 0.5) !important;
   height: 3px !important;
+}
+
+input[type='file'] {
+  opacity: 0;
+  cursor: pointer;
 }

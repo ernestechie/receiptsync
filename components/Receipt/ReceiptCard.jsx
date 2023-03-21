@@ -4,15 +4,12 @@ import { parseDate } from '../../utils/parseDate';
 import { parseCurrency } from '../../utils/parseCurrency';
 import { theme as CustomTheme } from '../../pages/_app';
 import Link from 'next/link';
-// import { useRouter } from 'next/router';
 
 const ReceiptCard = ({ receipt }) => {
-  // const router = useRouter();
-
   return (
     <Link
       href={`/vendor/receipts/${receipt.id}`}
-      style={{ maxWidth: 768, margin: 'auto', display: 'block' }}
+      style={{ maxWidth: 1024, margin: 'auto', display: 'block' }}
     >
       <Grid
         container
@@ -32,13 +29,13 @@ const ReceiptCard = ({ receipt }) => {
           alignItems: 'center',
           mx: 'auto !important',
           boxShadow: '0px 10px 10px -10px rgba(72, 84, 159, 0.1)',
+          width: '100%',
 
           '&:hover': {
             border: `1px solid ${CustomTheme.palette.secondary.contrastText}`,
             transition: '0.3s ease-out',
           },
         }}
-        // onClick={() => router.push(`/vendor/receipts/${receipt.id}`)}
       >
         <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
           <Typography fontSize={16} fontWeight={700}>

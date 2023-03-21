@@ -5,7 +5,7 @@ import { receipts } from '../../static/receipts';
 
 const RecentSales = () => {
   return (
-    <Box my={6} sx={{ mx: 'auto !important', maxWidth: 768 }}>
+    <Box my={6} sx={{ mx: 'auto !important', maxWidth: 1024 }}>
       <Typography fontSize={20} fontWeight={500} mb={2}>
         Recent Sales
       </Typography>
