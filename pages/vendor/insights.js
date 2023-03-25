@@ -79,9 +79,6 @@ export default function Insights() {
       keysArray.splice(4, 1);
     }
 
-    // console.log(thisYearProducts);
-    // console.log(keysArray);
-
     const labelObjects = keysArray.map((key) => {
       return {
         [key]: thisYearProducts.filter((product) => product.id === key),

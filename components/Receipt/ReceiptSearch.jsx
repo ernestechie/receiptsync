@@ -1,5 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Stack, Typography } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React, { useContext, useState } from 'react';
 import authContext from '../../context/AuthContext';
@@ -9,6 +10,7 @@ import { ButtonContained } from '../ReceiptSyncButtons';
 export default function ReceiptSearch(props) {
   const theme = useTheme();
   const [searchValue, setSearchValue] = useState('');
+  const [loadMore, setLoadMore] = useState(5);
 
   const { addedProducts, handleCloseProductsModal, addNewProductToReceipt } =
     useContext(vendorContext);
@@ -23,7 +25,7 @@ export default function ReceiptSearch(props) {
   };
 
   return (
-    <Box sx={{ maxHeight: 600 }} pt={2}>
+    <Box sx={{ maxHeight: 500, overflow: 'scroll' }} py={2}>
       <div className='settings-input-group'>
         <input
           type='search'
@@ -45,6 +47,7 @@ export default function ReceiptSearch(props) {
                 .toLowerCase()
                 .includes(searchValue.trim().toLowerCase())
           )
+          .splice(0, loadMore)
           .map((product) => (
             <Stack
               key={product.key}
@@ -107,14 +110,28 @@ export default function ReceiptSearch(props) {
             </Stack>
           ))}
       </Box>
-      <Stack direction='row' justifyContent='flex-end'>
-        <ButtonContained
-          color='primary'
-          text='Done'
-          textColor='#fff'
-          handleClick={closeProductsPopup}
-        />
-      </Stack>
+
+      {searchValue.trim() === '' && vendorData.products.length > loadMore && (
+        <Button
+          variant='outlined'
+          color='secondary'
+          // size='small'
+          mb={2}
+          sx={{ mx: 'auto', textTransform: 'capitalize' }}
+          startIcon={<RefreshIcon />}
+          onClick={() => setLoadMore((prev) => prev + 5)}
+        >
+          Load More
+        </Button>
+      )}
+
+      <ButtonContained
+        color='primary'
+        text='Done'
+        textColor='#fff'
+        handleClick={closeProductsPopup}
+        style={{ position: 'absolute', bottom: '2rem', right: '2rem' }}
+      />
     </Box>
   );
 }

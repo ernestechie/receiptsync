@@ -141,9 +141,7 @@ export default function VendorLayout({ children }) {
   };
 
   const logoutHandler = () => {
-    localStorage.removeItem('vendor-data');
     localStorage.removeItem('user-token');
-    localStorage.removeItem('products');
 
     setIsLoggedIn(false);
     router.replace('/login');

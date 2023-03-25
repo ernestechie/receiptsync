@@ -425,7 +425,7 @@ const ReceiptsHeader = (props) => {
             direction='row'
             alignItems='center'
             justifyContent='space-between'
-            gap={4}
+            gap={2}
           >
             {addedProducts.length > 0 && (
               <ButtonContained

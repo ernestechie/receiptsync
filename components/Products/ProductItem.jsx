@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -8,11 +8,14 @@ import { MenuItem, IconButton, Typography } from '@mui/material';
 import { parseDate } from '../../utils/parseDate';
 import { StyledMenu, ExpandMore } from '../Common/Menu';
 import { Delete } from '@mui/icons-material';
+import authContext from '../../context/AuthContext';
 
 function CustomizedMenus(props) {
+  const { deleteProductHandler, editProductHandler } = useContext(authContext);
+
   return (
     <StyledMenu
-      id='demo-customized-menu'
+      id={props.productId}
       MenuListProps={{
         'aria-labelledby': 'demo-customized-button',
       }}
@@ -20,11 +23,19 @@ function CustomizedMenus(props) {
       open={props.open}
       onClose={props.handleClose}
     >
-      <MenuItem onClick={props.handleClose} disableRipple>
+      {/* <MenuItem onClick={() => editProductHandler(props.productId)}>
         <EditIcon />
         Edit
-      </MenuItem>
-      <MenuItem onClick={props.handleClose} disableRipple>
+      </MenuItem> */}
+      <MenuItem
+        onClick={() => deleteProductHandler(props.productId)}
+        sx={{
+          color: '#d61327',
+          '& svg': {
+            color: '#d61327 !important',
+          },
+        }}
+      >
         <Delete />
         Delete
       </MenuItem>
@@ -73,14 +84,17 @@ export default function ProductItem({ product }) {
           },
         }}
         action={
-          <IconButton aria-label='settings'>
-            <MoreVertIcon onClick={handleClick} />
+          <>
+            <IconButton aria-label='more-icon' onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
             <CustomizedMenus
               open={open}
               anchorEl={anchorEl}
               handleClose={handleClose}
+              productId={product._id}
             />
-          </IconButton>
+          </>
         }
       />
       <CardMedia

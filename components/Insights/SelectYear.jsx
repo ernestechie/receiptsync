@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Divider } from '@mui/material';
 import vendorContext from '../../context/VendorContext';
-import { vendorData } from '../../static/vendor';
+import authContext from '../../context/AuthContext';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -54,7 +54,9 @@ const StyledMenu = styled((props) => (
 export default function SelectYear() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [lifetime, setLifetime] = useState([]);
+
   const { selectedYear, handleSelectedYear } = useContext(vendorContext);
+  const { vendorData } = useContext(authContext);
 
   const open = Boolean(anchorEl);
 
@@ -72,7 +74,7 @@ export default function SelectYear() {
   };
 
   useEffect(() => {
-    const dateJoined = new Date(vendorData.dateJoined).getUTCFullYear();
+    const dateJoined = new Date(vendorData.dateCreated).getUTCFullYear();
     const today = new Date().getUTCFullYear();
 
     const years = [];
@@ -81,7 +83,7 @@ export default function SelectYear() {
       years.push(dateJoined + index);
     }
     setLifetime(years);
-  }, []);
+  }, [vendorData.dateCreated]);
 
   return (
     <div>
