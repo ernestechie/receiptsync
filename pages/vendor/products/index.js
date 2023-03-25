@@ -6,6 +6,7 @@ import PrivateRoute from '../../../layouts/PrivateRoute';
 import VendorLayout from '../../../layouts/VendorLayout';
 import Spinner from '../../../components/Common/Spinner';
 import authContext from '../../../context/AuthContext';
+import { Typography } from '@mui/material';
 
 export default function Products() {
   const { vendorData, isLoading } = useContext(authContext);
@@ -20,6 +21,11 @@ export default function Products() {
             {isLoading && <Spinner />}
             {!isLoading && vendorData.products.length > 0 && (
               <ProductList products={vendorData.products} />
+            )}
+            {vendorData.products?.length === 0 && (
+              <Typography textAlign='center' py={8} fontSize={30}>
+                No products yet
+              </Typography>
             )}
           </Padding>
         </VendorLayout>

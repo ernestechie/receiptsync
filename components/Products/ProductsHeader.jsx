@@ -10,7 +10,6 @@ import { ButtonContained } from '../ReceiptSyncButtons';
 
 const ProductsHeader = () => {
   const [drawerState, setDrawerState] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
   const [productData, setProductData] = useState({
     name: '',
     description: '',
@@ -78,29 +77,25 @@ const ProductsHeader = () => {
           console.log(req);
           toast.success('Product added!');
           const ctxProducts = vendorData.products;
-          const lsData = JSON.parse(localStorage.getItem('vendor-data'));
-          const lsProducts = lsData.products;
 
           ctxProducts.push({
             ...req.data,
             imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${req.data.imageName}`,
           });
-          lsProducts.push({
-            ...req.data,
-            imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${req.data.imageName}`,
-          });
 
-          localStorage.setItem(
-            'vendor-data',
-            JSON.stringify({
-              ...lsData,
-              products: lsProducts,
-            })
-          );
           setVendorData((prev) => ({
             ...prev,
             products: ctxProducts,
           }));
+
+          setProductData({
+            name: '',
+            description: '',
+            price: '',
+            image: null,
+          });
+
+          toggleDrawer(false);
         }
       } catch (error) {
         console.log(error);
@@ -144,7 +139,6 @@ const ProductsHeader = () => {
         toggleDrawer={toggleDrawer}
         heading='Add a Product'
       >
-        {isUploading && <Typography my={2}>Uploading product...</Typography>}
         <Box mb={4}>
           <Box
             mb={2}

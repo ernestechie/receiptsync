@@ -80,23 +80,11 @@ const Login = () => {
             }
           );
 
-          console.log({
-            ...req.data,
-            products: productsReq.data,
-          });
-
           setVendorData({
             ...req.data,
+            dateCreated: new Date('2020-01-02'),
             products: productsReq.data,
           });
-
-          localStorage.setItem(
-            'vendor-data',
-            JSON.stringify({
-              ...req.data,
-              products: productsReq.data,
-            })
-          );
 
           setIsLoggedIn(true);
           router.replace('/vendor');
