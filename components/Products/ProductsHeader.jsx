@@ -1,14 +1,16 @@
 import { PhotoCamera } from '@mui/icons-material';
-import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, MenuItem, Stack, Typography, Radio } from '@mui/material';
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
 import authContext from '../../context/AuthContext';
 import Drawer from '../Common/Drawer';
+import { StyledMenu } from '../Insights/SelectYear';
 import { ButtonContained } from '../ReceiptSyncButtons';
 
-const ProductsHeader = () => {
+const ProductsHeader = (props) => {
+  const [anchorEl, setAnchorEl] = useState(null);
   const [drawerState, setDrawerState] = useState(false);
   const [productData, setProductData] = useState({
     name: '',
@@ -35,7 +37,6 @@ const ProductsHeader = () => {
   };
 
   const setProductImage = (e) => {
-    // console.log(e.target.files[0]);
     setProductData((prev) => ({
       ...prev,
       image: e.target.files[0],
@@ -111,6 +112,29 @@ const ProductsHeader = () => {
     }
   };
 
+  const handleSortEl = (e) => {
+    setAnchorEl(e.currentTarget);
+    props.setSortMenuOpen(true);
+  };
+
+  const generateSortParamText = () => {
+    // recently-updated date-added-asc date-added-desc name-asc name-desc
+    switch (props.sortParam) {
+      case 'recently-updated':
+        return 'Recently Updated';
+      case 'date-added-asc':
+        return 'Date Added (Newest)';
+      case 'date-added-desc':
+        return 'Date Added (Oldest)';
+      case 'name-asc':
+        return 'Name (A - Z)';
+      case 'name-desc':
+        return 'Name (Z - A)';
+      default:
+        return 'Date Added (Newest)';
+    }
+  };
+
   return (
     <Stack
       direction='row'
@@ -124,7 +148,100 @@ const ProductsHeader = () => {
         gap={1}
         sx={{ fontSize: 16, cursor: 'pointer' }}
       >
-        <Typography fontWeight={600}>{'Filter by Date'}</Typography>
+        <Typography
+          fontWeight={600}
+          sx={{ cusor: 'pointer' }}
+          id='sort-products-button'
+          aria-controls={props.sortMenuOpen ? 'select-sort-params' : undefined}
+          aria-haspopup='true'
+          onClick={handleSortEl}
+          aria-expanded={open ? 'true' : undefined}
+        >
+          Sort by:{' '}
+          <Typography
+            color='primary'
+            fontWeight={700}
+            fontSize='inherit'
+            component='span'
+          >
+            {generateSortParamText()}
+          </Typography>
+        </Typography>
+        <StyledMenu
+          open={props.sortMenuOpen}
+          id='select-sort-params'
+          MenuListProps={{
+            'aria-labelledby': 'sort-products-button',
+          }}
+          anchorEl={anchorEl}
+          onClose={() => props.setSortMenuOpen(false)}
+        >
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('recently-updated')}
+          >
+            <Radio
+              checked={props.sortParam === 'recently-updated'}
+              onChange={() => props.changeSorting('recently-updated')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'recently-updated' }}
+            />
+            Recently Updated
+          </MenuItem>
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('date-added-asc')}
+          >
+            <Radio
+              checked={props.sortParam === 'date-added-asc'}
+              onChange={() => props.changeSorting('date-added-asc')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'date-added-asc' }}
+            />
+            Date Added (Recent)
+          </MenuItem>
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('date-added-desc')}
+          >
+            <Radio
+              checked={props.sortParam === 'date-added-desc'}
+              onChange={() => props.changeSorting('date-added-desc')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'date-added-desc' }}
+            />
+            Date Added (Oldest)
+          </MenuItem>
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('name-asc')}
+          >
+            <Radio
+              checked={props.sortParam === 'name-asc'}
+              onChange={() => props.changeSorting('name-asc')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'name-asc' }}
+            />
+            Name (A - Z)
+          </MenuItem>
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('name-desc')}
+          >
+            <Radio
+              checked={props.sortParam === 'name-desc'}
+              onChange={() => props.changeSorting('name-desc')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'name-desc' }}
+            />
+            Name (Z - A)
+          </MenuItem>
+        </StyledMenu>
         <MdKeyboardArrowDown />
       </Stack>
       <ButtonContained

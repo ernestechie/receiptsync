@@ -82,7 +82,6 @@ const Login = () => {
 
           setVendorData({
             ...req.data,
-            dateCreated: new Date('2020-01-02'),
             products: productsReq.data,
           });
 

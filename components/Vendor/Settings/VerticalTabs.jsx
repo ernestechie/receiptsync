@@ -111,7 +111,7 @@ export default function VerticalTabs() {
         >
           <ManageAccounts />
         </Tab>
-        <Tab
+        {/* <Tab
           label={
             <>
               <FormatShapes />
@@ -126,7 +126,7 @@ export default function VerticalTabs() {
             bgcolor:
               value === 1 ? CustomTheme.palette.secondary.light : 'transparent',
           }}
-        />
+        /> */}
         <Tab
           label={
             <>
@@ -136,7 +136,7 @@ export default function VerticalTabs() {
               </Typography>
             </>
           }
-          {...a11yProps(3)}
+          {...a11yProps(1)}
           sx={{
             ...tabStyles,
             mb: 2,
@@ -157,7 +157,7 @@ export default function VerticalTabs() {
         </Typography>
         <UpdateProfile />
       </TabPanel>
-      <TabPanel
+      {/* <TabPanel
         value={value}
         index={1}
         style={{ width: '100%', maxWidth: 400 }}
@@ -166,10 +166,10 @@ export default function VerticalTabs() {
           Apperance & Layout
         </Typography>
         <UpdateAppearance />
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel
         value={value}
-        index={2}
+        index={1}
         style={{ width: '100%', maxWidth: 400 }}
       >
         <Typography fontSize={24} fontWeight={700} mb={4} component='span'>

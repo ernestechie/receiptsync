@@ -21,6 +21,7 @@ import { receipts } from '../../static/receipts';
 import { InsightsHeader } from '../../components';
 import vendorContext from '../../context/VendorContext';
 import PrivateRoute from '../../layouts/PrivateRoute';
+import { parseNigerianNaira } from '../../utils/parseCurrency';
 
 ChartJS.register(
   CategoryScale,
@@ -179,17 +180,12 @@ export default function Insights() {
               >
                 <Typography fontWeight={500}>Product Sales</Typography>
                 <Typography fontWeight={600} fontSize={20}>
-                  <Typography
-                    fontWeight='inherit'
-                    fontSize='inherit'
-                    component='span'
-                    sx={{ textDecoration: 'line-through' }}
-                  >
-                    N
-                  </Typography>
-                  {useCalculateData(thisYearReceipts)
-                    .reduce((a, b) => a + b, 0)
-                    .toLocaleString()}
+                  {parseNigerianNaira(
+                    useCalculateData(thisYearReceipts).reduce(
+                      (a, b) => a + b,
+                      0
+                    )
+                  )}
                 </Typography>
               </Stack>
               <Line options={options} data={line_chart_data} />

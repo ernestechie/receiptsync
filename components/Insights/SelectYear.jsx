@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { FilterList, ArrowDropDown } from '@mui/icons-material';
-import { styled, alpha } from '@mui/material/styles';
+import { ArrowDropDown, FilterList } from '@mui/icons-material';
+import { Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { Divider } from '@mui/material';
-import vendorContext from '../../context/VendorContext';
+import { alpha, styled } from '@mui/material/styles';
+import React, { useContext, useEffect, useState } from 'react';
 import authContext from '../../context/AuthContext';
+import vendorContext from '../../context/VendorContext';
 
-const StyledMenu = styled((props) => (
+export const StyledMenu = styled((props) => (
   <Menu
     elevation={0}
     anchorOrigin={{
@@ -74,7 +74,7 @@ export default function SelectYear() {
   };
 
   useEffect(() => {
-    const dateJoined = new Date(vendorData.dateCreated).getUTCFullYear();
+    const dateJoined = new Date(vendorData.createdAt).getUTCFullYear();
     const today = new Date().getUTCFullYear();
 
     const years = [];
@@ -83,7 +83,7 @@ export default function SelectYear() {
       years.push(dateJoined + index);
     }
     setLifetime(years);
-  }, [vendorData.dateCreated]);
+  }, [vendorData.createdAt]);
 
   return (
     <div>

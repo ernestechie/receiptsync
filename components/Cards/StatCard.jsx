@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material';
+import { parseNigerianNaira } from '../../utils/parseCurrency';
 import React from 'react';
 
 const StatCard = (props) => {
@@ -28,8 +29,11 @@ const StatCard = (props) => {
         </Typography>
       </Stack>
       <Typography fontSize={24} fontWeight={700} py={1}>
-        {props.money ? 'N' : ''}
-        {props.value.toLocaleString()}
+        {props.money ? (
+          <>{parseNigerianNaira(props.value)}</>
+        ) : (
+          <>{props.value.toLocaleString()}</>
+        )}
       </Typography>
     </Box>
   );

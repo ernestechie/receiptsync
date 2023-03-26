@@ -1,13 +1,13 @@
-import { CustomersHeader, Modal } from '../../../components';
-import CustomerItem from '../../../components/Customers/CustomerItem';
-import HeadWrapper from '../../../components/HeadWrapper';
-import Padding from '../../../layouts/Padding';
-import VendorLayout from '../../../layouts/VendorLayout';
+import { CustomersHeader, Modal } from '../../components';
+import CustomerItem from '../../components/Customers/CustomerItem';
+import HeadWrapper from '../../components/HeadWrapper';
+import Padding from '../../layouts/Padding';
+import VendorLayout from '../../layouts/VendorLayout';
 import { Typography, Stack } from '@mui/material';
-import { ButtonContained } from '../../../components/ReceiptSyncButtons';
+import { ButtonContained } from '../../components/ReceiptSyncButtons';
 import { useState } from 'react';
-import { theme as CustomTheme } from '../../_app';
-import PrivateRoute from '../../../layouts/PrivateRoute';
+import { theme as CustomTheme } from '../_app';
+import PrivateRoute from '../../layouts/PrivateRoute';
 
 export default function Customers() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

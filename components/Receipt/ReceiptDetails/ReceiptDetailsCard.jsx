@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Stack, Divider, Grid } from '@mui/material';
 import { theme as CustomTheme } from '../../../pages/_app';
 import { parseDate } from '../../../utils/parseDate';
+import { parseNigerianNaira } from '../../../utils/parseCurrency';
 
 const ReceiptDetailsCard = ({ receipt }) => {
   return (
@@ -106,7 +107,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
                     }}
                   >
                     <Typography component='span' fontSize='inherit'>
-                      {item.quantity} x N{item.price.toLocaleString()}
+                      {item.quantity} x{parseNigerianNaira(item?.price)}
                     </Typography>
                   </Typography>
                 </Box>
@@ -121,7 +122,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
               >
                 <Typography color='secondary.contrastText'>Total: </Typography>
                 <Typography fontSize={18} fontWeight={600}>
-                  N{(item.quantity * item.price).toLocaleString()}
+                  {parseNigerianNaira(item?.quantity * item?.price)}
                 </Typography>
               </Stack>
             </Stack>
@@ -139,7 +140,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
             >
               <Typography color='secondary.contrastText'>Total</Typography>
               <Typography fontSize={18} fontWeight={600}>
-                N{(item.quantity * item.price).toLocaleString()}
+                {parseNigerianNaira(item?.quantity * item?.price)}
               </Typography>
             </Stack>
             <Divider />
@@ -163,7 +164,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
         >
           <Typography fontSize={16}>Grand Total:</Typography>
           <Typography fontSize={24} fontWeight={800}>
-            N{receipt.totalPrice.toLocaleString()}
+            {parseNigerianNaira(receipt?.totalPrice)}
           </Typography>
         </Stack>
       </Box>
