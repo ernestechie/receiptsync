@@ -19,12 +19,11 @@ const vendorContext = createContext(initialState);
 
 export const VendorContextProvider = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
-  const [showProductsModal, setShowProductsModal] = useState(false);
-  const { vendorData } = useContext(authContext);
-
   const [addedProducts, setAddedProducts] = useState([]);
-  const [productToAdd, setProductToAdd] = useState('');
+  const [showProductsModal, setShowProductsModal] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
+
+  const { vendorData } = useContext(authContext);
 
   const handleSelectedYear = (newInput) => {
     setSelectedYear(newInput);

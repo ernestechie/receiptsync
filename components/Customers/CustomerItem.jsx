@@ -3,7 +3,7 @@ import React from 'react';
 import { parseDate } from '../../utils/parseDate';
 import { theme as CustomTheme } from '../../pages/_app';
 import IconButton from '@mui/material/IconButton';
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 
 const CustomerItem = (props) => {
   return (
@@ -70,9 +70,6 @@ const CustomerItem = (props) => {
           justifyContent={{ xs: 'flex-end', sm: 'flex-start', md: 'flex-end' }}
           gap={2}
         >
-          <IconButton aria-label='edit customer' color='secondary' size='small'>
-            <Edit size='inherit' />
-          </IconButton>
           <IconButton
             aria-label='delete customer'
             color='custom'

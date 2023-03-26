@@ -1,5 +1,3 @@
-import { receipts } from '../static/receipts';
-
 export const options = {
   responsive: true,
   maintainAspectRatio: true,

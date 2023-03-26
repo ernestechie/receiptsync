@@ -1,10 +1,10 @@
 import { Refresh } from '@mui/icons-material';
+import { Box, Button, Grid } from '@mui/material';
 import React, { useState } from 'react';
 import ProductItem from './ProductItem';
-import { Grid, Box, Button } from '@mui/material';
 
-const Products = ({ products }) => {
-  const [max, setMax] = useState(10);
+const Products = ({ products, sortBy }) => {
+  const [max, setMax] = useState(9);
 
   return (
     <Box>
@@ -15,13 +15,38 @@ const Products = ({ products }) => {
           rowSpacing={{ xs: 2, sm: 2, lg: 2 }}
           columnSpacing={{ sm: 2, md: 2, lg: 2 }}
           columns={12}
+          // new Date(b.updatedAt).getTime() -
+          // new Date(a.updatedAt).getTime()
+          // a.productName.toUpperCase() - b.productName.toUpperCase()
         >
           {[...products]
-            .sort(
-              (a, b) =>
-                new Date(b.updatedAt).getTime() -
-                new Date(a.updatedAt).getTime()
-            )
+            .sort((a, b) => {
+              switch (sortBy) {
+                case 'recently-updated':
+                  return (
+                    new Date(b.updatedAt).getTime() -
+                    new Date(a.updatedAt).getTime()
+                  );
+                case 'date-added-asc':
+                  return (
+                    new Date(b.updatedAt).getTime() -
+                    new Date(a.updatedAt).getTime()
+                  );
+                case 'date-added-desc':
+                  return (
+                    new Date(a.createdAt).getTime() -
+                    new Date(b.createdAt).getTime()
+                  );
+                case 'name-asc':
+                  return a.productName.localeCompare(b.productName);
+                case 'name-desc':
+                  return b.productName.localeCompare(a.productName);
+                default:
+                  new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime();
+              }
+              // return a.productName.localeCompare(b.productName);
+            })
             .splice(0, max)
             .map((product) => (
               <Grid
@@ -43,10 +68,14 @@ const Products = ({ products }) => {
         <Button
           variant='outlined'
           color='secondary'
-          mt={4}
-          sx={{ mx: 'auto', textTransform: 'capitalize' }}
+          sx={{
+            display: 'flex',
+            mx: 'auto',
+            textTransform: 'capitalize',
+            mt: 4,
+          }}
           startIcon={<Refresh />}
-          onClick={() => setMax((prev) => prev + 10)}
+          onClick={() => setMax((prev) => prev + 9)}
         >
           Load More
         </Button>

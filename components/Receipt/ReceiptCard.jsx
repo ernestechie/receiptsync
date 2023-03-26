@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 import React from 'react';
 import { parseDate } from '../../utils/parseDate';
-import { parseCurrency } from '../../utils/parseCurrency';
+import { parseNigerianNaira } from '../../utils/parseCurrency';
 import { theme as CustomTheme } from '../../pages/_app';
 import Link from 'next/link';
 
@@ -63,18 +63,7 @@ const ReceiptCard = ({ receipt }) => {
             fontWeight={700}
             sx={{ textAlign: { xs: 'right', sm: 'left' } }}
           >
-            <Typography
-              component='span'
-              sx={{
-                textDecorationLine: 'line-through',
-                textDecorationStyle: 'double',
-                fontWeight: 'inherit',
-                fontSize: 'inherit',
-              }}
-            >
-              N
-            </Typography>
-            {parseCurrency(receipt.totalPrice)}
+            {parseNigerianNaira(receipt?.totalPrice)}
           </Typography>
         </Grid>
       </Grid>

@@ -1,14 +1,24 @@
-import React, { useContext, useState } from 'react';
+import { Delete } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Card, CardHeader, CardMedia, Divider } from '@mui/material';
-import { CardActions, CardContent, Collapse } from '@mui/material';
-import { MenuItem, IconButton, Typography } from '@mui/material';
-import { parseDate } from '../../utils/parseDate';
-import { StyledMenu, ExpandMore } from '../Common/Menu';
-import { Delete } from '@mui/icons-material';
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Collapse,
+  Divider,
+  IconButton,
+  MenuItem,
+  Typography,
+} from '@mui/material';
+import React, { useContext, useState } from 'react';
 import authContext from '../../context/AuthContext';
+import { parseNigerianNaira } from '../../utils/parseCurrency';
+import { parseDate } from '../../utils/parseDate';
+import { ExpandMore, StyledMenu } from '../Common/Menu';
 
 function CustomizedMenus(props) {
   const { deleteProductHandler, editProductHandler } = useContext(authContext);
@@ -106,7 +116,7 @@ export default function ProductItem({ product }) {
       />
       <CardActions disableSpacing>
         <Typography px={1} fontSize={20} fontWeight={700}>
-          N{product.price.toLocaleString()}
+          {parseNigerianNaira(product?.price)}
         </Typography>
         <ExpandMore
           expand={expanded}
@@ -139,7 +149,7 @@ export default function ProductItem({ product }) {
           <Typography paragraph fontWeight={700}>
             Price:{' '}
             <Typography fontWeight={400} component='span'>
-              N{product.price.toLocaleString()}
+              {parseNigerianNaira(product?.price)}
             </Typography>
           </Typography>
           <Typography paragraph fontWeight={700}>
