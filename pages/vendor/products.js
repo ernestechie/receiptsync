@@ -11,7 +11,7 @@ import { Typography } from '@mui/material';
 export default function Products() {
   const { vendorData, isLoading } = useContext(authContext);
 
-  const [sortMenuOpen, setSortMenuOpen] = useState(true);
+  const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [sortParam, setSortParam] = useState('date-added-asc');
 
   const changeSortParam = (param) => {
