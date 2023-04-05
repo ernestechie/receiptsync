@@ -4,6 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  accent: #ec5757;
+  primary: #7c5dfa;
+  secondary: #464664;
+  secondary-dark: #1e2139;
+  dark: #0c0e16;
+  light: #f5f5f5;
+  white: #ffffff;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -96,4 +106,33 @@ input[type='email'].settings-input {
 input[type='file'] {
   opacity: 0;
   cursor: pointer;
+}
+
+.navbar {
+  /* background: linear-gradient(
+    269.71deg,
+    rgba(252, 114, 114, 0.5) 0%,
+    rgba(124, 93, 250, 0.5) 100%
+  ); */
+  /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); */
+  /* backdrop-filter: blur(15px); */
+
+  /* Fallback for older browsers */
+  /* -webkit-backdrop-filter: blur(15px); */
+  z-index: 100;
+}
+
+.hero {
+  background: linear-gradient(241.6deg, #ec5757 0%, #9277ff 100%);
+  /* clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
+
+  /* Fallback for older browsers */
+  /* -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
+  min-height: 100svh;
+}
+
+@layer components {
+  .layout {
+    @apply px-4 sm:px-8 lg:px-20 xl:px-24;
+  }
 }
