@@ -1,4 +1,11 @@
-import { HeroSection, Navbar } from '../components';
+import {
+  HeroSection,
+  Navbar,
+  AboutSection,
+  FeaturesSection,
+  TeamSection,
+  FooterSection,
+} from '../components';
 import HeadWrapper from '../components/HeadWrapper';
 
 export default function Home() {
@@ -8,6 +15,10 @@ export default function Home() {
       <Navbar />
       <main>
         <HeroSection />
+        <AboutSection />
+        <FeaturesSection />
+        <TeamSection />
+        <FooterSection />
       </main>
     </>
   );

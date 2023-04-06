@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import React from 'react';
 import Link from 'next/link';
 import { RiMenu4Fill } from 'react-icons/ri';
@@ -10,14 +11,17 @@ const Navbar = () => {
       </a>
       <ul className='hidden md:flex md:gap-8 justify-around md:w-[40%]'>
         <li>
-          <a href='#' className='font-medium hover:font-semibold duration-300'>
+          <a
+            href='#home'
+            className='text-white font-medium hover:font-semibold duration-300'
+          >
             Home
           </a>
         </li>
         <li>
           <a
             href='#about'
-            className='font-medium hover:font-semibold duration-300'
+            className='text-white font-medium hover:font-semibold duration-300'
           >
             About
           </a>
@@ -25,7 +29,7 @@ const Navbar = () => {
         <li>
           <a
             href='#features'
-            className='font-medium hover:font-semibold duration-300'
+            className='text-white font-medium hover:font-semibold duration-300'
           >
             Features
           </a>
@@ -33,7 +37,7 @@ const Navbar = () => {
         <li>
           <a
             href='#team'
-            className='font-medium hover:font-semibold duration-300'
+            className='text-white font-medium hover:font-semibold duration-300'
           >
             Team
           </a>

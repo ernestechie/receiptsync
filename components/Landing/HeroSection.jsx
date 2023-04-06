@@ -5,7 +5,10 @@ import heroImage from '../../assets/hero-image.svg';
 
 const HeroSection = () => {
   return (
-    <div className='hero layout flex flex-col items-center justify-center relative'>
+    <header
+      id='home'
+      className='gradient-reverse layout flex flex-col items-center justify-center min-h-[100svh]'
+    >
       <h2 className='font-extrabold text-4xl sm:text-5xl md:text-6xl text-light text-center p-4'>
         Track sales. Record & Issue Receipts. Mange Products.
       </h2>
@@ -19,13 +22,12 @@ const HeroSection = () => {
       >
         Get Started Now
       </Link>
-
       <Image
         src={heroImage}
         alt='Screenshot of receiptsync dashboard'
-        className='absolute bottom-[-25%] md:bottom-[-40%] lg:bottom-[-65%] xl:bottom-[-75%] max-w-[90%]'
+        className='hidden md:block mb-[-400px] max-w-[85%]'
       />
-    </div>
+    </header>
   );
 };
 
