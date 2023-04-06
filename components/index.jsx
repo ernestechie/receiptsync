@@ -1,6 +1,10 @@
 export { default as ReceiptCard } from './Receipt/ReceiptCard';
 export { default as Navbar } from './Landing/Navbar';
 export { default as HeroSection } from './Landing/HeroSection';
+export { default as TeamSection } from './Landing/TeamSection';
+export { default as AboutSection } from './Landing/AboutSection';
+export { default as FeaturesSection } from './Landing/FeaturesSection';
+export { default as FooterSection } from './Landing/FooterSection';
 export { default as StatCard } from './Cards/StatCard';
 export { default as Modal } from './Common/Modal';
 export { default as Loader } from './Common/Loader';

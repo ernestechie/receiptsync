@@ -5,13 +5,13 @@
 @tailwind utilities;
 
 :root {
-  accent: #ec5757;
-  primary: #7c5dfa;
-  secondary: #464664;
-  secondary-dark: #1e2139;
-  dark: #0c0e16;
-  light: #f5f5f5;
-  white: #ffffff;
+  --accent: #ec5757;
+  --primary: #7c5dfa;
+  --secondary: #464664;
+  --secondary-dark: #1e2139;
+  --dark: #0c0e16;
+  --light: #f5f5f5;
+  --white: #ffffff;
 }
 
 * {
@@ -25,6 +25,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 a {
@@ -109,26 +110,24 @@ input[type='file'] {
 }
 
 .navbar {
-  /* background: linear-gradient(
-    269.71deg,
-    rgba(252, 114, 114, 0.5) 0%,
-    rgba(124, 93, 250, 0.5) 100%
-  ); */
-  /* box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); */
-  /* backdrop-filter: blur(15px); */
+  background: transparent;
+  backdrop-filter: blur(15px);
 
   /* Fallback for older browsers */
-  /* -webkit-backdrop-filter: blur(15px); */
+  -webkit-backdrop-filter: blur(15px);
   z-index: 100;
 }
 
-.hero {
-  background: linear-gradient(241.6deg, #ec5757 0%, #9277ff 100%);
-  /* clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
+.gradient {
+  background: linear-gradient(
+    268.98deg,
+    var(--primary) 0%,
+    var(--accent) 95.58%
+  );
+}
 
-  /* Fallback for older browsers */
-  /* -webkit-clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%); */
-  min-height: 100svh;
+.gradient-reverse {
+  background: linear-gradient(241.6deg, var(--accent) 0%, var(--primary) 100%);
 }
 
 @layer components {
