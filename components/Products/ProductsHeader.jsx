@@ -137,9 +137,12 @@ const ProductsHeader = (props) => {
 
   return (
     <Stack
-      direction='row'
-      alignItems='center'
-      justifyContent='space-between'
+      // direction='row'
+      // alignItems='center'
+      direction={{ xs: 'column', sm: 'row' }}
+      alignItems={{ xs: 'flex-start', sm: 'center' }}
+      justifyContent={{ xs: 'center', sm: 'space-between' }}
+      gap={2}
       mb={4}
     >
       <Stack

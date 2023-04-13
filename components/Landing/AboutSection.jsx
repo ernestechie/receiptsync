@@ -12,10 +12,10 @@ const AboutSection = () => {
           business performance?
         </h3>
         <Link
-          href='/login'
+          href='/register'
           className='bg-secondary-dark text-white rounded-[32px] py-4 px-8 hover:bg-dark duration-300'
         >
-          Get Started Now
+          Create Account
         </Link>
       </div>
 

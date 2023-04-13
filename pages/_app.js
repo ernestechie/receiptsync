@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
+import { Provider } from 'react-redux';
+import configureStore from '../store/store';
 
 export const theme = createTheme({
   palette: {
@@ -46,14 +48,18 @@ export default function App({ Component, pageProps }) {
     router.events.on('routeChangeError', () => nprogress.done());
   }, [router.events]);
 
+  const store = configureStore();
+
   return (
-    <ThemeProvider theme={theme}>
-      <AuthContextProvider>
-        <VendorContextProvider>
-          <Toaster />
-          <Component {...pageProps} />
-        </VendorContextProvider>
-      </AuthContextProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <AuthContextProvider>
+          <VendorContextProvider>
+            <Toaster />
+            <Component {...pageProps} />
+          </VendorContextProvider>
+        </AuthContextProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }

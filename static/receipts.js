@@ -302,8 +302,8 @@ export const receipts = [
     id: 'H31clJNC6FaN104',
     receiptNumber: 'CF7GCX1I',
     narration: 'Biscuits & iPhone 14',
-    dateCreated: new Date('2023-05-12'),
-    dateUpdated: new Date('2023-05-13'),
+    dateCreated: new Date('2023-04-12'),
+    dateUpdated: new Date('2023-04-13'),
     className: 'normal',
     logoUrl: '',
     seller: {
@@ -351,8 +351,8 @@ export const receipts = [
     id: 'H31NclJNC6Fa104',
     receiptNumber: 'GCXCF7NN',
     narration: 'Biscuits',
-    dateCreated: new Date('2023-04-04'),
-    dateUpdated: new Date('2023-04-04'),
+    dateCreated: new Date('2023-03-04'),
+    dateUpdated: new Date('2023-03-08'),
     className: 'normal',
     logoUrl: '',
     seller: {
@@ -390,8 +390,8 @@ export const receipts = [
     id: 'XXNclHXX06Fa104',
     receiptNumber: 'XX12CF7NN',
     narration: 'Biscuits',
-    dateCreated: new Date('2023-06-30'),
-    dateUpdated: new Date('2023-06-30'),
+    dateCreated: new Date('2023-03-30'),
+    dateUpdated: new Date('2023-03-30'),
     className: 'normal',
     logoUrl: '',
     seller: {
