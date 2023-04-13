@@ -21,7 +21,7 @@ const TeamSection = () => {
           <Image
             src={johnGodwinImage}
             alt='Isaiah Ernest Ovie - ernestechie'
-            className='rounded-tr-lg rounded-tl-xl h-[50%] object-fill'
+            className='rounded-tr-lg rounded-tl-xl h-[50%] object-fill w-full'
           />
           <div className='p-4 mt-4'>
             <p className='font-bold text-3xl text-primary'>John Godwin</p>
@@ -41,10 +41,18 @@ const TeamSection = () => {
               >
                 <AiOutlineGithub className='text-3xl text-secondary-dark' />
               </a>
-              <a href='https://twitter.com/' target='_blank' rel='noreferrer'>
+              <a
+                href='https://twitter.com/ayi_dev'
+                target='_blank'
+                rel='noreferrer'
+              >
                 <AiOutlineTwitter className='text-3xl text-blue' />
               </a>
-              <a href='https://linkedin.com/' target='_blank' rel='noreferrer'>
+              <a
+                href='https://www.linkedin.com/in/john-godwin'
+                target='_blank'
+                rel='noreferrer'
+              >
                 <AiFillLinkedin className='text-3xl text-blue-dark' />
               </a>
             </div>
@@ -54,7 +62,7 @@ const TeamSection = () => {
           <Image
             src={isaiahErnestImage}
             alt='Isaiah Ernest Ovie - ernestechie'
-            className='rounded-tr-lg rounded-tl-xl h-[50%] object-fill'
+            className='rounded-tr-lg rounded-tl-xl h-[50%] object-fill w-full'
           />
 
           <div className='p-4 mt-4'>

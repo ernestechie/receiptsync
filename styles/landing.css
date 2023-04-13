@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navbar {
+  background: transparent;
+  backdrop-filter: blur(15px);
+
+  /* Fallback for older browsers */
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 100;
+}
+
+.gradient {
+  background: linear-gradient(
+    268.98deg,
+    var(--primary) 0%,
+    var(--accent) 95.58%
+  );
+}
+
+.gradient-reverse {
+  background: linear-gradient(241.6deg, var(--accent) 0%, var(--primary) 100%);
+}
+
+@layer components {
+  .layout {
+    @apply px-4 sm:px-8 lg:px-20 xl:px-24;
+  }
+}

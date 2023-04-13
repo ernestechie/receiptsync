@@ -45,12 +45,12 @@ const Navbar = () => {
       </ul>
       <div className='flex items-center gap-8 md:gap-0'>
         <Link
-          href='#'
+          href='/login'
           className='bg-secondary-dark hover:bg-dark px-12 py-4 rounded-[32px] text-white hidden sm:block'
         >
           Sign In
         </Link>
-        <button>
+        <button className='bg-[rgba(0,0,0,0)] border-none cursor-pointer'>
           <RiMenu4Fill className='block md:hidden text-3xl' />
         </button>
       </div>

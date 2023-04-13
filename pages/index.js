@@ -7,6 +7,7 @@ import {
   FooterSection,
 } from '../components';
 import HeadWrapper from '../components/HeadWrapper';
+// import '../styles/landing.css';
 
 export default function Home() {
   return (

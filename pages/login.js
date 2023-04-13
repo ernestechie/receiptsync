@@ -110,7 +110,9 @@ const Login = () => {
       <Box component='section'>
         <Box mb={4}>
           <Padding>
-            <Image src={navLogo} alt='ReceiptSync logo' width={240} />
+            <Link href='/'>
+              <Image src={navLogo} alt='ReceiptSync logo' width={200} />
+            </Link>
           </Padding>
         </Box>
 
