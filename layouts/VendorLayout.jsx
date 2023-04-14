@@ -21,6 +21,8 @@ import { theme as CustomTheme } from '../pages/_app';
 import vendorContext from '../context/VendorContext';
 import { Menu } from '@mui/icons-material';
 import authContext from '../context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { changeVendorAuthState, logUserOut } from '../store/slices/vendorSlice';
 
 const drawerWidth = 240;
 
@@ -96,6 +98,7 @@ export default function VendorLayout({ children }) {
   const theme = useTheme();
   const pathname = useRouter().pathname;
   const router = useRouter();
+  const dispatch = useDispatch();
   const desktop = useMediaQuery(theme.breakpoints.up('lg'));
   const tablet = useMediaQuery(theme.breakpoints.up('md'));
   const mobile = useMediaQuery(theme.breakpoints.up('xs'));
@@ -141,10 +144,11 @@ export default function VendorLayout({ children }) {
   };
 
   const logoutHandler = () => {
-    localStorage.removeItem('user-token');
+    // localStorage.removeItem('user-token');
 
-    setIsLoggedIn(false);
-    router.replace('/login');
+    // setIsLoggedIn(false);
+    // router.replace('/login');
+    dispatch(logUserOut());
   };
 
   return (

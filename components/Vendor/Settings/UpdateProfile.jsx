@@ -1,11 +1,17 @@
-import { Box, Button, Typography } from '@mui/material';
-import Image from 'next/image';
-import React, { useContext, useState } from 'react';
-import authContext from '../../../context/AuthContext';
+import { Box, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const UpdateProfile = () => {
   const [editState, setEditState] = useState(false);
-  const { vendorData } = useContext(authContext);
+
+  const {
+    entities: {
+      vendor: { data: vendorData },
+    },
+  } = useSelector((state) => state);
+
+  console.log(vendorData);
 
   const toggleEditState = () => setEditState((prev) => !prev);
 

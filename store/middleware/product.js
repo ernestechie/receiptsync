@@ -11,9 +11,12 @@ const api =
     }
     const { url, method, data, onSuccess, onError, authToken } = action.payload;
 
-    // next(action);
-
     try {
+      dispatch({
+        type: 'products/loading',
+        payload: true,
+      });
+
       const res = await axios.request({
         baseURL: URL,
         url,
@@ -24,25 +27,20 @@ const api =
         },
       });
 
-      dispatch({
-        type: 'products/loading',
-        payload: true,
-      });
-
       if (res.status === 200) {
-        dispatch(
-          onSuccess({
-            products: res.data,
-          })
-        );
+        dispatch(onSuccess(res.data));
       }
     } catch (err) {
       console.log(err);
-      dispatch(
-        onError({
-          error: err.message,
-        })
-      );
+      // dispatch(
+      //   onError({
+      //     error: err.message,
+      //   })
+      // );
+      dispatch({
+        type: 'products/loading',
+        payload: false,
+      });
     }
   };
 

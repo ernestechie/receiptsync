@@ -26,13 +26,10 @@ const productSlice = createSlice({
     restock: (products, action) => {
       console.log('Restocked products');
     },
-    setAll: (products, action) => {
-      products.loading = false;
-      products.lastFetch = new Date().getTime();
-
-      console.log(action.payload.products);
-
-      products.products = action.payload.products;
+    setAll: (state, action) => {
+      state.loading = false;
+      state.lastFetch = new Date().getTime();
+      state.products = action.payload;
     },
   },
 });
@@ -55,7 +52,7 @@ export const loadProducts = () => (dispatch, getState) => {
       url: `${URL}/products`,
       authToken,
       onSuccess: setAll,
-      onError: apiCallFailed.type,
+      // onError: apiCallFailed.type,
     })
   );
 };

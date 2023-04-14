@@ -1,20 +1,22 @@
 import { Box, Grid, Typography } from '@mui/material';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { URL } from '../store/config/URL';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import loginPageSvg from '../assets/login-svg.svg';
+import { useDispatch } from 'react-redux';
 import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
-import Padding from '../layouts/Padding';
 import authContext from '../context/AuthContext';
+import Padding from '../layouts/Padding';
+import { logUserIn } from '../store/slices/vendorSlice';
+import { vendorFetchBegan } from '../store/api';
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     loginEmail: '',
     loginPassword: '',
@@ -45,52 +47,17 @@ const Login = () => {
     } else {
       setIsLoading(true);
       try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_ROUTE}/login`,
-          {
-            email: loginEmail,
-            password: loginPassword,
-          }
+        dispatch(
+          vendorFetchBegan({
+            url: `${URL}/login`,
+            method: 'post',
+            data: {
+              email: loginEmail,
+              password: loginPassword,
+            },
+            onSuccess: logUserIn,
+          })
         );
-
-        if (res.status === 200) {
-          const token = await res.data.token;
-          const decoded = jwtDecode(token);
-
-          localStorage.setItem(
-            'user-token',
-            JSON.stringify({ 'x-auth-token': token, id: decoded._id })
-          );
-
-          const req = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ROUTE}/vendors`,
-            {
-              headers: {
-                common: { 'x-auth-token': token },
-              },
-            }
-          );
-
-          const productsReq = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
-            {
-              headers: {
-                common: { 'x-auth-token': token },
-              },
-            }
-          );
-
-          setVendorData({
-            ...req.data,
-            products: productsReq.data,
-          });
-
-          setIsLoggedIn(true);
-          router.replace('/vendor');
-        } else {
-          console.log(res);
-          toast.error('Something went wrong');
-        }
       } catch (error) {
         console.log(error);
         if (error.response) {
@@ -180,13 +147,26 @@ const Login = () => {
                       onChange={formInputHandler}
                     />
                   </Box>
+                  <Typography
+                    fontSize={18}
+                    fontWeight={600}
+                    textAlign='right'
+                    color='secondary'
+                    mb={2}
+                  >
+                    <Link href='/forgot-password'>Forgot Password?</Link>
+                  </Typography>
                   <Box mb={4}>
-                    <Typography
-                      fontSize={18}
-                      fontWeight={600}
-                      color='secondary'
-                    >
-                      <Link href='/forgot-password'>Forgot Password?</Link>
+                    <Typography fontSize={18} fontWeight={400}>
+                      New to ReceiptSync? {'  '}
+                      <Typography
+                        fontSize={18}
+                        fontWeight={700}
+                        color='primary'
+                        component='span'
+                      >
+                        <Link href='/register'>Register</Link>
+                      </Typography>
                     </Typography>
                   </Box>
                   <ButtonContained

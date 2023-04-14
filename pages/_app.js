@@ -38,6 +38,8 @@ export const theme = createTheme({
   },
 });
 
+const store = configureStore();
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   nprogress.configure({ showSpinner: false });
@@ -47,8 +49,6 @@ export default function App({ Component, pageProps }) {
     router.events.on('routeChangeComplete', () => nprogress.done());
     router.events.on('routeChangeError', () => nprogress.done());
   }, [router.events]);
-
-  const store = configureStore();
 
   return (
     <Provider store={store}>
