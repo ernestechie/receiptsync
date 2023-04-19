@@ -1,31 +1,37 @@
 import { Box, Grid, Typography } from '@mui/material';
-import { URL } from '../store/config/URL';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
-import authContext from '../context/AuthContext';
 import Padding from '../layouts/Padding';
-import { logUserIn } from '../store/slices/vendorSlice';
 import { vendorFetchBegan } from '../store/api';
+import { URL } from '../store/config/URL';
+import { logUserIn } from '../store/slices/authSlice';
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const {
+    entities: {
+      vendor: { loggedIn, loading, data },
+    },
+  } = useSelector((state) => state);
+
   const [formData, setFormData] = useState({
     loginEmail: '',
     loginPassword: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const { loginEmail, loginPassword } = formData;
 
-  const { setIsLoggedIn, setVendorData } = useContext(authContext);
+  useEffect(() => {
+    if (loggedIn) router.replace('/vendor');
+  }, [loggedIn, data, router]);
 
   const formInputHandler = (e) => {
     setFormData((prev) => ({
@@ -45,11 +51,11 @@ const Login = () => {
     if (loginPassword.length < 1) {
       toast.error('Password must not be empty');
     } else {
-      setIsLoading(true);
       try {
+        // console.log(loading);
         dispatch(
           vendorFetchBegan({
-            url: `${URL}/login`,
+            url: `${URL}/auth/login`,
             method: 'post',
             data: {
               email: loginEmail,
@@ -58,6 +64,7 @@ const Login = () => {
             onSuccess: logUserIn,
           })
         );
+        // router.replace('/vendor');
       } catch (error) {
         console.log(error);
         if (error.response) {
@@ -66,14 +73,13 @@ const Login = () => {
           toast.error('Something went wrong');
         }
       }
-      setIsLoading(false);
     }
   };
 
   return (
     <>
       <HeadWrapper title='Login | Login to your ReceiptSync Vendor Account | Receipt Sync' />
-      {isLoading && <Loader />}
+      {loading && <Loader />}
       <Box component='section'>
         <Box mb={4}>
           <Padding>
@@ -175,7 +181,7 @@ const Login = () => {
                     textColor='#fff'
                     style={{ width: '100%', maxWidth: 400 }}
                     handleClick={loginHandler}
-                    disabled={isLoading}
+                    disabled={loading}
                   />
                 </form>
               </Box>

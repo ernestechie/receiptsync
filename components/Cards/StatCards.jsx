@@ -1,18 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import StatCard from './StatCard';
 import { Grid, Box, Typography } from '@mui/material';
-import authContext from '../../context/AuthContext';
 import { useSelector } from 'react-redux';
 
 const StatCards = () => {
-  // const { vendorData } = useContext(authContext);
-
   const {
     entities: {
       vendor: { data: vendorData },
       products: { products },
     },
   } = useSelector((state) => state);
+
+  console.log(products);
 
   return (
     <Box sx={{ mx: 'auto !important', maxWidth: 1024 }}>

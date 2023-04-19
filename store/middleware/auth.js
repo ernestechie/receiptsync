@@ -13,7 +13,7 @@ const vendor =
 
     try {
       dispatch({
-        type: 'vendor/loading',
+        type: 'auth/loading',
         payload: true,
       });
 
@@ -29,6 +29,7 @@ const vendor =
 
       if (res.status === 200) {
         dispatch(onSuccess(res.data));
+        localStorage.setItem('vendorData', JSON.stringify(res.data));
       }
     } catch (err) {
       console.log(err);
@@ -38,7 +39,7 @@ const vendor =
       //   })
       // );
       dispatch({
-        type: 'vendor/loading',
+        type: 'auth/loading',
         payload: false,
       });
     }

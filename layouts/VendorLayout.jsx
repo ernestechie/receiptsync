@@ -1,28 +1,34 @@
-import React, { useContext } from 'react';
-import { useTheme } from '@mui/material/styles';
-import { Box, Typography, styled, Divider, Stack } from '@mui/material';
-import { MdLogout } from 'react-icons/md';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import IconButton from '@mui/material/IconButton';
+import { Menu } from '@mui/icons-material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import {
+  Box,
+  Divider,
+  Stack,
+  Typography,
+  styled,
+  useMediaQuery,
+} from '@mui/material';
+import MuiAppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiDrawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useMediaQuery } from '@mui/material';
-import { vendorRoutes } from '../static/vendor';
+import { useTheme } from '@mui/material/styles';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { theme as CustomTheme } from '../pages/_app';
-import vendorContext from '../context/VendorContext';
-import { Menu } from '@mui/icons-material';
-import authContext from '../context/AuthContext';
+import React, { useContext } from 'react';
+import { MdLogout } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import { changeVendorAuthState, logUserOut } from '../store/slices/vendorSlice';
+import authContext from '../context/AuthContext';
+import vendorContext from '../context/VendorContext';
+import { theme as CustomTheme } from '../pages/_app';
+import { vendorRoutes } from '../static/vendor';
+import { changeVendorAuthState, logUserOut } from '../store/slices/authSlice';
 
 const drawerWidth = 240;
 

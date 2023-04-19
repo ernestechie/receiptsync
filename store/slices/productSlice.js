@@ -40,8 +40,8 @@ export const { add, remove, restock, edit, setAll } = productSlice.actions;
 // ACTIONS
 
 export const loadProducts = () => (dispatch, getState) => {
-  // const { lastFetch } = getState().entities.bugs;
-  const authToken = useAuthToken();
+  // const { lastFetch } = getState().entities.products;
+  const authToken = JSON.parse(localStorage.getItem('user-token'));
 
   // const diff = moment().diff(moment(lastFetch), 'minutes');
 

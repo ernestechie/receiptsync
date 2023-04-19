@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
+import authReducer from './slices/authSlice';
 import productsReducer from './slices/productSlice';
-import vendorReducer from './slices/vendorSlice';
 
 export default combineReducers({
   products: productsReducer,
-  vendor: vendorReducer,
+  vendor: authReducer,
 });
