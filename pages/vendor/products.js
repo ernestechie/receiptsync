@@ -36,14 +36,14 @@ export default function Products() {
         <HeadWrapper />
         <VendorLayout>
           <Padding>
-            {loading && <p>Loading...</p>}
+            {/* {loading && <p>Fetching...</p>}
             <button
               type='button'
               style={{ padding: '1rem', cursor: 'pointer' }}
               onClick={getProductsHandler}
             >
               Get products
-            </button>
+            </button> */}
             <ProductsHeader
               changeSorting={changeSortParam}
               sortMenuOpen={sortMenuOpen}

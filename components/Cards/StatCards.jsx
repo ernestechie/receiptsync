@@ -1,17 +1,15 @@
+import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import StatCard from './StatCard';
-import { Grid, Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import StatCard from './StatCard';
 
 const StatCards = () => {
   const {
     entities: {
       vendor: { data: vendorData },
-      products: { products },
+      products: { products, loading },
     },
   } = useSelector((state) => state);
-
-  console.log(products);
 
   return (
     <Box sx={{ mx: 'auto !important', maxWidth: 1024 }}>
@@ -32,7 +30,7 @@ const StatCards = () => {
             title='Portfolio'
             param='All Time'
             money={true}
-            value={147598623}
+            value={7812271007}
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} width='100%'>
@@ -42,7 +40,7 @@ const StatCards = () => {
             title='Sales'
             param='Today'
             money={true}
-            value={7812275}
+            value={20244627}
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} width='100%'>
@@ -52,7 +50,7 @@ const StatCards = () => {
             title='Orders'
             param='Today'
             money={false}
-            value={12}
+            value={1007}
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} width='100%'>
@@ -62,7 +60,7 @@ const StatCards = () => {
             title='Products'
             param='Current'
             money={false}
-            value={products?.length}
+            value={loading ? 'Loading...' : products?.length}
           />
         </Grid>
       </Grid>

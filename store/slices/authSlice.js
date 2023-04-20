@@ -21,9 +21,6 @@ const auth = createSlice({
       state.loading = false;
       state.lastFetch = new Date().getTime();
     },
-    setLSVendorData: (state, action) => {
-      state.data = { ...action.payload };
-    },
     updateVendorData: (state, action) => {
       console.log('Vendor data updated');
       state.lastFetch = new Date().getTime();
@@ -49,7 +46,6 @@ export const {
   remove,
   mutateAuthState,
   mutateAuthToken,
-  setLSVendorData,
 } = auth.actions;
 
 // ACTIONS
@@ -60,24 +56,17 @@ export const loadVendorData = () => (dispatch, getState) => {
 
   console.log(`Last Fetch: ${last} Minutes ago`);
 
-  if (last && last <= 15) {
-    if (localStorage.getItem('vendorData')) {
-      const data = JSON.parse(localStorage.getItem('vendorData'));
-      dispatch(setLSVendorData(data));
-      dispatch(mutateAuthState(true));
-      dispatch(mutateAuthToken({ token: authToken['x-auth-token'] }));
-    }
-  } else {
-    dispatch(
-      vendorFetchBegan({
-        url: `${URL}/vendors`,
-        authToken,
-        onSuccess: setVendorData,
-      })
-    );
-    dispatch(mutateAuthState(true));
-    dispatch(mutateAuthToken({ token: authToken['x-auth-token'] }));
-  }
+  if (typeof last === 'number' && last <= 10) return;
+
+  dispatch(
+    vendorFetchBegan({
+      url: `${URL}/vendors`,
+      authToken,
+      onSuccess: setVendorData,
+    })
+  );
+  dispatch(mutateAuthState(true));
+  dispatch(mutateAuthToken({ token: authToken['x-auth-token'] }));
 };
 
 export const logUserIn =

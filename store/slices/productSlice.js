@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { URL } from '../config/URL';
 import { apiCallBegan, apiCallFailed } from '../api';
-import useAuthToken from '../../utils/useAuthToken';
+import moment from 'moment';
 
 const productSlice = createSlice({
   name: 'products',
@@ -13,17 +13,21 @@ const productSlice = createSlice({
   reducers: {
     loading: (state, action) => {
       state.loading = action.payload;
+      state.loading = false;
     },
-    add: (products, action) => {
+    add: (state, action) => {
       console.log('Product added');
+      state.loading = false;
     },
-    edit: (products, action) => {
+    edit: (state, action) => {
       console.log('Product edited');
+      state.loading = false;
     },
-    remove: (products, action) => {
-      console.log('Product deleted');
+    remove: (state, action) => {
+      console.log(action.payload);
+      state.loading = false;
     },
-    restock: (products, action) => {
+    restock: (state, action) => {
       console.log('Restocked products');
     },
     setAll: (state, action) => {
@@ -37,15 +41,14 @@ const productSlice = createSlice({
 export default productSlice.reducer;
 export const { add, remove, restock, edit, setAll } = productSlice.actions;
 
-// ACTIONS
-
+// ACTION CREATORS
 export const loadProducts = () => (dispatch, getState) => {
-  // const { lastFetch } = getState().entities.products;
+  const { lastFetch } = getState().entities.products;
   const authToken = JSON.parse(localStorage.getItem('user-token'));
 
-  // const diff = moment().diff(moment(lastFetch), 'minutes');
+  const diff = moment().diff(moment(lastFetch), 'minutes');
 
-  // if (diff <= 10) return;
+  if (typeof diff === 'number' && diff <= 10) return;
 
   dispatch(
     apiCallBegan({
@@ -56,3 +59,21 @@ export const loadProducts = () => (dispatch, getState) => {
     })
   );
 };
+
+export const deleteProduct =
+  ({ token, productId }) =>
+  (dispatch, getState) => {
+    if (token) {
+      console.log({ 'x-auth-token': token, id: productId });
+
+      dispatch(
+        apiCallBegan({
+          url: `${URL}/products/${productId}`,
+          method: 'delete',
+          authToken: { 'x-auth-token': token },
+          onSuccess: remove,
+          // onError: apiCallFailed.type,
+        })
+      );
+    }
+  };

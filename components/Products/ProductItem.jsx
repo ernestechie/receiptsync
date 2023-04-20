@@ -14,14 +14,21 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
-import React, { useContext, useState } from 'react';
-import authContext from '../../context/AuthContext';
+import React, { useState } from 'react';
 import { parseNigerianNaira } from '../../utils/parseCurrency';
 import { parseDate } from '../../utils/parseDate';
 import { ExpandMore, StyledMenu } from '../Common/Menu';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteProduct } from '../../store/slices/productSlice';
 
 function CustomizedMenus(props) {
-  const { deleteProductHandler, editProductHandler } = useContext(authContext);
+  const dispatch = useDispatch();
+  const {
+    entities: {
+      products: { products: PRODUCTS },
+      vendor: { token },
+    },
+  } = useSelector((state) => state);
 
   return (
     <StyledMenu
@@ -38,7 +45,12 @@ function CustomizedMenus(props) {
         Edit
       </MenuItem> */}
       <MenuItem
-        onClick={() => deleteProductHandler(props.productId)}
+        // onClick={() => console.log(props.productId)}
+        onClick={() => {
+          if (token) {
+            dispatch(deleteProduct({ token, productId: props.productId }));
+          }
+        }}
         sx={{
           color: '#d61327',
           '& svg': {

@@ -29,7 +29,6 @@ const vendor =
 
       if (res.status === 200) {
         dispatch(onSuccess(res.data));
-        localStorage.setItem('vendorData', JSON.stringify(res.data));
       }
     } catch (err) {
       console.log(err);

@@ -52,7 +52,6 @@ const Login = () => {
       toast.error('Password must not be empty');
     } else {
       try {
-        // console.log(loading);
         dispatch(
           vendorFetchBegan({
             url: `${URL}/auth/login`,
@@ -64,7 +63,6 @@ const Login = () => {
             onSuccess: logUserIn,
           })
         );
-        // router.replace('/vendor');
       } catch (error) {
         console.log(error);
         if (error.response) {
@@ -88,7 +86,6 @@ const Login = () => {
             </Link>
           </Padding>
         </Box>
-
         <Padding>
           <Grid
             container
@@ -117,8 +114,6 @@ const Login = () => {
                 height={400}
                 // src={loginPageSvg}
                 alt='ReceiptSync - man looking at a sales chart'
-                // width={360}
-                // height={360}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={6} width='100%'>
@@ -128,7 +123,6 @@ const Login = () => {
                 </Typography>
                 <Typography fontSize={20}>Enter details to login</Typography>
               </Box>
-
               <Box mt={4} mx='auto' maxWidth={400}>
                 <form>
                   <Box my={2}>

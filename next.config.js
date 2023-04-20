@@ -14,14 +14,14 @@ const nextConfig = {
     ],
   },
 
-  async rewrites() {
-    return [
-      {
-        source: '/login',
-        destination: 'https://receipts-app.onrender.com/api/auth/login',
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/login',
+  //       destination: 'https://receipts-app.onrender.com/api/auth/login',
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;
