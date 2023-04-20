@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as actions from '../api';
 import { URL } from '../config/URL';
+import { toast } from 'react-hot-toast';
 
 const api =
   ({ dispatch }) =>
@@ -32,6 +33,18 @@ const api =
           dispatch(onSuccess(data));
         } else {
           dispatch(onSuccess(res.data));
+        }
+
+        switch (method) {
+          case 'get':
+            toast.success('Products loaded');
+            break;
+          case 'post':
+            toast.success('Product added');
+            break;
+          case 'delete':
+            toast.success('Product deleted');
+            break;
         }
       }
     } catch (err) {

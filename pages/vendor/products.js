@@ -36,12 +36,17 @@ export default function Products() {
               sortParam={sortParam}
             />
             {loading && <Spinner />}
-            {!loading && products?.length > 0 && (
+            {products?.length > 0 && (
               <ProductList products={products} sortBy={sortParam} />
             )}
-            {products?.length === 0 && (
-              <Typography textAlign='center' py={8} fontSize={30}>
-                No products yet
+            {!loading && products?.length === 0 && (
+              <Typography
+                textAlign='center'
+                py={8}
+                fontSize={30}
+                fontWeight={600}
+              >
+                Inventory is Empty
               </Typography>
             )}
           </Padding>

@@ -15,8 +15,14 @@ const productSlice = createSlice({
       state.loading = action.payload;
     },
     add: (state, action) => {
-      console.log(action.payload);
+      const newProduct = {
+        ...action.payload,
+        imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${action.payload.imageName}`,
+      };
+
       state.loading = false;
+      state.products.push(newProduct);
+      state.lastFetch = new Date().getTime();
     },
     edit: (state, action) => {
       console.log('Product edited');
