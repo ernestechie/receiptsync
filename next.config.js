@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -13,6 +13,15 @@ const nextConfig = {
       },
     ],
   },
+
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/login',
+  //       destination: 'https://receipts-app.onrender.com/api/auth/login',
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;

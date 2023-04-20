@@ -1,23 +1,26 @@
-import { useContext, useState } from 'react';
+import { Typography } from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ProductList, ProductsHeader } from '../../components';
+import Spinner from '../../components/Common/Spinner';
 import HeadWrapper from '../../components/HeadWrapper';
 import Padding from '../../layouts/Padding';
 import PrivateRoute from '../../layouts/PrivateRoute';
 import VendorLayout from '../../layouts/VendorLayout';
-import Spinner from '../../components/Common/Spinner';
-import authContext from '../../context/AuthContext';
-import { Typography } from '@mui/material';
 
 export default function Products() {
-  const { vendorData, isLoading } = useContext(authContext);
-
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [sortParam, setSortParam] = useState('date-added-asc');
+
+  const {
+    entities: {
+      products: { products, loading },
+    },
+  } = useSelector((state) => state);
 
   const changeSortParam = (param) => {
     setSortParam(param);
     setSortMenuOpen(false);
-    console.log(param);
   };
 
   return (
@@ -32,11 +35,11 @@ export default function Products() {
               setSortMenuOpen={setSortMenuOpen}
               sortParam={sortParam}
             />
-            {isLoading && <Spinner />}
-            {!isLoading && vendorData.products?.length > 0 && (
-              <ProductList products={vendorData.products} sortBy={sortParam} />
+            {loading && <Spinner />}
+            {!loading && products?.length > 0 && (
+              <ProductList products={products} sortBy={sortParam} />
             )}
-            {vendorData.products?.length === 0 && (
+            {products?.length === 0 && (
               <Typography textAlign='center' py={8} fontSize={30}>
                 No products yet
               </Typography>

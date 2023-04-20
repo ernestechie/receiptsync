@@ -1,14 +1,13 @@
-import '../styles/globals.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { VendorContextProvider } from '../context/VendorContext';
-import { AuthContextProvider } from '../context/AuthContext';
-import { Toaster } from 'react-hot-toast';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import nprogress from 'nprogress';
 import 'nprogress/nprogress.css';
+import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
+import { VendorContextProvider } from '../context/VendorContext';
 import configureStore from '../store/store';
+import '../styles/globals.css';
 
 export const theme = createTheme({
   palette: {
@@ -38,6 +37,8 @@ export const theme = createTheme({
   },
 });
 
+const store = configureStore();
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   nprogress.configure({ showSpinner: false });
@@ -48,17 +49,13 @@ export default function App({ Component, pageProps }) {
     router.events.on('routeChangeError', () => nprogress.done());
   }, [router.events]);
 
-  const store = configureStore();
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <AuthContextProvider>
-          <VendorContextProvider>
-            <Toaster />
-            <Component {...pageProps} />
-          </VendorContextProvider>
-        </AuthContextProvider>
+        <VendorContextProvider>
+          <Toaster />
+          <Component {...pageProps} />
+        </VendorContextProvider>
       </ThemeProvider>
     </Provider>
   );

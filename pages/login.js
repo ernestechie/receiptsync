@@ -1,29 +1,37 @@
 import { Box, Grid, Typography } from '@mui/material';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import loginPageSvg from '../assets/login-svg.svg';
+import { useDispatch, useSelector } from 'react-redux';
 import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
 import Padding from '../layouts/Padding';
-import authContext from '../context/AuthContext';
+import { vendorFetchBegan } from '../store/api';
+import { URL } from '../store/config/URL';
+import { logUserIn } from '../store/slices/authSlice';
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const {
+    entities: {
+      vendor: { loggedIn, loading, data },
+    },
+  } = useSelector((state) => state);
+
   const [formData, setFormData] = useState({
     loginEmail: '',
     loginPassword: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const { loginEmail, loginPassword } = formData;
 
-  const { setIsLoggedIn, setVendorData } = useContext(authContext);
+  useEffect(() => {
+    if (loggedIn) router.replace('/vendor');
+  }, [loggedIn, data, router]);
 
   const formInputHandler = (e) => {
     setFormData((prev) => ({
@@ -43,54 +51,18 @@ const Login = () => {
     if (loginPassword.length < 1) {
       toast.error('Password must not be empty');
     } else {
-      setIsLoading(true);
       try {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_ROUTE}/login`,
-          {
-            email: loginEmail,
-            password: loginPassword,
-          }
+        dispatch(
+          vendorFetchBegan({
+            url: `${URL}/auth/login`,
+            method: 'post',
+            data: {
+              email: loginEmail,
+              password: loginPassword,
+            },
+            onSuccess: logUserIn,
+          })
         );
-
-        if (res.status === 200) {
-          const token = await res.data.token;
-          const decoded = jwtDecode(token);
-
-          localStorage.setItem(
-            'user-token',
-            JSON.stringify({ 'x-auth-token': token, id: decoded._id })
-          );
-
-          const req = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ROUTE}/vendors`,
-            {
-              headers: {
-                common: { 'x-auth-token': token },
-              },
-            }
-          );
-
-          const productsReq = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
-            {
-              headers: {
-                common: { 'x-auth-token': token },
-              },
-            }
-          );
-
-          setVendorData({
-            ...req.data,
-            products: productsReq.data,
-          });
-
-          setIsLoggedIn(true);
-          router.replace('/vendor');
-        } else {
-          console.log(res);
-          toast.error('Something went wrong');
-        }
       } catch (error) {
         console.log(error);
         if (error.response) {
@@ -99,14 +71,13 @@ const Login = () => {
           toast.error('Something went wrong');
         }
       }
-      setIsLoading(false);
     }
   };
 
   return (
     <>
       <HeadWrapper title='Login | Login to your ReceiptSync Vendor Account | Receipt Sync' />
-      {isLoading && <Loader />}
+      {loading && <Loader />}
       <Box component='section'>
         <Box mb={4}>
           <Padding>
@@ -115,7 +86,6 @@ const Login = () => {
             </Link>
           </Padding>
         </Box>
-
         <Padding>
           <Grid
             container
@@ -144,8 +114,6 @@ const Login = () => {
                 height={400}
                 // src={loginPageSvg}
                 alt='ReceiptSync - man looking at a sales chart'
-                // width={360}
-                // height={360}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={6} width='100%'>
@@ -155,7 +123,6 @@ const Login = () => {
                 </Typography>
                 <Typography fontSize={20}>Enter details to login</Typography>
               </Box>
-
               <Box mt={4} mx='auto' maxWidth={400}>
                 <form>
                   <Box my={2}>
@@ -180,13 +147,26 @@ const Login = () => {
                       onChange={formInputHandler}
                     />
                   </Box>
+                  <Typography
+                    fontSize={18}
+                    fontWeight={600}
+                    textAlign='right'
+                    color='secondary'
+                    mb={2}
+                  >
+                    <Link href='/forgot-password'>Forgot Password?</Link>
+                  </Typography>
                   <Box mb={4}>
-                    <Typography
-                      fontSize={18}
-                      fontWeight={600}
-                      color='secondary'
-                    >
-                      <Link href='/forgot-password'>Forgot Password?</Link>
+                    <Typography fontSize={18} fontWeight={400}>
+                      New to ReceiptSync? {'  '}
+                      <Typography
+                        fontSize={18}
+                        fontWeight={700}
+                        color='primary'
+                        component='span'
+                      >
+                        <Link href='/register'>Register</Link>
+                      </Typography>
                     </Typography>
                   </Box>
                   <ButtonContained
@@ -195,7 +175,7 @@ const Login = () => {
                     textColor='#fff'
                     style={{ width: '100%', maxWidth: 400 }}
                     handleClick={loginHandler}
-                    disabled={isLoading}
+                    disabled={loading}
                   />
                 </form>
               </Box>
