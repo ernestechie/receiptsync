@@ -7,8 +7,15 @@ import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
 import vendorContext from '../../context/VendorContext';
 import Drawer from '../Common/Drawer';
 import { ButtonContained } from '../ReceiptSyncButtons';
+import { useSelector } from 'react-redux';
 
 const ReceiptsHeader = (props) => {
+  const {
+    entities: {
+      receipts: { addedProducts },
+    },
+  } = useSelector((state) => state);
+
   const [maxDate, setMaxDate] = useState(
     new Date().toISOString().split('T')[0]
   );
@@ -43,7 +50,6 @@ const ReceiptsHeader = (props) => {
 
   const {
     handleOpenProductsModal,
-    addedProducts,
     addNewProductToReceipt,
     changeProductQuantity,
     setAddedProducts,
