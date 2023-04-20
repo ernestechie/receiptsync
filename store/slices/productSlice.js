@@ -24,7 +24,9 @@ const productSlice = createSlice({
       state.loading = false;
     },
     remove: (state, action) => {
-      console.log(action.payload);
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload
+      );
       state.loading = false;
     },
     restock: (state, action) => {
@@ -64,13 +66,12 @@ export const deleteProduct =
   ({ token, productId }) =>
   (dispatch, getState) => {
     if (token) {
-      console.log({ 'x-auth-token': token, id: productId });
-
       dispatch(
         apiCallBegan({
           url: `${URL}/products/${productId}`,
           method: 'delete',
           authToken: { 'x-auth-token': token },
+          data: productId,
           onSuccess: remove,
           // onError: apiCallFailed.type,
         })

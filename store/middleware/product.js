@@ -28,7 +28,11 @@ const api =
       });
 
       if (res.status === 200) {
-        dispatch(onSuccess(res.data));
+        if (method === 'delete') {
+          dispatch(onSuccess(data));
+        } else {
+          dispatch(onSuccess(res.data));
+        }
       }
     } catch (err) {
       console.log(err);

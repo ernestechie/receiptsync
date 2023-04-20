@@ -1,19 +1,16 @@
 import { Typography } from '@mui/material';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ProductList, ProductsHeader } from '../../components';
 import Spinner from '../../components/Common/Spinner';
 import HeadWrapper from '../../components/HeadWrapper';
 import Padding from '../../layouts/Padding';
 import PrivateRoute from '../../layouts/PrivateRoute';
 import VendorLayout from '../../layouts/VendorLayout';
-import { loadProducts } from '../../store/slices/productSlice';
 
 export default function Products() {
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [sortParam, setSortParam] = useState('date-added-asc');
-
-  const dispatch = useDispatch();
 
   const {
     entities: {
@@ -26,24 +23,12 @@ export default function Products() {
     setSortMenuOpen(false);
   };
 
-  const getProductsHandler = () => {
-    dispatch(loadProducts());
-  };
-
   return (
     <>
       <PrivateRoute>
         <HeadWrapper />
         <VendorLayout>
           <Padding>
-            {/* {loading && <p>Fetching...</p>}
-            <button
-              type='button'
-              style={{ padding: '1rem', cursor: 'pointer' }}
-              onClick={getProductsHandler}
-            >
-              Get products
-            </button> */}
             <ProductsHeader
               changeSorting={changeSortParam}
               sortMenuOpen={sortMenuOpen}
