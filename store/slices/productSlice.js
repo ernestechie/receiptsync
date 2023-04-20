@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { URL } from '../config/URL';
-import { apiCallBegan, apiCallFailed } from '../api';
 import moment from 'moment';
+import { apiCallBegan, apiCallFailed } from '../api';
+import { URL } from '../config/URL';
 
 const productSlice = createSlice({
   name: 'products',
