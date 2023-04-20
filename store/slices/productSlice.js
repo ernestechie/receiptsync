@@ -12,8 +12,7 @@ const productSlice = createSlice({
   },
   reducers: {
     loading: (state, action) => {
-      state.loading = action.payload;
-      state.loading = false;
+      state.loading = action.payload
     },
     add: (state, action) => {
       console.log('Product added');
