@@ -13,10 +13,9 @@ const productSlice = createSlice({
   reducers: {
     loading: (state, action) => {
       state.loading = action.payload;
-      state.loading = false;
     },
     add: (state, action) => {
-      console.log('Product added');
+      console.log(action.payload);
       state.loading = false;
     },
     edit: (state, action) => {
@@ -62,9 +61,26 @@ export const loadProducts = () => (dispatch, getState) => {
   );
 };
 
+export const addProduct =
+  ({ token, data }) =>
+  (dispatch) => {
+    if (token) {
+      dispatch(
+        apiCallBegan({
+          url: `${URL}/products`,
+          method: 'post',
+          authToken: { 'x-auth-token': token },
+          data,
+          onSuccess: add,
+          // onError: apiCallFailed.type,
+        })
+      );
+    }
+  };
+
 export const deleteProduct =
   ({ token, productId }) =>
-  (dispatch, getState) => {
+  (dispatch) => {
     if (token) {
       dispatch(
         apiCallBegan({

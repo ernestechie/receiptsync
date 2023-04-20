@@ -8,6 +8,8 @@ import authContext from '../../context/AuthContext';
 import Drawer from '../Common/Drawer';
 import { StyledMenu } from '../Insights/SelectYear';
 import { ButtonContained } from '../ReceiptSyncButtons';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../store/slices/productSlice';
 
 const ProductsHeader = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -18,6 +20,8 @@ const ProductsHeader = (props) => {
     price: '',
     image: null,
   });
+
+  const dispatch = useDispatch();
 
   const { vendorData, setVendorData } = useContext(authContext);
 
@@ -59,45 +63,52 @@ const ProductsHeader = (props) => {
       formData.append('description', description);
       formData.append('price', parseInt(price));
       formData.append('image', image);
-      formData.append('categories[0]', 'clothes');
-      formData.append('categories[1]', 'thrift');
+      formData.append('categories[0]', '...');
+      formData.append('categories[1]', '...');
 
       const userToken = JSON.parse(localStorage.getItem('user-token'));
       try {
-        const req = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
-          formData,
-          {
-            headers: {
-              common: { 'x-auth-token': userToken['x-auth-token'] },
-            },
-          }
+        dispatch(
+          addProduct({
+            token: userToken['x-auth-token'],
+            data: formData,
+          })
         );
+        // imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${req.data.imageName}`,
+        // const req = await axios.post(
+        //   `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
+        //   formData,
+        //   {
+        //     headers: {
+        //       common: { 'x-auth-token': userToken['x-auth-token'] },
+        //     },
+        //   }
+        // );
 
-        if (req.status === 200 || req.status === 201) {
-          console.log(req);
-          toast.success('Product added!');
-          const ctxProducts = vendorData.products;
+        // if (req.status === 200 || req.status === 201) {
+        //   console.log(req);
+        //   toast.success('Product added!');
+        //   const ctxProducts = vendorData.products;
 
-          ctxProducts.push({
-            ...req.data,
-            imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${req.data.imageName}`,
-          });
+        //   ctxProducts.push({
+        //     ...req.data,
+        //     imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${req.data.imageName}`,
+        //   });
 
-          setVendorData((prev) => ({
-            ...prev,
-            products: ctxProducts,
-          }));
+        //   setVendorData((prev) => ({
+        //     ...prev,
+        //     products: ctxProducts,
+        //   }));
 
-          setProductData({
-            name: '',
-            description: '',
-            price: '',
-            image: null,
-          });
+        //   setProductData({
+        //     name: '',
+        //     description: '',
+        //     price: '',
+        //     image: null,
+        //   });
 
-          toggleDrawer(false);
-        }
+        //   toggleDrawer(false);
+        // }
       } catch (error) {
         console.log(error);
         toast.error('Error adding product');

@@ -27,7 +27,7 @@ const api =
         },
       });
 
-      if (res.status === 200) {
+      if (res.status === 200 || res.status === 201) {
         if (method === 'delete') {
           dispatch(onSuccess(data));
         } else {
