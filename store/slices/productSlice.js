@@ -19,7 +19,6 @@ const productSlice = createSlice({
         ...action.payload,
         imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${action.payload.imageName}`,
       };
-
       state.loading = false;
       state.products.push(newProduct);
       state.lastFetch = new Date().getTime();
@@ -42,11 +41,16 @@ const productSlice = createSlice({
       state.lastFetch = new Date().getTime();
       state.products = action.payload;
     },
+    logError: (state, action) => {
+      state.loading = false;
+      console.log(action.payload);
+    },
   },
 });
 
 export default productSlice.reducer;
-export const { add, remove, restock, edit, setAll } = productSlice.actions;
+export const { add, remove, restock, edit, setAll, logError, loading } =
+  productSlice.actions;
 
 // ACTION CREATORS
 export const loadProducts = () => (dispatch, getState) => {
@@ -57,12 +61,14 @@ export const loadProducts = () => (dispatch, getState) => {
 
   if (typeof diff === 'number' && diff <= 10) return;
 
+  dispatch(loading(true));
+
   dispatch(
     apiCallBegan({
       url: `${URL}/products`,
       authToken,
       onSuccess: setAll,
-      // onError: apiCallFailed.type,
+      onError: logError,
     })
   );
 };
@@ -71,6 +77,8 @@ export const addProduct =
   ({ token, data }) =>
   (dispatch) => {
     if (token) {
+      dispatch(loading(true));
+
       dispatch(
         apiCallBegan({
           url: `${URL}/products`,
@@ -78,7 +86,7 @@ export const addProduct =
           authToken: { 'x-auth-token': token },
           data,
           onSuccess: add,
-          // onError: apiCallFailed.type,
+          onError: logError,
         })
       );
     }
@@ -88,6 +96,7 @@ export const deleteProduct =
   ({ token, productId }) =>
   (dispatch) => {
     if (token) {
+      dispatch(loading(true));
       dispatch(
         apiCallBegan({
           url: `${URL}/products/${productId}`,
@@ -95,7 +104,7 @@ export const deleteProduct =
           authToken: { 'x-auth-token': token },
           data: productId,
           onSuccess: remove,
-          // onError: apiCallFailed.type,
+          onError: logError,
         })
       );
     }

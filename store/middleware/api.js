@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as actions from '../api';
+import { apiCallBegan } from '../api';
 import { URL } from '../config/URL';
 import { toast } from 'react-hot-toast';
 
@@ -7,17 +7,12 @@ const api =
   ({ dispatch }) =>
   (next) =>
   async (action) => {
-    if (action.type !== actions.apiCallBegan().type) {
+    if (action.type !== apiCallBegan().type) {
       return next(action);
     }
     const { url, method, data, onSuccess, onError, authToken } = action.payload;
 
     try {
-      dispatch({
-        type: 'products/loading',
-        payload: true,
-      });
-
       const res = await axios.request({
         baseURL: URL,
         url,
@@ -37,27 +32,22 @@ const api =
 
         switch (method) {
           case 'get':
-            toast.success('Products loaded');
+            toast.success('Loaded');
             break;
           case 'post':
-            toast.success('Product added');
-            break;
-          case 'delete':
-            toast.success('Product deleted');
+            toast.success('Successful');
             break;
         }
       }
     } catch (err) {
-      console.log(err);
-      // dispatch(
-      //   onError({
-      //     error: err.message,
-      //   })
-      // );
-      dispatch({
-        type: 'products/loading',
-        payload: false,
-      });
+      if (err.message) toast.error(err.message);
+      toast.error('Something went wrong');
+
+      dispatch(
+        onError({
+          error: err.message,
+        })
+      );
     }
   };
 

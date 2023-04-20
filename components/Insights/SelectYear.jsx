@@ -5,8 +5,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha, styled } from '@mui/material/styles';
 import React, { useContext, useEffect, useState } from 'react';
-import authContext from '../../context/AuthContext';
 import vendorContext from '../../context/VendorContext';
+import { useSelector } from 'react-redux';
 
 export const StyledMenu = styled((props) => (
   <Menu
@@ -55,8 +55,13 @@ export default function SelectYear() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [lifetime, setLifetime] = useState([]);
 
+  const {
+    entities: {
+      vendor: { data },
+    },
+  } = useSelector((state) => state);
+
   const { selectedYear, handleSelectedYear } = useContext(vendorContext);
-  const { vendorData } = useContext(authContext);
 
   const open = Boolean(anchorEl);
 
@@ -74,7 +79,7 @@ export default function SelectYear() {
   };
 
   useEffect(() => {
-    const dateJoined = new Date(vendorData.createdAt).getUTCFullYear();
+    const dateJoined = new Date(data.createdAt).getUTCFullYear();
     const today = new Date().getUTCFullYear();
 
     const years = [];
@@ -83,7 +88,7 @@ export default function SelectYear() {
       years.push(dateJoined + index);
     }
     setLifetime(years);
-  }, [vendorData.createdAt]);
+  }, [data.createdAt]);
 
   return (
     <div>

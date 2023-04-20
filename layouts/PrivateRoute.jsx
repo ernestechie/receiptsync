@@ -24,8 +24,11 @@ const PrivateRoute = ({ children }) => {
 
   useEffect(() => {
     const authToken = JSON.parse(window.localStorage.getItem('user-token'));
-    const decoded = jwtDecode(authToken['x-auth-token']);
-    if (!decoded) router.replace('/login');
+    if (authToken) {
+      const decoded = jwtDecode(authToken['x-auth-token']);
+      if (decoded) return;
+    }
+    router.replace('/login');
   }, [router, loggedIn, loading, data]);
 
   return (
