@@ -17,11 +17,11 @@ import {
 import { Pie, Line } from 'react-chartjs-2';
 import { options, useCalculateData, labels } from '../../utils/chart';
 import { Box, Stack, Typography } from '@mui/material';
-import { receipts } from '../../static/receipts';
 import { InsightsHeader } from '../../components';
 import vendorContext from '../../context/VendorContext';
 import PrivateRoute from '../../layouts/PrivateRoute';
 import { parseNigerianNaira } from '../../utils/parseCurrency';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   CategoryScale,
@@ -41,12 +41,17 @@ export default function Insights() {
   const [pieLabels, setPieLabels] = useState([]);
   const [pieData, setPieData] = useState([]);
 
+  const {
+    entities: {
+      receipts: { receipts, loading },
+    },
+  } = useSelector((state) => state);
+
   const { selectedYear } = useContext(vendorContext);
 
   useEffect(() => {
     const thisYear = receipts.filter(
-      (receipt) =>
-        new Date(receipt.dateCreated).getUTCFullYear() === selectedYear
+      (receipt) => new Date(receipt.createdAt).getUTCFullYear() === selectedYear
     );
 
     setThisYearReceipts(thisYear);
@@ -57,7 +62,7 @@ export default function Insights() {
     });
 
     setThisYearProduct(products);
-  }, [selectedYear]);
+  }, [selectedYear, receipts]);
 
   useEffect(() => {
     const arr = thisYearProducts;
@@ -65,13 +70,16 @@ export default function Insights() {
     let map = new Map();
 
     for (let i = 0; i < arr.length; i++) {
-      if (map.has(arr[i].id)) map.set(arr[i].id, map.get(arr[i].id) + 1);
-      else map.set(arr[i].id, 1);
+      // Using "imageName" instead of "_id" until the API is fixed
+      if (map.has(arr[i].imageName))
+        map.set(arr[i].imageName, map.get(arr[i].imageName) + 1);
+      else map.set(arr[i].imageName, 1);
     }
 
+    // Using "imageName" instead of "_id" until the API is fixed
     for (let i = 0; i < arr.length; i++) {
-      if (map.get(arr[i].id) > 1) {
-        map.set(arr[i].id, 0);
+      if (map.get(arr[i].imageName) > 1) {
+        map.set(arr[i].imageName, 0);
       }
     }
     let keysArray = Array.from(map.keys());
@@ -82,25 +90,26 @@ export default function Insights() {
 
     const labelObjects = keysArray.map((key) => {
       return {
-        [key]: thisYearProducts.filter((product) => product.id === key),
+        // Using "imageName" instead of "_id" until the API is fixed
+        [key]: thisYearProducts.filter((product) => product.imageName === key),
       };
     });
 
     const dataObjects = keysArray.map((key) => {
       return {
         [key]: thisYearProducts
-          .filter((product) => product.id === key)
-          .map((item) => item.quantity)
+          // Using "imageName" instead of "_id" until the API is fixed
+          .filter((product) => product.imageName === key)
+          .map((item) => item.qty)
           .reduce((a, b) => a + b, 0),
       };
     });
 
-    // console.log(dataObjects);
-
     const labels = [];
+
     labelObjects.forEach((label) => {
       for (const key in label) {
-        labels.push(label[key][0]['name']);
+        labels.push(label[key][0]['productName']);
       }
     });
 
@@ -113,6 +122,8 @@ export default function Insights() {
 
     setPieData(data);
     setPieLabels(labels);
+
+    // console.log(thisYearProducts);
   }, [thisYearProducts]);
 
   const line_chart_data = {

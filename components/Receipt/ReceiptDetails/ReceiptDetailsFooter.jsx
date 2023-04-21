@@ -21,12 +21,12 @@ const ReceiptDetailsFooter = (props) => {
         gap: 2,
       }}
     >
-      <ButtonContained
+      {/* <ButtonContained
         color='secondary'
         text='Edit & Save'
         textColor='#fff'
         handleClick={() => console.log('Edit & Save')}
-      />
+      /> */}
       <ButtonContained
         color='custom'
         text='Delete'

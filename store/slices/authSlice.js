@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment/moment';
-import { vendorFetchBegan } from '../api';
+import { apiCallBegan } from '../api';
 import { URL } from '../config/URL';
 
 const auth = createSlice({
@@ -36,6 +36,10 @@ const auth = createSlice({
       state.token = action.payload.token;
       state.loading = false;
     },
+    logError: (state, action) => {
+      state.loading = false;
+      console.log(action.payload);
+    },
   },
 });
 
@@ -45,7 +49,9 @@ export const {
   update,
   remove,
   mutateAuthState,
+  loading,
   mutateAuthToken,
+  logError,
 } = auth.actions;
 
 // ACTIONS
@@ -56,13 +62,15 @@ export const loadVendorData = () => (dispatch, getState) => {
 
   console.log(`Last Fetch: ${last} Minutes ago`);
 
-  if (typeof last === 'number' && last <= 10) return;
+  if (typeof last === 'number' && last <= 15) return;
 
+  dispatch(loading(true));
   dispatch(
-    vendorFetchBegan({
+    apiCallBegan({
       url: `${URL}/vendors`,
       authToken,
       onSuccess: setVendorData,
+      onError: logError,
     })
   );
   dispatch(mutateAuthState(true));
@@ -79,10 +87,11 @@ export const logUserIn =
 
     dispatch(mutateAuthToken({ token }));
     dispatch(
-      vendorFetchBegan({
+      apiCallBegan({
         url: `${URL}/vendors`,
         authToken: { 'x-auth-token': token },
         onSuccess: setVendorData,
+        onError: logError,
       })
     );
     dispatch(mutateAuthState(true));
@@ -91,5 +100,6 @@ export const logUserIn =
 export const logUserOut = () => (dispatch) => {
   dispatch(mutateAuthState(false));
   localStorage.removeItem('user-token');
-  window.location.replace('/login');
+
+  window.location = '/login';
 };

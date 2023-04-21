@@ -1,13 +1,13 @@
 import { PhotoCamera } from '@mui/icons-material';
 import { Box, Button, MenuItem, Stack, Typography, Radio } from '@mui/material';
-import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
-import authContext from '../../context/AuthContext';
 import Drawer from '../Common/Drawer';
 import { StyledMenu } from '../Insights/SelectYear';
 import { ButtonContained } from '../ReceiptSyncButtons';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../store/slices/productSlice';
 
 const ProductsHeader = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,7 +19,7 @@ const ProductsHeader = (props) => {
     image: null,
   });
 
-  const { vendorData, setVendorData } = useContext(authContext);
+  const dispatch = useDispatch();
 
   const { name, description, price, image } = productData;
 
@@ -51,58 +51,29 @@ const ProductsHeader = (props) => {
       image !== null;
 
     if (productDetailsAreValid) {
-      toast.loading('Adding Product...');
-
       const formData = new FormData();
 
       formData.append('productName', name);
       formData.append('description', description);
       formData.append('price', parseInt(price));
       formData.append('image', image);
-      formData.append('categories[0]', 'clothes');
-      formData.append('categories[1]', 'thrift');
+      formData.append('categories[0]', '...');
+      formData.append('categories[1]', '...');
 
       const userToken = JSON.parse(localStorage.getItem('user-token'));
       try {
-        const req = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_ROUTE}/products`,
-          formData,
-          {
-            headers: {
-              common: { 'x-auth-token': userToken['x-auth-token'] },
-            },
-          }
+        dispatch(
+          addProduct({
+            token: userToken['x-auth-token'],
+            data: formData,
+          })
         );
-
-        if (req.status === 200 || req.status === 201) {
-          console.log(req);
-          toast.success('Product added!');
-          const ctxProducts = vendorData.products;
-
-          ctxProducts.push({
-            ...req.data,
-            imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${req.data.imageName}`,
-          });
-
-          setVendorData((prev) => ({
-            ...prev,
-            products: ctxProducts,
-          }));
-
-          setProductData({
-            name: '',
-            description: '',
-            price: '',
-            image: null,
-          });
-
-          toggleDrawer(false);
-        }
+        setProductData({ name: '', description: '', price: '', image: null });
+        toggleDrawer(false);
       } catch (error) {
         console.log(error);
         toast.error('Error adding product');
       }
-      toast.dismiss();
     } else {
       if (image === null) {
         toast.error('Image cannot be empty');
@@ -118,7 +89,6 @@ const ProductsHeader = (props) => {
   };
 
   const generateSortParamText = () => {
-    // recently-updated date-added-asc date-added-desc name-asc name-desc
     switch (props.sortParam) {
       case 'recently-updated':
         return 'Recently Updated';
@@ -137,8 +107,6 @@ const ProductsHeader = (props) => {
 
   return (
     <Stack
-      // direction='row'
-      // alignItems='center'
       direction={{ xs: 'column', sm: 'row' }}
       alignItems={{ xs: 'flex-start', sm: 'center' }}
       justifyContent={{ xs: 'center', sm: 'space-between' }}

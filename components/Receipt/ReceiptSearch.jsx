@@ -6,14 +6,24 @@ import React, { useContext, useState } from 'react';
 import authContext from '../../context/AuthContext';
 import vendorContext from '../../context/VendorContext';
 import { ButtonContained } from '../ReceiptSyncButtons';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNewProductToReceipt } from '../../store/slices/receiptSlice';
 
 export default function ReceiptSearch(props) {
   const theme = useTheme();
   const [searchValue, setSearchValue] = useState('');
   const [loadMore, setLoadMore] = useState(5);
 
-  const { addedProducts, handleCloseProductsModal, addNewProductToReceipt } =
-    useContext(vendorContext);
+  const dispatch = useDispatch();
+
+  const {
+    entities: {
+      products: { products, loading },
+      receipts: { addedProducts },
+    },
+  } = useSelector((state) => state);
+
+  const { handleCloseProductsModal } = useContext(vendorContext);
   const { vendorData } = useContext(authContext);
 
   const closeProductsPopup = () => {
@@ -37,7 +47,7 @@ export default function ReceiptSearch(props) {
         />
       </div>
       <Box mt={2} mb={4}>
-        {vendorData.products
+        {products
           .filter(
             (product) =>
               product.productName
@@ -55,7 +65,7 @@ export default function ReceiptSearch(props) {
               alignItems='center'
               justifyContent='space-between'
               width='100%'
-              onClick={() => addNewProductToReceipt(product._id)}
+              onClick={() => dispatch(addNewProductToReceipt(product._id))}
               my={1}
               sx={{
                 p: 1,
@@ -115,7 +125,6 @@ export default function ReceiptSearch(props) {
         <Button
           variant='outlined'
           color='secondary'
-          // size='small'
           mb={2}
           sx={{ mx: 'auto', textTransform: 'capitalize' }}
           startIcon={<RefreshIcon />}

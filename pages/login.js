@@ -9,9 +9,10 @@ import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
 import Padding from '../layouts/Padding';
-import { vendorFetchBegan } from '../store/api';
+import { apiCallBegan } from '../store/api';
 import { URL } from '../store/config/URL';
 import { logUserIn } from '../store/slices/authSlice';
+import { loading as authLoading } from '../store/slices/authSlice';
 
 const Login = () => {
   const router = useRouter();
@@ -52,8 +53,9 @@ const Login = () => {
       toast.error('Password must not be empty');
     } else {
       try {
+        dispatch(authLoading(true));
         dispatch(
-          vendorFetchBegan({
+          apiCallBegan({
             url: `${URL}/auth/login`,
             method: 'post',
             data: {

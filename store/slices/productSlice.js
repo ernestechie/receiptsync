@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { URL } from '../config/URL';
-import { apiCallBegan, apiCallFailed } from '../api';
 import moment from 'moment';
+import { apiCallBegan, apiCallFailed } from '../api';
+import { URL } from '../config/URL';
 
 const productSlice = createSlice({
   name: 'products',
@@ -12,11 +12,16 @@ const productSlice = createSlice({
   },
   reducers: {
     loading: (state, action) => {
-      state.loading = action.payload
+      state.loading = action.payload;
     },
     add: (state, action) => {
-      console.log('Product added');
+      const newProduct = {
+        ...action.payload,
+        imageUrl: `https://d13zppfo7b7q25.cloudfront.net/${action.payload.imageName}`,
+      };
       state.loading = false;
+      state.products.push(newProduct);
+      state.lastFetch = new Date().getTime();
     },
     edit: (state, action) => {
       console.log('Product edited');
@@ -36,11 +41,16 @@ const productSlice = createSlice({
       state.lastFetch = new Date().getTime();
       state.products = action.payload;
     },
+    logError: (state, action) => {
+      state.loading = false;
+      console.log(action.payload);
+    },
   },
 });
 
 export default productSlice.reducer;
-export const { add, remove, restock, edit, setAll } = productSlice.actions;
+export const { add, remove, restock, edit, setAll, logError, loading } =
+  productSlice.actions;
 
 // ACTION CREATORS
 export const loadProducts = () => (dispatch, getState) => {
@@ -49,22 +59,44 @@ export const loadProducts = () => (dispatch, getState) => {
 
   const diff = moment().diff(moment(lastFetch), 'minutes');
 
-  if (typeof diff === 'number' && diff <= 10) return;
+  if (typeof diff === 'number' && diff <= 15) return;
+
+  dispatch(loading(true));
 
   dispatch(
     apiCallBegan({
       url: `${URL}/products`,
       authToken,
       onSuccess: setAll,
-      // onError: apiCallFailed.type,
+      onError: logError,
     })
   );
 };
 
+export const addProduct =
+  ({ token, data }) =>
+  (dispatch) => {
+    if (token) {
+      dispatch(loading(true));
+
+      dispatch(
+        apiCallBegan({
+          url: `${URL}/products`,
+          method: 'post',
+          authToken: { 'x-auth-token': token },
+          data,
+          onSuccess: add,
+          onError: logError,
+        })
+      );
+    }
+  };
+
 export const deleteProduct =
   ({ token, productId }) =>
-  (dispatch, getState) => {
+  (dispatch) => {
     if (token) {
+      dispatch(loading(true));
       dispatch(
         apiCallBegan({
           url: `${URL}/products/${productId}`,
@@ -72,7 +104,7 @@ export const deleteProduct =
           authToken: { 'x-auth-token': token },
           data: productId,
           onSuccess: remove,
-          // onError: apiCallFailed.type,
+          onError: logError,
         })
       );
     }
