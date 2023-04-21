@@ -4,12 +4,17 @@ import { Box, Grid, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
 import vendorContext from '../../context/VendorContext';
+import {
+  addNewProductToReceipt,
+  changeProductQuantity,
+} from '../../store/slices/receiptSlice';
 import Drawer from '../Common/Drawer';
 import { ButtonContained } from '../ReceiptSyncButtons';
-import { useSelector } from 'react-redux';
 
 const ReceiptsHeader = (props) => {
+  const dispatch = useDispatch();
   const {
     entities: {
       receipts: { addedProducts },
@@ -48,12 +53,8 @@ const ReceiptsHeader = (props) => {
     setDrawerState(newState);
   };
 
-  const {
-    handleOpenProductsModal,
-    addNewProductToReceipt,
-    changeProductQuantity,
-    setAddedProducts,
-  } = useContext(vendorContext);
+  const { handleOpenProductsModal, setAddedProducts } =
+    useContext(vendorContext);
 
   const formInputHandler = (e) => {
     setFormData((prev) => ({
@@ -351,17 +352,20 @@ const ReceiptsHeader = (props) => {
                 </Typography>
                 <Stack direction='row' alignItems='center' gap={1}>
                   <input
+                    disabled={product?.quantity === 0}
                     type='number'
                     value={product.quantity}
                     onChange={(e) => {
                       if (parseInt(e.target.value) <= 0) {
-                        changeProductQuantity(product._id, 1);
-                      } else {
+                        return;
+                      }
+
+                      dispatch(
                         changeProductQuantity(
                           product._id,
                           parseInt(e.target.value)
-                        );
-                      }
+                        )
+                      );
                     }}
                   />
                   x
@@ -378,7 +382,7 @@ const ReceiptsHeader = (props) => {
                 </Typography>
               )}
               <Box
-                onClick={() => addNewProductToReceipt(product._id)}
+                onClick={() => dispatch(addNewProductToReceipt(product._id))}
                 component={Delete}
                 sx={{
                   opacity: 0.6,

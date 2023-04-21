@@ -38,11 +38,13 @@ const receiptSlice = createSlice({
     },
     addProductToReceipt: (state, action) => {
       state.addedProducts.push(action.payload);
-      console.log(state.addedProducts);
     },
     removeProductFromReceipt: (state, action) => {
       state.addedProducts.splice(action.payload, 1);
-      console.log(state.addedProducts);
+    },
+    mutateProductQuantity: (state, action) => {
+      const { index, count, product } = action.payload;
+      state.addedProducts.splice(index, count, product);
     },
   },
 });
@@ -57,6 +59,7 @@ export const {
   loading,
   addProductToReceipt,
   removeProductFromReceipt,
+  mutateProductQuantity,
 } = receiptSlice.actions;
 
 // ACTION CREATORS
@@ -106,6 +109,31 @@ export const addNewProductToReceipt = (id) => (dispatch, getState) => {
         ...currentProduct,
         quantity: 1,
         cost: currentProduct?.price,
+      })
+    );
+  }
+};
+
+export const changeProductQuantity = (id, quantity) => (dispatch, getState) => {
+  const {
+    entities: { receipts },
+  } = getState();
+
+  const product = receipts.addedProducts.find((product) => product._id === id);
+  const index = receipts.addedProducts.findIndex(
+    (product) => product._id === id
+  );
+
+  if (quantity > 0) {
+    dispatch(
+      mutateProductQuantity({
+        index,
+        count: 1,
+        product: {
+          ...product,
+          quantity,
+          cost: quantity * product.price,
+        },
       })
     );
   }
