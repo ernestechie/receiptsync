@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProductURL } from '../../../store/config/URL';
 import { Box, Typography, Stack, Divider, Grid } from '@mui/material';
 import { theme as CustomTheme } from '../../../pages/_app';
 import { parseDate } from '../../../utils/parseDate';
@@ -30,17 +31,34 @@ const ReceiptDetailsCard = ({ receipt }) => {
           <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
             Bill To
           </Typography>
-          <Typography fontWeight={600} fontSize={20} color='secondary.dark'>
-            {receipt.customer.name}
+          <Typography
+            fontWeight={600}
+            fontSize={20}
+            color='secondary.dark'
+            textTransform='capitalize'
+          >
+            {receipt?.customer.name}
           </Typography>
-          <Typography fontWeight={400} color='secondary.contrastText'>
-            {receipt.customer.address.street},
+          <Typography
+            fontWeight={400}
+            color='secondary.contrastText'
+            textTransform='capitalize'
+          >
+            {receipt?.customer.address.street},
           </Typography>
-          <Typography fontWeight={400} color='secondary.contrastText'>
-            {receipt.customer.address.city},
+          <Typography
+            fontWeight={400}
+            color='secondary.contrastText'
+            textTransform='capitalize'
+          >
+            {receipt?.customer.address.city},
           </Typography>
-          <Typography fontWeight={400} color='secondary.contrastText'>
-            {receipt.customer.address.state}
+          <Typography
+            fontWeight={400}
+            color='secondary.contrastText'
+            textTransform='capitalize'
+          >
+            {receipt?.customer.address.state}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} width='100%' mb={4}>
@@ -48,7 +66,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
             Send To
           </Typography>
           <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
-            {receipt.customer.sendTo}
+            {receipt?.customer.email}
           </Typography>
         </Grid>
         <Grid item xs={6} sm={6} width='100%' mb={4}>
@@ -56,7 +74,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
             Date Created
           </Typography>
           <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
-            {parseDate(receipt.dateCreated)}
+            {parseDate(receipt?.createdAt)}
           </Typography>
         </Grid>
         <Grid item xs={6} sm={6} width='100%' mb={4}>
@@ -64,7 +82,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
             Last Updated
           </Typography>
           <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
-            {parseDate(receipt.dateUpdated)}
+            {parseDate(receipt?.updatedAt)}
           </Typography>
         </Grid>
       </Grid>
@@ -79,7 +97,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
         }}
       >
         {receipt.items.map((item) => (
-          <Box key={item.id} my={1}>
+          <Box key={item._id} my={1}>
             <Stack px={2} py={1} direction='row' justifyContent='space-between'>
               <Stack direction='row' gap={2}>
                 <Box
@@ -87,7 +105,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
                   height={80}
                   sx={{
                     borderRadius: 2,
-                    background: `url(${item.image}) no-repeat center center/cover`,
+                    background: `url(${ProductURL}${item.imageName}) no-repeat center center/cover`,
                   }}
                 />
                 <Box>
@@ -96,7 +114,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
                     fontWeight={600}
                     textTransform='uppercase'
                   >
-                    {item.name}
+                    {item?.productName}
                   </Typography>
                   <Typography
                     color='secondary.contrastText'
@@ -107,7 +125,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
                     }}
                   >
                     <Typography component='span' fontSize='inherit'>
-                      {item.quantity} x{parseNigerianNaira(item?.price)}
+                      {item?.qty} x{parseNigerianNaira(item?.price)}
                     </Typography>
                   </Typography>
                 </Box>
@@ -122,7 +140,7 @@ const ReceiptDetailsCard = ({ receipt }) => {
               >
                 <Typography color='secondary.contrastText'>Total: </Typography>
                 <Typography fontSize={18} fontWeight={600}>
-                  {parseNigerianNaira(item?.quantity * item?.price)}
+                  {parseNigerianNaira(item?.qty * item?.price)}
                 </Typography>
               </Stack>
             </Stack>
@@ -140,13 +158,12 @@ const ReceiptDetailsCard = ({ receipt }) => {
             >
               <Typography color='secondary.contrastText'>Total</Typography>
               <Typography fontSize={18} fontWeight={600}>
-                {parseNigerianNaira(item?.quantity * item?.price)}
+                {parseNigerianNaira(item?.qty * item?.price)}
               </Typography>
             </Stack>
             <Divider />
           </Box>
         ))}
-
         <Stack
           direction='row'
           alignItems='center'

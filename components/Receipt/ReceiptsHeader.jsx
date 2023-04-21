@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import vendorContext from '../../context/VendorContext';
 import {
   addNewProductToReceipt,
+  addReceipt,
   changeProductQuantity,
 } from '../../store/slices/receiptSlice';
 import Drawer from '../Common/Drawer';
@@ -18,6 +19,7 @@ const ReceiptsHeader = (props) => {
   const {
     entities: {
       receipts: { addedProducts },
+      vendor: { data },
     },
   } = useSelector((state) => state);
 
@@ -81,35 +83,41 @@ const ReceiptsHeader = (props) => {
 
     if (receiptIsValid) {
       const newReceipt = {
-        id: new Date().getTime().toString(),
-        receiptNumber: `${buyerPhone.slice(3, 5).toUpperCase()}${new Date()
-          .getTime()
-          .toString()
-          .slice(7, 12)}${buyerName.slice(0, 2).toUpperCase()}`,
-        dateCreated: new Date(receiptDate),
-        dateUpdated: new Date(),
-        logoUrl: '',
-        seller: {
-          name: 'Isaiah Ernest',
-          phone: '09012345666',
-          email: 'isaiahernest081@gmail.com',
-          address: 'Benny street, Yenagoa, Nigeria.',
-          branchNO: 3,
-        },
+        receiptNumber: parseInt(
+          String(new Date().getTime()).slice(9, 12) +
+            String(new Date().getTime()).slice(0, 3) +
+            String(new Date().getTime()).slice(5, 8)
+        ),
         customer: {
           name: buyerName,
           phone: buyerPhone,
-          sendTo: buyerEmail,
+          email: buyerEmail,
           address: {
             street: addresSstreet,
             city: addressCity,
             state: addresSstate,
           },
         },
-        items: addedProducts,
+        items: addedProducts.map((product) => {
+          return {
+            productId: product._id,
+            qty: product.quantity,
+          };
+        }),
         narration,
+        totalPrice: addedProducts
+          .map((product) => product.cost)
+          .reduce((a, b) => a + b, 0),
+        className: '...',
       };
-      console.log(newReceipt);
+
+      const userToken = JSON.parse(localStorage.getItem('user-token'));
+
+      dispatch(
+        addReceipt({ token: userToken['x-auth-token'], data: newReceipt })
+      );
+      toggleDrawer();
+      console.log(receiptDate);
     } else {
       toast.error('One or more inputs are invalid');
     }

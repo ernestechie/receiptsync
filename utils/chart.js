@@ -32,73 +32,73 @@ export const useCalculateData = (input) => {
   const data = {
     Jan: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Jan'
     ),
     Feb: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Feb'
     ),
     Mar: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Mar'
     ),
     Apr: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Apr'
     ),
     May: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'May'
     ),
     Jun: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Jun'
     ),
     Jul: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Jul'
     ),
     Aug: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Aug'
     ),
     Sep: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Sep'
     ),
     Oct: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Oct'
     ),
     Nov: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Nov'
     ),
     Dec: input.filter(
       (i) =>
-        new Date(i.dateCreated).toLocaleDateString('default', {
+        new Date(i.createdAt).toLocaleDateString('default', {
           month: 'short',
         }) === 'Dec'
     ),

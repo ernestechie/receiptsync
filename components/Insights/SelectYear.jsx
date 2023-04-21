@@ -37,7 +37,7 @@ export const StyledMenu = styled((props) => (
     },
     '& .MuiMenuItem-root': {
       '& .MuiSvgIcon-root': {
-        fontSize: 18,
+        fontSize: 14,
         color: theme.palette.text.secondary,
         marginRight: theme.spacing(1.5),
       },
@@ -65,6 +65,18 @@ export default function SelectYear() {
 
   const open = Boolean(anchorEl);
 
+  useEffect(() => {
+    const dateJoined = new Date(data.createdAt).getUTCFullYear();
+    const today = new Date().getUTCFullYear();
+
+    const years = [];
+
+    for (let index = 0; index <= today - dateJoined; index++) {
+      years.push(dateJoined + index);
+    }
+    setLifetime(years);
+  }, [data.createdAt]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -77,18 +89,6 @@ export default function SelectYear() {
     handleSelectedYear(value);
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    const dateJoined = new Date(data.createdAt).getUTCFullYear();
-    const today = new Date().getUTCFullYear();
-
-    const years = [];
-
-    for (let index = 0; index <= today - dateJoined; index++) {
-      years.push(dateJoined + index);
-    }
-    setLifetime(years);
-  }, [data.createdAt]);
 
   return (
     <div>
@@ -116,10 +116,18 @@ export default function SelectYear() {
       >
         {lifetime.map((year, index) => (
           <span key={year + index}>
-            <MenuItem onClick={() => handleChange(year)} disableRipple>
+            <MenuItem
+              onClick={() => handleChange(year)}
+              disableRipple
+              sx={{
+                fontSize: 14,
+                padding: '4px 8px',
+                borderBottom:
+                  index === lifetime.length - 1 ? 'none' : '1px solid #eee',
+              }}
+            >
               {year}
             </MenuItem>
-            {index !== lifetime.length - 1 && <Divider />}
           </span>
         ))}
       </StyledMenu>

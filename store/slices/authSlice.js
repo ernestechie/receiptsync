@@ -62,7 +62,7 @@ export const loadVendorData = () => (dispatch, getState) => {
 
   console.log(`Last Fetch: ${last} Minutes ago`);
 
-  if (typeof last === 'number' && last <= 10) return;
+  if (typeof last === 'number' && last <= 15) return;
 
   dispatch(loading(true));
   dispatch(

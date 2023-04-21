@@ -28,10 +28,14 @@ const ReceiptDetailsNav = (props) => {
         sx={{ width: { xs: '100%', sm: 'auto' } }}
       >
         <Typography fontSize={20} mb={{ xs: 0, sm: 0, md: 1 }} fontWeight={700}>
-          #{props.number}
+          #{props?.number}
         </Typography>
-        <Typography fontWeight={500} color='secondary.contrastText'>
-          {props.narration}
+        <Typography
+          fontWeight={500}
+          color='secondary.contrastText'
+          textTransform='capitalize'
+        >
+          {props?.narration}
         </Typography>
       </Stack>
 

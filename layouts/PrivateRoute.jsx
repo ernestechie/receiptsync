@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../components';
 import { loadVendorData } from '../store/slices/authSlice';
 import { loadProducts } from '../store/slices/productSlice';
+import { loadReceipts } from '../store/slices/receiptSlice';
 
 const PrivateRoute = ({ children }) => {
   const router = useRouter();
@@ -18,8 +19,9 @@ const PrivateRoute = ({ children }) => {
   } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(loadProducts());
     dispatch(loadVendorData());
+    dispatch(loadProducts());
+    dispatch(loadReceipts());
   }, []);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const PrivateRoute = ({ children }) => {
   return (
     <>
       {loading && <Loader />}
-      {!loading && loggedIn && <>{children}</>}
+      {!loading && loggedIn && data && <>{children}</>}
     </>
   );
 };

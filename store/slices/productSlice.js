@@ -59,7 +59,7 @@ export const loadProducts = () => (dispatch, getState) => {
 
   const diff = moment().diff(moment(lastFetch), 'minutes');
 
-  if (typeof diff === 'number' && diff <= 10) return;
+  if (typeof diff === 'number' && diff <= 15) return;
 
   dispatch(loading(true));
 

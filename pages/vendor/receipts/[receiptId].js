@@ -8,28 +8,34 @@ import {
 } from '../../../components';
 import Padding from '../../../layouts/Padding';
 import VendorLayout from '../../../layouts/VendorLayout';
-import { receipts } from '../../../static/receipts';
 import { useEffect, useState } from 'react';
 import GoBack from '../../../components/Common/GoBack';
 import { Typography, Stack } from '@mui/material';
 import { ButtonContained } from '../../../components/ReceiptSyncButtons';
 import { theme as CustomTheme } from '../../../pages/_app';
 import PrivateRoute from '../../../layouts/PrivateRoute';
+import { useSelector } from 'react-redux';
 
 export default function ReceiptDetails(props) {
+  const {
+    entities: {
+      receipts: { receipts },
+    },
+  } = useSelector((state) => state);
+
   const id = useRouter().query.receiptId;
   const [current, setCurrent] = useState(null);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
-    const thisReceipt = receipts.find((receipt) => receipt.id === id);
+    const thisReceipt = receipts.find((receipt) => receipt._id === id);
 
     if (thisReceipt) {
       console.log(thisReceipt);
       setCurrent(thisReceipt);
     } else console.log('No receipt with this ID');
-  }, [id]);
+  }, [id, receipts]);
 
   const handleOpen = () => setShowDeleteModal(true);
   const handleClose = () => setShowDeleteModal(false);
@@ -51,7 +57,7 @@ export default function ReceiptDetails(props) {
                   <Typography mt={2} mb={4} fontSize={17}>
                     Are you sure you want to delete invoice{' '}
                     <Typography component='span' fontWeight={600}>
-                      #{current.receiptNumber}
+                      #{current?.receiptNumber}
                     </Typography>
                     ? This action cannot be undone.
                   </Typography>
@@ -77,8 +83,8 @@ export default function ReceiptDetails(props) {
                   </Stack>
                 </Modal>
                 <ReceiptDetailsNav
-                  number={current.receiptNumber}
-                  narration={current.narration}
+                  number={current?.receiptNumber}
+                  narration={current?.narration}
                   handleOpen={handleOpen}
                 />
                 <ReceiptDetailsCard receipt={current} />
@@ -91,27 +97,3 @@ export default function ReceiptDetails(props) {
     </>
   );
 }
-
-// export const getStaticProps = async ({ params: { receiptId } }) => {
-//   const allReceipts = receipts;
-//   const thisReceipt = allReceipts.find((receipt) => receipt.id === receiptId);
-
-//   return {
-//     props: { thisReceipt, allReceipts },
-//   };
-// };
-
-// export const getStaticPaths = async () => {
-//   const paths = receipts.map((receipt) => ({
-//     params: {
-//       receiptId: receipt.id,
-//     },
-//   }));
-
-//   console.log(paths);
-
-//   return {
-//     paths,
-//     fallback: 'blocking',
-//   };
-// };

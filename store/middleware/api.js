@@ -40,6 +40,7 @@ const api =
         }
       }
     } catch (err) {
+      console.log(err);
       if (err.message) toast.error(err.message);
       toast.error('Something went wrong');
 

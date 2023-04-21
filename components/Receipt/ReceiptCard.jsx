@@ -8,13 +8,12 @@ import Link from 'next/link';
 const ReceiptCard = ({ receipt }) => {
   return (
     <Link
-      href={`/vendor/receipts/${receipt.id}`}
+      href={`/vendor/receipts/${receipt?._id}`}
       style={{ maxWidth: 1024, margin: 'auto', display: 'block' }}
     >
       <Grid
         container
         mx='auto'
-        // rowSpacing={{ xs: 1, sm: 2, md: 0 }}
         columnSpacing={{ sm: 1 }}
         columns={12}
         sx={{
@@ -49,12 +48,16 @@ const ReceiptCard = ({ receipt }) => {
             sx={{ textAlign: { xs: 'right', sm: 'left' } }}
             fontSize={14}
           >
-            {parseDate(receipt.dateCreated)}
+            {parseDate(receipt?.createdAt)}
           </Typography>
         </Grid>
         <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>
-          <Typography fontWeight={500} color='secondary.contrastText'>
-            {receipt.customer.name}
+          <Typography
+            fontWeight={500}
+            color='secondary.contrastText'
+            textTransform='capitalize'
+          >
+            {receipt?.customer.name}
           </Typography>
         </Grid>
         <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>

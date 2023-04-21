@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
-import { apiCallBegan, apiCallFailed } from '../api';
+import { apiCallBegan } from '../api';
 import { URL } from '../config/URL';
 
 const receiptSlice = createSlice({
@@ -18,6 +18,8 @@ const receiptSlice = createSlice({
     add: (state, action) => {
       state.loading = false;
       state.lastFetch = new Date().getTime();
+      state.receipts.unshift(action.payload);
+      state.addedProducts = [];
     },
     edit: (state, action) => {
       console.log('Receipt edited');
@@ -26,7 +28,6 @@ const receiptSlice = createSlice({
     remove: (state, action) => {
       state.loading = false;
     },
-
     setAll: (state, action) => {
       state.loading = false;
       state.lastFetch = new Date().getTime();
@@ -69,7 +70,7 @@ export const loadReceipts = () => (dispatch, getState) => {
 
   const diff = moment().diff(moment(lastFetch), 'minutes');
 
-  if (typeof diff === 'number' && diff <= 10) return;
+  if (typeof diff === 'number' && diff <= 15) return;
 
   dispatch(loading(true));
   dispatch(
@@ -95,7 +96,6 @@ export const addNewProductToReceipt = (id) => (dispatch, getState) => {
   );
 
   if (productInArray) {
-    console.log(productInArray);
     const productIndex = receipts.addedProducts.findIndex(
       (product) => product._id === id
     );
@@ -138,3 +138,22 @@ export const changeProductQuantity = (id, quantity) => (dispatch, getState) => {
     );
   }
 };
+
+export const addReceipt =
+  ({ token, data }) =>
+  (dispatch) => {
+    if (token) {
+      dispatch(loading(true));
+
+      dispatch(
+        apiCallBegan({
+          url: `${URL}/receipts`,
+          method: 'post',
+          authToken: { 'x-auth-token': token },
+          data,
+          onSuccess: add,
+          onError: logError,
+        })
+      );
+    }
+  };

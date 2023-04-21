@@ -8,7 +8,6 @@ const initialState = {
   handleSelectedYear: () => {},
   handleOpenProductsModal: () => {},
   handleCloseProductsModal: () => {},
-  addNewProductToReceipt: () => {},
 };
 
 const vendorContext = createContext(initialState);
@@ -47,6 +46,7 @@ export const VendorContextProvider = ({ children }) => {
         handleOpenProductsModal,
         handleCloseProductsModal,
         showProductsModal,
+        selectedYear,
       }}
     >
       {children}
