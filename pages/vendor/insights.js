@@ -51,7 +51,8 @@ export default function Insights() {
 
   useEffect(() => {
     const thisYear = receipts.filter(
-      (receipt) => new Date(receipt.createdAt).getUTCFullYear() === selectedYear
+      (receipt) =>
+        new Date(receipt.dateIssued).getUTCFullYear() === selectedYear
     );
 
     setThisYearReceipts(thisYear);
@@ -70,18 +71,16 @@ export default function Insights() {
     let map = new Map();
 
     for (let i = 0; i < arr.length; i++) {
-      // Using "imageName" instead of "_id" until the API is fixed
-      if (map.has(arr[i].imageName))
-        map.set(arr[i].imageName, map.get(arr[i].imageName) + 1);
-      else map.set(arr[i].imageName, 1);
+      if (map.has(arr[i]._id)) map.set(arr[i]._id, map.get(arr[i]._id) + 1);
+      else map.set(arr[i]._id, 1);
     }
 
-    // Using "imageName" instead of "_id" until the API is fixed
     for (let i = 0; i < arr.length; i++) {
-      if (map.get(arr[i].imageName) > 1) {
-        map.set(arr[i].imageName, 0);
+      if (map.get(arr[i]._id) > 1) {
+        map.set(arr[i]._id, 0);
       }
     }
+
     let keysArray = Array.from(map.keys());
 
     if (keysArray.length > 4) {
@@ -90,16 +89,14 @@ export default function Insights() {
 
     const labelObjects = keysArray.map((key) => {
       return {
-        // Using "imageName" instead of "_id" until the API is fixed
-        [key]: thisYearProducts.filter((product) => product.imageName === key),
+        [key]: thisYearProducts.filter((product) => product._id === key),
       };
     });
 
     const dataObjects = keysArray.map((key) => {
       return {
         [key]: thisYearProducts
-          // Using "imageName" instead of "_id" until the API is fixed
-          .filter((product) => product.imageName === key)
+          .filter((product) => product._id === key)
           .map((item) => item.qty)
           .reduce((a, b) => a + b, 0),
       };
@@ -109,7 +106,7 @@ export default function Insights() {
 
     labelObjects.forEach((label) => {
       for (const key in label) {
-        labels.push(label[key][0]['productName']);
+        labels.push(label[key][0]['productName'].toUpperCase());
       }
     });
 
@@ -120,10 +117,8 @@ export default function Insights() {
       }
     });
 
-    setPieData(data);
-    setPieLabels(labels);
-
-    // console.log(thisYearProducts);
+    setPieData(data.splice(0, 4));
+    setPieLabels(labels.splice(0, 4));
   }, [thisYearProducts]);
 
   const line_chart_data = {

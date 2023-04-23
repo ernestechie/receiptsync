@@ -10,19 +10,24 @@ import Padding from '../../../layouts/Padding';
 import VendorLayout from '../../../layouts/VendorLayout';
 import { useEffect, useState } from 'react';
 import GoBack from '../../../components/Common/GoBack';
+import Spinner from '../../../components/Common/Spinner';
 import { Typography, Stack } from '@mui/material';
 import { ButtonContained } from '../../../components/ReceiptSyncButtons';
 import { theme as CustomTheme } from '../../../pages/_app';
 import PrivateRoute from '../../../layouts/PrivateRoute';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteReceipt } from '../../../store/slices/receiptSlice';
 
 export default function ReceiptDetails(props) {
   const {
     entities: {
-      receipts: { receipts },
+      receipts: { receipts, loading },
     },
   } = useSelector((state) => state);
 
+  const dispatch = useDispatch();
+
+  const router = useRouter();
   const id = useRouter().query.receiptId;
   const [current, setCurrent] = useState(null);
 
@@ -32,10 +37,12 @@ export default function ReceiptDetails(props) {
     const thisReceipt = receipts.find((receipt) => receipt._id === id);
 
     if (thisReceipt) {
-      console.log(thisReceipt);
       setCurrent(thisReceipt);
-    } else console.log('No receipt with this ID');
-  }, [id, receipts]);
+    } else {
+      router.replace('/vendor/receipts');
+      console.log('No receipt with this ID');
+    }
+  }, [id, receipts, router]);
 
   const handleOpen = () => setShowDeleteModal(true);
   const handleClose = () => setShowDeleteModal(false);
@@ -46,6 +53,7 @@ export default function ReceiptDetails(props) {
         <HeadWrapper title='Receipt Details' />
         <VendorLayout>
           <Padding>
+            {loading && <Spinner />}
             {current && (
               <>
                 <GoBack />
@@ -55,8 +63,8 @@ export default function ReceiptDetails(props) {
                   heading='Confirm Delete'
                 >
                   <Typography mt={2} mb={4} fontSize={17}>
-                    Are you sure you want to delete invoice{' '}
-                    <Typography component='span' fontWeight={600}>
+                    Are you sure you want to delete receipt{' '}
+                    <Typography component='span' fontWeight={700}>
                       #{current?.receiptNumber}
                     </Typography>
                     ? This action cannot be undone.
@@ -78,7 +86,10 @@ export default function ReceiptDetails(props) {
                       color='custom'
                       text='Delete'
                       textColor='#fff'
-                      handleClick={() => console.log('Deleting...')}
+                      handleClick={() => {
+                        dispatch(deleteReceipt(current?._id));
+                        handleClose();
+                      }}
                     />
                   </Stack>
                 </Modal>

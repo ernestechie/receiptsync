@@ -48,7 +48,7 @@ const ReceiptCard = ({ receipt }) => {
             sx={{ textAlign: { xs: 'right', sm: 'left' } }}
             fontSize={14}
           >
-            {parseDate(receipt?.createdAt)}
+            {parseDate(receipt?.dateIssued)}
           </Typography>
         </Grid>
         <Grid item xs={6} sm={4} md={3} width='100%' sx={{ py: 1 }}>

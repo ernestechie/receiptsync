@@ -71,10 +71,10 @@ const ReceiptDetailsCard = ({ receipt }) => {
         </Grid>
         <Grid item xs={6} sm={6} width='100%' mb={4}>
           <Typography fontWeight={400} color='secondary.contrastText' mb={1}>
-            Date Created
+            Date Issued
           </Typography>
           <Typography fontWeight={600} fontSize={18} color='secondary.dark'>
-            {parseDate(receipt?.createdAt)}
+            {parseDate(receipt?.dateIssued)}
           </Typography>
         </Grid>
         <Grid item xs={6} sm={6} width='100%' mb={4}>

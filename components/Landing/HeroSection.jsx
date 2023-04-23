@@ -7,7 +7,7 @@ const HeroSection = () => {
   return (
     <header
       id='home'
-      className='pt-[12%] gradient-reverse layout flex flex-col items-center justify-center min-h-[100svh]'
+      className='pt-[12%] gradient-reverse layout flex flex-col items-center justify-center min-h-[100vh]'
     >
       <h2 className='font-extrabold text-4xl sm:text-5xl md:text-6xl text-light text-center p-4'>
         Track sales. Record & Issue Receipts. Manage Products.

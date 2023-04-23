@@ -6,8 +6,8 @@ import StatCard from './StatCard';
 const StatCards = () => {
   const {
     entities: {
-      vendor: { data: vendorData },
       products: { products, loading },
+      receipts: { receipts, loading: receiptsLoading },
     },
   } = useSelector((state) => state);
 
@@ -30,7 +30,13 @@ const StatCards = () => {
             title='Portfolio'
             param='All Time'
             money={true}
-            value={7812271007}
+            value={
+              receipts.length > 0
+                ? receipts
+                    .map((receipt) => receipt.totalPrice)
+                    .reduce((a, b) => a + b, 0)
+                : 0
+            }
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} width='100%'>
@@ -40,7 +46,22 @@ const StatCards = () => {
             title='Sales'
             param='Today'
             money={true}
-            value={20244627}
+            value={
+              receipts.filter(
+                (receipt) =>
+                  new Date(receipt.dateIssued).toLocaleDateString() ===
+                  new Date().toLocaleDateString()
+              ).length > 0
+                ? receipts
+                    .filter(
+                      (receipt) =>
+                        new Date(receipt.dateIssued).toLocaleDateString() ===
+                        new Date().toLocaleDateString()
+                    )
+                    .map((receipt) => receipt.totalPrice)
+                    .reduce((a, b) => a + b, 0)
+                : 0
+            }
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} width='100%'>
@@ -50,7 +71,19 @@ const StatCards = () => {
             title='Orders'
             param='Today'
             money={false}
-            value={1007}
+            value={
+              receipts.filter(
+                (receipt) =>
+                  new Date(receipt.dateIssued).toLocaleDateString() ===
+                  new Date().toLocaleDateString()
+              ).length > 0
+                ? receipts.filter(
+                    (receipt) =>
+                      new Date(receipt.dateIssued).toLocaleDateString() ===
+                      new Date().toLocaleDateString()
+                  ).length
+                : 0
+            }
           />
         </Grid>
         <Grid item xs={12} sm={6} lg={3} width='100%'>

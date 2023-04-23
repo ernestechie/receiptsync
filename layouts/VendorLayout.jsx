@@ -24,11 +24,10 @@ import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 import { MdLogout } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
-import authContext from '../context/AuthContext';
 import vendorContext from '../context/VendorContext';
 import { theme as CustomTheme } from '../pages/_app';
-import { vendorRoutes } from '../static/vendor';
-import { changeVendorAuthState, logUserOut } from '../store/slices/authSlice';
+import { vendorRoutes } from '../public/vendor';
+import { logUserOut } from '../store/slices/authSlice';
 
 const drawerWidth = 240;
 
@@ -113,8 +112,6 @@ export default function VendorLayout({ children }) {
 
   const { sidebarOpen, handleDrawerClose, handleDrawerOpen } =
     useContext(vendorContext);
-
-  const { setIsLoggedIn } = useContext(authContext);
 
   const variants = () => {
     if (desktop) return 'permanent';
