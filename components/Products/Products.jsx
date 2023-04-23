@@ -26,8 +26,8 @@ const Products = ({ products, sortBy }) => {
                   );
                 case 'date-added-asc':
                   return (
-                    new Date(b.updatedAt).getTime() -
-                    new Date(a.updatedAt).getTime()
+                    new Date(b.createdAt).getTime() -
+                    new Date(a.createdAt).getTime()
                   );
                 case 'date-added-desc':
                   return (
@@ -42,7 +42,6 @@ const Products = ({ products, sortBy }) => {
                   new Date(b.createdAt).getTime() -
                     new Date(a.createdAt).getTime();
               }
-              // return a.productName.localeCompare(b.productName);
             })
             .splice(0, max)
             .map((product) => (

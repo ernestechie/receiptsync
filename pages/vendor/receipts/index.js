@@ -9,8 +9,12 @@ import vendorContext from '../../../context/VendorContext';
 import PrivateRoute from '../../../layouts/PrivateRoute';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function Receipts() {
+  const [sortMenuOpen, setSortMenuOpen] = useState(false);
+  const [sortParam, setSortParam] = useState('date-added-asc');
+
   const {
     showProductsModal,
     handleOpenProductsModal,
@@ -23,13 +27,24 @@ export default function Receipts() {
     },
   } = useSelector((state) => state);
 
+  const changeSortParam = (param) => {
+    setSortParam(param);
+    setSortMenuOpen(false);
+  };
+
   return (
     <>
       <PrivateRoute>
         <HeadWrapper />
         <VendorLayout>
           <Padding>
-            <ReceiptsHeader openModal={handleOpenProductsModal} />
+            <ReceiptsHeader
+              openModal={handleOpenProductsModal}
+              changeSorting={changeSortParam}
+              sortMenuOpen={sortMenuOpen}
+              setSortMenuOpen={setSortMenuOpen}
+              sortParam={sortParam}
+            />
             <Modal
               open={showProductsModal}
               handleClose={handleCloseProductsModal}
@@ -42,11 +57,28 @@ export default function Receipts() {
               {receipts?.length > 0 && (
                 <>
                   {[...receipts]
-                    .sort(
-                      (a, b) =>
-                        new Date(b.dateIssued).getTime() -
-                        new Date(a.dateIssued).getTime()
-                    )
+                    .sort((a, b) => {
+                      switch (sortParam) {
+                        case 'recently-updated':
+                          return (
+                            new Date(b.updatedAt).getTime() -
+                            new Date(a.updatedAt).getTime()
+                          );
+                        case 'date-added-asc':
+                          return (
+                            new Date(b.dateIssued).getTime() -
+                            new Date(a.dateIssued).getTime()
+                          );
+                        case 'date-added-desc':
+                          return (
+                            new Date(a.dateIssued).getTime() -
+                            new Date(b.dateIssued).getTime()
+                          );
+                        default:
+                          new Date(b.dateIssued).getTime() -
+                            new Date(a.dateIssued).getTime();
+                      }
+                    })
                     .map((receipt) => (
                       <ReceiptCard key={receipt._id} receipt={receipt} />
                     ))}
