@@ -11,7 +11,7 @@ import { ButtonContained } from '../components/ReceiptSyncButtons';
 import Padding from '../layouts/Padding';
 import { apiCallBegan } from '../store/api';
 import { URL } from '../store/config/URL';
-import { logUserIn } from '../store/slices/authSlice';
+import { logError, logUserIn } from '../store/slices/authSlice';
 import { loading as authLoading } from '../store/slices/authSlice';
 
 const Login = () => {
@@ -62,6 +62,7 @@ const Login = () => {
               email: loginEmail,
               password: loginPassword,
             },
+            onError: logError,
             onSuccess: logUserIn,
           })
         );

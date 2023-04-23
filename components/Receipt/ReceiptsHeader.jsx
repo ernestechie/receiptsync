@@ -1,6 +1,7 @@
 import { useTheme } from '@emotion/react';
+import { StyledMenu } from '../Insights/SelectYear';
 import { ArrowDropDown, Delete } from '@mui/icons-material';
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography, MenuItem, Radio } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
@@ -16,6 +17,7 @@ import { ButtonContained } from '../ReceiptSyncButtons';
 
 const ReceiptsHeader = (props) => {
   const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
   const {
     entities: {
       receipts: { addedProducts },
@@ -124,22 +126,105 @@ const ReceiptsHeader = (props) => {
     }
   };
 
+  const handleSortEl = (e) => {
+    setAnchorEl(e.currentTarget);
+    props.setSortMenuOpen(true);
+  };
+
+  const generateSortParamText = () => {
+    switch (props.sortParam) {
+      case 'recently-updated':
+        return 'Recently Updated';
+      case 'date-added-asc':
+        return 'Date Added (Newest)';
+      case 'date-added-desc':
+        return 'Date Added (Oldest)';
+      default:
+        return 'Date Added (Newest)';
+    }
+  };
+
   return (
     <Stack
-      direction='row'
-      alignItems='center'
-      justifyContent='space-between'
+      sx={{ fontSize: 16, cursor: 'pointer' }}
+      direction={{ xs: 'column', sm: 'row' }}
+      alignItems={{ xs: 'flex-start', sm: 'center' }}
+      justifyContent={{ xs: 'center', sm: 'space-between' }}
+      gap={2}
       mb={4}
       mx='auto'
       maxWidth={1024}
     >
-      <Stack
-        direction='row'
-        alignItems='center'
-        gap={1}
-        sx={{ fontSize: 16, cursor: 'pointer' }}
-      >
-        <Typography fontWeight={600}>{'Filter by Date'}</Typography>
+      <Stack direction='row' alignItems='center' gap={1} mb={1}>
+        <Typography
+          fontWeight={600}
+          sx={{ cusor: 'pointer' }}
+          id='sort-products-button'
+          aria-controls={props.sortMenuOpen ? 'select-sort-params' : undefined}
+          aria-haspopup='true'
+          onClick={handleSortEl}
+          aria-expanded={open ? 'true' : undefined}
+        >
+          Sort by:{' '}
+          <Typography
+            color='primary'
+            fontWeight={700}
+            fontSize='inherit'
+            component='span'
+          >
+            {generateSortParamText()}
+          </Typography>
+        </Typography>
+
+        <StyledMenu
+          open={props.sortMenuOpen}
+          id='select-sort-params'
+          MenuListProps={{
+            'aria-labelledby': 'sort-products-button',
+          }}
+          anchorEl={anchorEl}
+          onClose={() => props.setSortMenuOpen(false)}
+        >
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('recently-updated')}
+          >
+            <Radio
+              checked={props.sortParam === 'recently-updated'}
+              onChange={() => props.changeSorting('recently-updated')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'recently-updated' }}
+            />
+            Recently Updated
+          </MenuItem>
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('date-added-asc')}
+          >
+            <Radio
+              checked={props.sortParam === 'date-added-asc'}
+              onChange={() => props.changeSorting('date-added-asc')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'date-added-asc' }}
+            />
+            Date Added (Recent)
+          </MenuItem>
+          <MenuItem
+            disableRipple
+            onClick={() => props.changeSorting('date-added-desc')}
+          >
+            <Radio
+              checked={props.sortParam === 'date-added-desc'}
+              onChange={() => props.changeSorting('date-added-desc')}
+              value='a'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'date-added-desc' }}
+            />
+            Date Added (Oldest)
+          </MenuItem>
+        </StyledMenu>
         <MdKeyboardArrowDown />
       </Stack>
       <ButtonContained
