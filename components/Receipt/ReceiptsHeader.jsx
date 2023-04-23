@@ -83,11 +83,10 @@ const ReceiptsHeader = (props) => {
 
     if (receiptIsValid) {
       const newReceipt = {
-        receiptNumber: parseInt(
+        receiptNumber:
           String(new Date().getTime()).slice(9, 12) +
-            String(new Date().getTime()).slice(0, 3) +
-            String(new Date().getTime()).slice(5, 8)
-        ),
+          String(new Date().getTime()).slice(0, 3) +
+          String(new Date().getTime()).slice(5, 8),
         customer: {
           name: buyerName,
           phone: buyerPhone,
@@ -109,6 +108,7 @@ const ReceiptsHeader = (props) => {
           .map((product) => product.cost)
           .reduce((a, b) => a + b, 0),
         className: '...',
+        dateIssued: new Date(receiptDate),
       };
 
       const userToken = JSON.parse(localStorage.getItem('user-token'));
@@ -116,8 +116,9 @@ const ReceiptsHeader = (props) => {
       dispatch(
         addReceipt({ token: userToken['x-auth-token'], data: newReceipt })
       );
+
       toggleDrawer();
-      console.log(receiptDate);
+      console.log(new Date(receiptDate));
     } else {
       toast.error('One or more inputs are invalid');
     }

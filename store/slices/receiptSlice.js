@@ -27,6 +27,11 @@ const receiptSlice = createSlice({
     },
     remove: (state, action) => {
       state.loading = false;
+      state.receipts = state.receipts.filter(
+        (product) => product._id !== action.payload.receiptId
+      );
+
+      console.log('Receipt Deleted');
     },
     setAll: (state, action) => {
       state.loading = false;
@@ -157,3 +162,22 @@ export const addReceipt =
       );
     }
   };
+
+export const deleteReceipt = (id) => (dispatch) => {
+  const authToken = JSON.parse(localStorage.getItem('user-token'));
+
+  if (authToken) {
+    dispatch(loading(true));
+
+    dispatch(
+      apiCallBegan({
+        url: `${URL}/receipts/${id}`,
+        method: 'delete',
+        authToken,
+        data: { receiptId: id },
+        onSuccess: remove,
+        onError: logError,
+      })
+    );
+  }
+};

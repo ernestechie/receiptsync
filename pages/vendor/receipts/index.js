@@ -1,7 +1,6 @@
 import { HeadWrapper, ReceiptCard, ReceiptsHeader } from '../../../components';
 import Padding from '../../../layouts/Padding';
 import VendorLayout from '../../../layouts/VendorLayout';
-import { receipts } from '../../../static/receipts';
 import { Modal } from '../../../components';
 import Spinner from '../../../components/Common/Spinner';
 import { useContext } from 'react';
@@ -42,12 +41,15 @@ export default function Receipts() {
               {loading && <Spinner />}
               {receipts?.length > 0 && (
                 <>
-                  {receipts.map((receipt) => (
-                    <ReceiptCard
-                      key={receipt.receiptNumber}
-                      receipt={receipt}
-                    />
-                  ))}
+                  {[...receipts]
+                    .sort(
+                      (a, b) =>
+                        new Date(b.dateIssued).getTime() -
+                        new Date(a.dateIssued).getTime()
+                    )
+                    .map((receipt) => (
+                      <ReceiptCard key={receipt._id} receipt={receipt} />
+                    ))}
                 </>
               )}
               {!loading && receipts?.length === 0 && (

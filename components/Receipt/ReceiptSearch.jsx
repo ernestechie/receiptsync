@@ -3,7 +3,6 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React, { useContext, useState } from 'react';
-import authContext from '../../context/AuthContext';
 import vendorContext from '../../context/VendorContext';
 import { ButtonContained } from '../ReceiptSyncButtons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,7 +23,6 @@ export default function ReceiptSearch(props) {
   } = useSelector((state) => state);
 
   const { handleCloseProductsModal } = useContext(vendorContext);
-  const { vendorData } = useContext(authContext);
 
   const closeProductsPopup = () => {
     handleCloseProductsModal();
@@ -121,7 +119,7 @@ export default function ReceiptSearch(props) {
           ))}
       </Box>
 
-      {searchValue.trim() === '' && vendorData.products.length > loadMore && (
+      {searchValue.trim() === '' && products.length > loadMore && (
         <Button
           variant='outlined'
           color='secondary'
