@@ -129,19 +129,19 @@ export const changeProductQuantity = (id, quantity) => (dispatch, getState) => {
     (product) => product._id === id
   );
 
-  if (quantity > 0) {
-    dispatch(
-      mutateProductQuantity({
-        index,
-        count: 1,
-        product: {
-          ...product,
-          quantity,
-          cost: quantity * product.price,
-        },
-      })
-    );
-  }
+  // if (quantity > 0) {
+  dispatch(
+    mutateProductQuantity({
+      index,
+      count: 1,
+      product: {
+        ...product,
+        quantity,
+        cost: quantity * product.price,
+      },
+    })
+  );
+  // }
 };
 
 export const addReceipt =
