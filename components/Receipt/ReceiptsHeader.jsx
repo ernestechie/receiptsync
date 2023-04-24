@@ -1,7 +1,6 @@
 import { useTheme } from '@emotion/react';
-import { StyledMenu } from '../Insights/SelectYear';
 import { ArrowDropDown, Delete } from '@mui/icons-material';
-import { Box, Grid, Stack, Typography, MenuItem, Radio } from '@mui/material';
+import { Box, Grid, MenuItem, Radio, Stack, Typography } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdAddCircle, MdKeyboardArrowDown } from 'react-icons/md';
@@ -13,6 +12,7 @@ import {
   changeProductQuantity,
 } from '../../store/slices/receiptSlice';
 import Drawer from '../Common/Drawer';
+import { StyledMenu } from '../Insights/SelectYear';
 import { ButtonContained } from '../ReceiptSyncButtons';
 
 const ReceiptsHeader = (props) => {
@@ -84,43 +84,48 @@ const ReceiptsHeader = (props) => {
       receiptDate.trim().length > 0;
 
     if (receiptIsValid) {
-      const newReceipt = {
-        receiptNumber:
-          String(new Date().getTime()).slice(9, 12) +
-          String(new Date().getTime()).slice(0, 3) +
-          String(new Date().getTime()).slice(5, 8),
-        customer: {
-          name: buyerName,
-          phone: buyerPhone,
-          email: buyerEmail,
-          address: {
-            street: addresSstreet,
-            city: addressCity,
-            state: addresSstate,
+      const totalPrice = addedProducts
+        .map((product) => product.cost)
+        .reduce((a, b) => a + b, 0);
+
+      if (typeof totalPrice === 'number' && !isNaN(totalPrice)) {
+        const newReceipt = {
+          receiptNumber:
+            String(new Date().getTime()).slice(9, 12) +
+            String(new Date().getTime()).slice(0, 3) +
+            String(new Date().getTime()).slice(5, 8),
+          customer: {
+            name: buyerName,
+            phone: buyerPhone,
+            email: buyerEmail,
+            address: {
+              street: addresSstreet,
+              city: addressCity,
+              state: addresSstate,
+            },
           },
-        },
-        items: addedProducts.map((product) => {
-          return {
-            productId: product._id,
-            qty: product.quantity,
-          };
-        }),
-        narration,
-        totalPrice: addedProducts
-          .map((product) => product.cost)
-          .reduce((a, b) => a + b, 0),
-        className: '...',
-        dateIssued: new Date(receiptDate),
-      };
+          items: addedProducts.map((product) => {
+            return {
+              productId: product._id,
+              qty: product.quantity,
+            };
+          }),
+          narration,
+          totalPrice,
+          className: '...',
+          dateIssued: new Date(receiptDate),
+        };
 
-      const userToken = JSON.parse(localStorage.getItem('user-token'));
+        const userToken = JSON.parse(localStorage.getItem('user-token'));
 
-      dispatch(
-        addReceipt({ token: userToken['x-auth-token'], data: newReceipt })
-      );
+        dispatch(
+          addReceipt({ token: userToken['x-auth-token'], data: newReceipt })
+        );
 
-      toggleDrawer();
-      console.log(new Date(receiptDate));
+        toggleDrawer();
+      } else {
+        console.log('Provide valid product quantity');
+      }
     } else {
       toast.error('One or more inputs are invalid');
     }
@@ -446,7 +451,7 @@ const ReceiptsHeader = (props) => {
                 </Typography>
                 <Stack direction='row' alignItems='center' gap={1}>
                   <input
-                    disabled={product?.quantity === 0}
+                    // disabled={product?.quantity === 0}
                     type='number'
                     value={product.quantity}
                     onChange={(e) => {

@@ -17,7 +17,7 @@ import {
 import { Pie, Line } from 'react-chartjs-2';
 import { options, useCalculateData, labels } from '../../utils/chart';
 import { Box, Stack, Typography } from '@mui/material';
-import { InsightsHeader } from '../../components';
+import { InsightsHeader, Loader } from '../../components';
 import vendorContext from '../../context/VendorContext';
 import PrivateRoute from '../../layouts/PrivateRoute';
 import { parseNigerianNaira } from '../../utils/parseCurrency';
@@ -43,7 +43,9 @@ export default function Insights() {
 
   const {
     entities: {
-      receipts: { receipts, loading },
+      vendor: { loading: vendorLoading },
+      receipts: { receipts, loading: receiptsLoading },
+      products: { loading: productsLoading },
     },
   } = useSelector((state) => state);
 
@@ -156,6 +158,7 @@ export default function Insights() {
 
   return (
     <>
+      {receiptsLoading || productsLoading || (vendorLoading && <Loader />)}
       <PrivateRoute>
         <HeadWrapper />
         <VendorLayout>
