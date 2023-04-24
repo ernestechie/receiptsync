@@ -41,7 +41,7 @@ const api =
       }
     } catch (err) {
       console.log(err);
-      if (err.message) toast.error(err.message);
+      if (err.response.data) toast.error(err.response.data.error);
       toast.error('Something went wrong');
 
       dispatch(

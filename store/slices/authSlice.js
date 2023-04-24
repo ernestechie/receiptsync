@@ -22,8 +22,9 @@ const auth = createSlice({
       state.lastFetch = new Date().getTime();
     },
     updateVendorData: (state, action) => {
-      console.log('Vendor data updated');
+      console.log(action.payload);
       state.lastFetch = new Date().getTime();
+      state.loading = false;
     },
     deleteVendor: (state, action) => {
       console.log('Vendor deleted');
@@ -46,8 +47,8 @@ const auth = createSlice({
 export default auth.reducer;
 export const {
   setVendorData,
-  update,
-  remove,
+  updateVendorData,
+  deleteVendor,
   mutateAuthState,
   loading,
   mutateAuthToken,
@@ -95,6 +96,24 @@ export const logUserIn =
       })
     );
     dispatch(mutateAuthState(true));
+  };
+
+export const updateVendorProfile =
+  ({ data, vendorId }) =>
+  (dispatch) => {
+    const authToken = JSON.parse(localStorage.getItem('user-token'));
+
+    dispatch(loading(true));
+    dispatch(
+      apiCallBegan({
+        url: `${URL}/vendors/${vendorId}`,
+        method: 'put',
+        data,
+        authToken,
+        onSuccess: updateVendorData,
+        onError: logError,
+      })
+    );
   };
 
 export const logUserOut = () => (dispatch) => {
