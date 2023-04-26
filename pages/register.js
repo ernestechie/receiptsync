@@ -1,10 +1,11 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, Button } from '@mui/material';
+import { CoPresentOutlined, PhotoCamera } from '@mui/icons-material';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
@@ -13,6 +14,75 @@ import Padding from '../layouts/Padding';
 
 const Register = () => {
   const router = useRouter();
+  const [data, setData] = useState({
+    logoUrl: null,
+    ownerName: '',
+    businessName: '',
+    companyType: '',
+    phone: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const {
+    logoUrl,
+    ownerName,
+    businessName,
+    companyType,
+    phone,
+    email,
+    password,
+    confirmPassword,
+  } = data;
+
+  const formInputChangeHandler = (e) => {
+    setData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
+  };
+
+  const changeVendorLogoImage = (e) => {
+    setData((prev) => ({
+      ...prev,
+      logoUrl: e.target.files[0],
+    }));
+  };
+
+  const registerUserHandler = async () => {
+    const emailIsValid = email.match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+    const passwordIsValid =
+      password.trim().length >= 6 && confirmPassword.trim().length >= 6;
+    const passwordsMatch = password === confirmPassword;
+
+    const formIsValid =
+      logoUrl !== null &&
+      ownerName.trim().length > 0 &&
+      businessName.trim().length > 0 &&
+      companyType.trim().length > 0 &&
+      phone.trim().length > 0 &&
+      emailIsValid &&
+      passwordIsValid & passwordsMatch;
+
+    if (!formIsValid) {
+      if (!emailIsValid) {
+        toast.error('Invalid email format');
+      }
+      if (!passwordIsValid) {
+        toast.error('Passwords must be at least 6 digits');
+      }
+      if (!passwordsMatch) {
+        toast.error('Passwords don`t match');
+      } else {
+        toast.error('One or more inputs are invalid');
+      }
+    } else {
+      console.log('Registered: ', data);
+    }
+  };
 
   return (
     <>
@@ -66,15 +136,54 @@ const Register = () => {
 
               <Box mt={4} mx='auto' maxWidth={400}>
                 <form>
+                  <Button
+                    color='secondary'
+                    variant='outlined'
+                    component='label'
+                    endIcon={
+                      <>
+                        {logoUrl ? (
+                          // eslint-disable-next-line
+                          <img
+                            src={logoUrl ? URL.createObjectURL(logoUrl) : ''}
+                            alt=''
+                            style={{ width: '30px', borderRadius: '2px' }}
+                          />
+                        ) : (
+                          <PhotoCamera />
+                        )}
+                      </>
+                    }
+                    disableElevation
+                    sx={{
+                      px: 3,
+                      py: 1.5,
+                      maxWidth: '400px',
+                      borderRadius: 1,
+                      textTransform: 'capitalize',
+                    }}
+                  >
+                    <Typography sx={{ width: '100%' }}>
+                      {data.logoUrl ? 'Change Logo' : 'Upload Logo'}
+                    </Typography>
+                    <input
+                      hidden
+                      type='file'
+                      max='1'
+                      accept='.jpg, .jpeg, .png'
+                      id='logoUrl'
+                      onChange={changeVendorLogoImage}
+                    />
+                  </Button>
                   <Box my={2}>
                     <input
                       type='text'
-                      id='vendorName'
-                      title='vendorName'
+                      id='ownerName'
+                      title='ownerName'
                       placeholder='Vendor Name: '
                       className='settings-input'
-                      // value={loginEmail}
-                      // onChange={formInputHandler}
+                      value={ownerName}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box my={2}>
@@ -84,8 +193,8 @@ const Register = () => {
                       title='businessName'
                       placeholder='Business Name: '
                       className='settings-input'
-                      // value={loginEmail}
-                      // onChange={formInputHandler}
+                      value={businessName}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box my={2}>
@@ -95,30 +204,30 @@ const Register = () => {
                       title='companyType'
                       placeholder='Company Type: (e.g Cosmetics)'
                       className='settings-input'
-                      // value={loginEmail}
-                      // onChange={formInputHandler}
+                      value={companyType}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box my={2}>
                     <input
                       type='email'
-                      id='businessEmail'
-                      title='businessEmail'
+                      id='email'
+                      title='email'
                       placeholder='Business Email:'
                       className='settings-input'
-                      // value={loginEmail}
-                      // onChange={formInputHandler}
+                      value={email}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box my={2}>
                     <input
                       type='tel'
-                      id='businessPhone'
-                      title='businessPhone'
+                      id='phone'
+                      title='phone'
                       placeholder='Business Phone:'
                       className='settings-input'
-                      // value={loginEmail}
-                      // onChange={formInputHandler}
+                      value={phone}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box my={2}>
@@ -128,8 +237,8 @@ const Register = () => {
                       title='password'
                       placeholder='Password:'
                       className='settings-input'
-                      // value={loginPassword}
-                      // onChange={formInputHandler}
+                      value={password}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box my={2}>
@@ -139,8 +248,8 @@ const Register = () => {
                       title='confirmPassword'
                       placeholder='Confirm Password:'
                       className='settings-input'
-                      // value={loginPassword}
-                      // onChange={formInputHandler}
+                      value={confirmPassword}
+                      onChange={formInputChangeHandler}
                     />
                   </Box>
                   <Box mb={4}>
@@ -161,7 +270,7 @@ const Register = () => {
                     color='primary'
                     textColor='#fff'
                     style={{ width: '100%', maxWidth: 400 }}
-                    // handleClick={loginHandler}
+                    handleClick={registerUserHandler}
                     // disabled={isLoading}
                   />
                 </form>

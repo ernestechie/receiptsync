@@ -15,8 +15,6 @@ const PrivateRoute = ({ children }) => {
   const {
     entities: {
       vendor: { loggedIn, loading, data },
-      receipts: { loading: receiptsLoading },
-      products: { loading: productsLoading },
     },
   } = useSelector((state) => state);
 
@@ -27,6 +25,7 @@ const PrivateRoute = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    console.log(loading);
     const authToken = JSON.parse(window.localStorage.getItem('user-token'));
     if (authToken) {
       const decoded = jwtDecode(authToken['x-auth-token']);
@@ -37,8 +36,9 @@ const PrivateRoute = ({ children }) => {
 
   return (
     <>
-      {loading && !data && <Loader />}
-      {!loading && loggedIn && data && <>{children}</>}
+      {loading && <Loader />}
+      {/* {!loading && loggedIn && data && <>{children}</>} */}
+      {!loading && data && <>{children}</>}
     </>
   );
 };
