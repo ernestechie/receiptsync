@@ -19,9 +19,8 @@ const auth = createSlice({
     setVendorData: (state, action) => {
       state.data = { ...action.payload };
       state.loading = false;
+      state.loggedIn = true;
       state.lastFetch = new Date().getTime();
-
-      console.log(action.payload);
     },
     updateVendorData: (state, action) => {
       console.log(action.payload);
@@ -127,6 +126,7 @@ export const registerNewVendor = (data) => (dispatch) => {
       data,
       onSuccess: setVendorData,
       onError: logError,
+      isRegistering: true,
     })
   );
 };

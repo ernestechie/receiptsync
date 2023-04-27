@@ -45,10 +45,15 @@ const UpdateProfile = () => {
     setEditState(false);
     if (changedProps) {
       const formData = new FormData();
+
+      for (const key in data) {
+        formData.append([key], data[key]);
+      }
       for (const key in changedProps) {
         formData.append([key], changedProps[key]);
       }
-      dispatch(updateVendorProfile({ data: formData, vendorId: data._id }));
+
+      // dispatch(updateVendorProfile({ data: formData, vendorId: data._id }));
     } else {
       console.log('Nothing was changed');
     }

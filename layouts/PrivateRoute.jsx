@@ -25,7 +25,6 @@ const PrivateRoute = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log(loading);
     const authToken = JSON.parse(window.localStorage.getItem('user-token'));
     if (authToken) {
       const decoded = jwtDecode(authToken['x-auth-token']);

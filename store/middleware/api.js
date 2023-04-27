@@ -10,7 +10,8 @@ const api =
     if (action.type !== apiCallBegan().type) {
       return next(action);
     }
-    const { url, method, data, onSuccess, onError, authToken } = action.payload;
+    const { url, method, data, onSuccess, onError, authToken, isRegistering } =
+      action.payload;
 
     try {
       const res = await axios.request({
@@ -29,6 +30,13 @@ const api =
           // This calls the corresponding reducer to delete the item locally via the ID
           dispatch(onSuccess(data));
         } else {
+          if (isRegistering) {
+            const authToken = res.headers['x-auth-token'];
+            localStorage.setItem(
+              'user-token',
+              JSON.stringify({ 'x-auth-token': authToken })
+            );
+          }
           dispatch(onSuccess(res.data));
         }
 
@@ -45,8 +53,9 @@ const api =
       console.log(err);
       if (err.response) {
         if (err.response.data) toast.error(err.response.data.error);
+      } else {
+        toast.error('Something went wrong');
       }
-      toast.error('Something went wrong');
 
       dispatch(
         onError({

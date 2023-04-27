@@ -12,18 +12,28 @@ const RecentSales = () => {
 
   return (
     <Box my={6} sx={{ mx: 'auto !important', maxWidth: 1024 }}>
-      <Typography fontSize={20} fontWeight={500} mb={2}>
+      <Typography fontSize={20} fontWeight={700} mb={2}>
         Most Recent Sales
       </Typography>
-      {[...receipts]
-        .sort(
-          (a, b) =>
-            new Date(b.dateIssued).getTime() - new Date(a.dateIssued).getTime()
-        )
-        .splice(0, 5)
-        .map((receipt) => (
-          <ReceiptCard key={receipt.receiptNumber} receipt={receipt} />
-        ))}
+
+      {receipts?.length > 0 ? (
+        <>
+          {[...receipts]
+            .sort(
+              (a, b) =>
+                new Date(b.dateIssued).getTime() -
+                new Date(a.dateIssued).getTime()
+            )
+            .splice(0, 5)
+            .map((receipt) => (
+              <ReceiptCard key={receipt.receiptNumber} receipt={receipt} />
+            ))}
+        </>
+      ) : (
+        <Typography fontSize={16} fontWeight={400} my={4} textAlign='center'>
+          No recent sales
+        </Typography>
+      )}
     </Box>
   );
 };

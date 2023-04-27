@@ -1,24 +1,24 @@
-import { Box, Grid, Typography, Button } from '@mui/material';
-import { CoPresentOutlined, PhotoCamera } from '@mui/icons-material';
-import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { PhotoCamera } from '@mui/icons-material';
+import { useEffect } from 'react';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
 import Padding from '../layouts/Padding';
-import { useDispatch, useSelector } from 'react-redux';
 import { registerNewVendor } from '../store/slices/authSlice';
 
 const Register = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const {
     entities: {
-      vendor: { loading },
+      vendor: { loading, loggedIn },
     },
   } = useSelector((state) => state);
 
@@ -49,6 +49,10 @@ const Register = () => {
     city,
     state,
   } = data;
+
+  useEffect(() => {
+    if (loggedIn) router.replace('/vendor');
+  }, [loggedIn, data, router]);
 
   const formInputChangeHandler = (e) => {
     setData((prev) => ({
@@ -97,30 +101,19 @@ const Register = () => {
         toast.error('One or more inputs are invalid');
       }
     } else {
-      // const formData = new FormData();
-      // formData.append('logoUrl', logoUrl);
-      // formData.append('ownerName', ownerName);
-      // formData.append('businessName', businessName);
-      // formData.append('companyType', companyType);
-      // formData.append('phone', phone);
-      // formData.append('email', email);
-      // formData.append('password', password);
-      // formData.append('address', { state, street, city });
+      const formData = new FormData();
+      formData.append('logo', logoUrl);
+      formData.append('ownerName', ownerName);
+      formData.append('businessName', businessName);
+      formData.append('companyType', companyType);
+      formData.append('phone', phone);
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('address[city]', city);
+      formData.append('address[state]', state);
+      formData.append('address[street]', street);
 
-      const userData = {
-        email,
-        password,
-        businessName,
-        ownerName,
-        address: { street, city, state },
-        companyType,
-        phone,
-        // logo: new FormData().append('logoUrl', logoUrl),
-        logo: logoUrl,
-      };
-
-      console.log(userData);
-      dispatch(registerNewVendor(userData));
+      dispatch(registerNewVendor(formData));
     }
   };
 
