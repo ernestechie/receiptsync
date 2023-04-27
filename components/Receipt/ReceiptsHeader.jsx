@@ -124,7 +124,7 @@ const ReceiptsHeader = (props) => {
 
         toggleDrawer();
       } else {
-        console.log('Provide valid product quantity');
+        toast.error('Provide valid product quantity');
       }
     } else {
       toast.error('One or more inputs are invalid');
