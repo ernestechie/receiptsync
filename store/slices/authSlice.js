@@ -20,6 +20,8 @@ const auth = createSlice({
       state.data = { ...action.payload };
       state.loading = false;
       state.lastFetch = new Date().getTime();
+
+      console.log(action.payload);
     },
     updateVendorData: (state, action) => {
       console.log(action.payload);
@@ -115,6 +117,19 @@ export const updateVendorProfile =
       })
     );
   };
+
+export const registerNewVendor = (data) => (dispatch) => {
+  dispatch(loading(true));
+  dispatch(
+    apiCallBegan({
+      url: `${URL}/vendors`,
+      method: 'post',
+      data,
+      onSuccess: setVendorData,
+      onError: logError,
+    })
+  );
+};
 
 export const logUserOut = () => (dispatch) => {
   dispatch(mutateAuthState(false));

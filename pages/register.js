@@ -11,9 +11,17 @@ import navLogo from '../assets/nav-logo.svg';
 import { HeadWrapper, Loader } from '../components';
 import { ButtonContained } from '../components/ReceiptSyncButtons';
 import Padding from '../layouts/Padding';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerNewVendor } from '../store/slices/authSlice';
 
 const Register = () => {
-  const router = useRouter();
+  const dispatch = useDispatch();
+  const {
+    entities: {
+      vendor: { loading },
+    },
+  } = useSelector((state) => state);
+
   const [data, setData] = useState({
     logoUrl: null,
     ownerName: '',
@@ -23,6 +31,9 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    state: '',
+    street: '',
+    city: '',
   });
 
   const {
@@ -34,6 +45,9 @@ const Register = () => {
     email,
     password,
     confirmPassword,
+    street,
+    city,
+    state,
   } = data;
 
   const formInputChangeHandler = (e) => {
@@ -64,6 +78,9 @@ const Register = () => {
       businessName.trim().length > 0 &&
       companyType.trim().length > 0 &&
       phone.trim().length > 0 &&
+      street.trim().length > 0 &&
+      state.trim().length > 0 &&
+      city.trim().length > 0 &&
       emailIsValid &&
       passwordIsValid & passwordsMatch;
 
@@ -80,14 +97,37 @@ const Register = () => {
         toast.error('One or more inputs are invalid');
       }
     } else {
-      console.log('Registered: ', data);
+      // const formData = new FormData();
+      // formData.append('logoUrl', logoUrl);
+      // formData.append('ownerName', ownerName);
+      // formData.append('businessName', businessName);
+      // formData.append('companyType', companyType);
+      // formData.append('phone', phone);
+      // formData.append('email', email);
+      // formData.append('password', password);
+      // formData.append('address', { state, street, city });
+
+      const userData = {
+        email,
+        password,
+        businessName,
+        ownerName,
+        address: { street, city, state },
+        companyType,
+        phone,
+        // logo: new FormData().append('logoUrl', logoUrl),
+        logo: logoUrl,
+      };
+
+      console.log(userData);
+      dispatch(registerNewVendor(userData));
     }
   };
 
   return (
     <>
       <HeadWrapper title='Register | Register a ReceiptSync Vendor Account | Receipt Sync' />
-      {/* {isLoading && <Loader />} */}
+      {loading && <Loader />}
       <Box component='section'>
         <Box mb={4}>
           <Padding>
@@ -230,6 +270,42 @@ const Register = () => {
                       onChange={formInputChangeHandler}
                     />
                   </Box>
+                  <Typography fontWeight={600} mt={4} fontSize={18}>
+                    Address
+                  </Typography>
+                  <Box my={2}>
+                    <input
+                      type='address'
+                      id='street'
+                      title='street'
+                      placeholder='Street:'
+                      className='settings-input'
+                      value={street}
+                      onChange={formInputChangeHandler}
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <input
+                      type='address'
+                      id='city'
+                      title='city'
+                      placeholder='City: '
+                      className='settings-input'
+                      value={city}
+                      onChange={formInputChangeHandler}
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <input
+                      type='address'
+                      id='state'
+                      title='state'
+                      placeholder='State: '
+                      className='settings-input'
+                      value={state}
+                      onChange={formInputChangeHandler}
+                    />
+                  </Box>
                   <Box my={2}>
                     <input
                       type='password'
@@ -271,7 +347,7 @@ const Register = () => {
                     textColor='#fff'
                     style={{ width: '100%', maxWidth: 400 }}
                     handleClick={registerUserHandler}
-                    // disabled={isLoading}
+                    disabled={loading}
                   />
                 </form>
               </Box>

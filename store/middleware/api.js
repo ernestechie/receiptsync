@@ -25,6 +25,8 @@ const api =
 
       if (res.status === 200 || res.status === 201) {
         if (method === 'delete') {
+          // Returns the 'ID to be deleted'
+          // This calls the corresponding reducer to delete the item locally via the ID
           dispatch(onSuccess(data));
         } else {
           dispatch(onSuccess(res.data));
