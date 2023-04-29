@@ -47,6 +47,9 @@ const api =
           case 'post':
             toast.success('Successful');
             break;
+          case 'put':
+            toast.success('Updated successfully');
+            break;
         }
       }
     } catch (err) {

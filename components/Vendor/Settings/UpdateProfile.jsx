@@ -44,16 +44,15 @@ const UpdateProfile = () => {
   const profileUpdateHandler = () => {
     setEditState(false);
     if (changedProps) {
+      const allState = { ...data, ...changedProps };
       const formData = new FormData();
 
-      for (const key in data) {
+      for (const key in allState) {
         formData.append([key], data[key]);
       }
-      for (const key in changedProps) {
-        formData.append([key], changedProps[key]);
-      }
 
-      // dispatch(updateVendorProfile({ data: formData, vendorId: data._id }));
+      dispatch(updateVendorProfile({ data: allState, vendorId: data._id }));
+      // console.log(allState);
     } else {
       console.log('Nothing was changed');
     }

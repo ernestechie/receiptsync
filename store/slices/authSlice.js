@@ -26,6 +26,7 @@ const auth = createSlice({
       console.log(action.payload);
       state.lastFetch = new Date().getTime();
       state.loading = false;
+      state.data = action.payload;
     },
     deleteVendor: (state, action) => {
       console.log('Vendor deleted');
@@ -108,6 +109,7 @@ export const updateVendorProfile =
     dispatch(
       apiCallBegan({
         url: `${URL}/vendors/${vendorId}`,
+        // url: `${URL}/vendors`,
         method: 'put',
         data,
         authToken,
