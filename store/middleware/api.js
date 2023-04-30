@@ -25,6 +25,7 @@ const api =
       });
 
       if (res.status === 200 || res.status === 201) {
+        console.log(res.data);
         if (method === 'delete') {
           // Returns the 'ID to be deleted'
           // This calls the corresponding reducer to delete the item locally via the ID
@@ -48,6 +49,8 @@ const api =
             toast.success('Successful');
             break;
           case 'put':
+            toast.success('Updated successfully');
+          case 'patch':
             toast.success('Updated successfully');
             break;
         }

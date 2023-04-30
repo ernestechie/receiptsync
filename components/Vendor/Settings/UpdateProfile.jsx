@@ -44,7 +44,13 @@ const UpdateProfile = () => {
   const profileUpdateHandler = () => {
     setEditState(false);
     if (changedProps) {
-      const allState = { ...data, ...changedProps };
+      const allState = {
+        ...data,
+        ...changedProps,
+        logo: changedProps.logoUrl ? changedProps.logoUrl : data.logoUrl,
+      };
+
+      delete allState.logoUrl;
       const formData = new FormData();
 
       for (const key in allState) {
