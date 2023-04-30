@@ -15,6 +15,8 @@ const PrivateRoute = ({ children }) => {
   const {
     entities: {
       vendor: { loggedIn, loading, data },
+      receipts: { loading: receiptsLoading },
+      products: { loading: productsLoading },
     },
   } = useSelector((state) => state);
 
@@ -35,8 +37,13 @@ const PrivateRoute = ({ children }) => {
 
   return (
     <>
-      {loading && <Loader />}
-      {/* {!loading && loggedIn && data && <>{children}</>} */}
+      {loading ? (
+        <Loader />
+      ) : receiptsLoading ? (
+        <Loader />
+      ) : (
+        productsLoading && <Loader />
+      )}
       {!loading && data && <>{children}</>}
     </>
   );

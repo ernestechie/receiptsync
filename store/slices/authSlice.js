@@ -43,6 +43,10 @@ const auth = createSlice({
       state.loading = false;
       console.log(action.payload);
     },
+    logResponse: (state, action) => {
+      console.log(action.payload);
+      state.loading = false;
+    },
   },
 });
 
@@ -55,6 +59,7 @@ export const {
   loading,
   mutateAuthToken,
   logError,
+  logResponse,
 } = auth.actions;
 
 // ACTIONS
@@ -109,7 +114,6 @@ export const updateVendorProfile =
     dispatch(
       apiCallBegan({
         url: `${URL}/vendors/${vendorId}`,
-        // url: `${URL}/vendors`,
         method: 'put',
         data,
         authToken,
@@ -118,6 +122,22 @@ export const updateVendorProfile =
       })
     );
   };
+
+export const changeVendorPassword = (data) => (dispatch) => {
+  const authToken = JSON.parse(localStorage.getItem('user-token'));
+
+  dispatch(loading(true));
+  dispatch(
+    apiCallBegan({
+      url: `${URL}/auth/reset-password`,
+      method: 'patch',
+      data,
+      authToken,
+      onSuccess: logResponse,
+      onError: logError,
+    })
+  );
+};
 
 export const registerNewVendor = (data) => (dispatch) => {
   dispatch(loading(true));
