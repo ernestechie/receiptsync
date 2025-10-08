@@ -86,7 +86,7 @@ const Register = () => {
       state.trim().length > 0 &&
       city.trim().length > 0 &&
       emailIsValid &&
-      passwordIsValid & passwordsMatch;
+      passwordIsValid && passwordsMatch;
 
     if (!formIsValid) {
       if (!emailIsValid) {
